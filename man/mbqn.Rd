@@ -15,7 +15,7 @@ mbqn(x, FUN = NULL, na.rm = TRUE)
 A matrix of mean- or median-balanced quantile normalized data.
 }
 \description{
-This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
+Quantile-normalize omics data matrix. Suppress systematic flattening of feature variation across columns for features over-represented in the tails of the intensity distribution across columns. This is done by balance each row of the data matrix by its mean before and redo balancing after normalization.
 }
 \details{
 Function to compute a mean-balanced quantile normalization.
