@@ -1,10 +1,13 @@
 Package: MBQN
-Title: What the Package Does (one line, title case)
+Title: Mean/Median balanced quantile normalization of an object
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Ariane", "Schad", email = "ariane.schad@zbsa.de", role = c("aut", "cre"))
+Description: This function applies a modified quantile normalization of an object containing
+omics data or other data. The normalization removes systematics between measurements. The normalization
+is modified by a mean correction step reduces systematics in downstream analysis of features that are 
+always of largest intensity accross all samples. 
 Depends: R (>= 3.3.3)
-License: What license is it under?
+License: MIT License
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1.9000
