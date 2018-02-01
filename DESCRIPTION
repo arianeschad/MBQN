@@ -1,5 +1,5 @@
 Package: MBQN
-Title: Mean/Median balanced quantile normalization of an object
+Title: Mean/Median balanced quantile normalization
 Version: 0.0.0.9000
 Authors@R: person("Ariane", "Schad", email = "ariane.schad@zbsa.de", role = c("aut", "cre"))
 Description: This function applies a modified quantile normalization of an object containing omics data or other data. The normalization removes systematics between measurements. The normalization is modified by a mean correction step reduces systematics in downstream analysis of features that are always of largest intensity accross all samples. 

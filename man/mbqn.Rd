@@ -4,26 +4,27 @@
 \alias{mbqn}
 \title{Mean-balanced quantile normalization}
 \usage{
-mbqn(dat, FUN = NULL)
+mbqn(x, FUN = NULL, na.rm = TRUE)
 }
 \arguments{
-\item{dat}{A data matrix. Rows - features, e.g. protein abundances; columns - samples}
+\item{x}{A data matrix. Rows represent features, e.g. protein abundances; columns replicates, samples.}
 
-\item{FUN}{mean or median, or an array with dim = numbers of rows of dat. If left empty, quantile normalization is applied without balancing the data}
+\item{FUN}{mean, median, or a user defined function, or an array with dim = numbers of rows of dat. If left empty, quantile normalization is applied without balancing the data.}
 }
 \value{
-A matrix of mean- or median-balanced quantile normalized data
+A matrix of mean- or median-balanced quantile normalized data.
 }
 \description{
 This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
 }
 \details{
-Function to compute a mean-balanced quantile normalization
+Function to compute a mean-balanced quantile normalization.
 }
 \examples{
-mbqn(dat, mean)
-mbqn(dat,median)
-mbqn(dat, x)
+mbqn(x, mean)
+mbqn(x, median)
+mbqn(x, user_function)
+mbqn(x, user_array)
 }
 \references{
 Schad, A. and Kreuz, C. (2017) Mean-balanced quantile normalization for processing label-free quantitative proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
@@ -32,5 +33,5 @@ Schad, A. and Kreuz, C. (2017) Mean-balanced quantile normalization for processi
 A. Schad, Aug. 2017
 }
 \keyword{normalization}
-\keyword{proteomics}
+\keyword{proteomics.}
 \keyword{quantile}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/mbqn.check_saturation.R
 \name{mbqn.check_saturation}
 \alias{mbqn.check_saturation}
-\title{Test if normalization of data benefits from mean-balancing}
+\title{Test if quantile-normalization of data benefits from mean-balancing}
 \usage{
 mbqn.check_saturation(dat, FUN = mean_fun, qlow, qup)
 }
@@ -22,7 +22,7 @@ A matrix of mean- or median-balanced quantile normalized data
 This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
 }
 \details{
-Compute a quantile normalization without and with mean-balancing and check standard deviation of normalized data entries located in the tails
+Rank data and test if lower and upper intensity tails are dominated by few feature types/proteins. Compute a quantile normalization without and with mean-balancing and check standard deviation of normalized data entries located in the tails
 }
 \examples{
 mbqn(dat, mean)
