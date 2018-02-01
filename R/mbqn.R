@@ -5,7 +5,7 @@
 #' @param FUN mean or median, or an array with dim = numbers of rows of dat. If left empty, quantile normalization is applied without balancing the data
 #' @return A matrix of mean- or median-balanced quantile normalized data
 #' @keywords quantile normalization proteomics
-#' @references Schad, A. and Kreuz, C. (2017) Mean-balanced quantile normalization for processing label-free quantitative proteomics data with abundance-isolated proteins. Biostatistics xxx in prep. 
+#' @references Schad, A. and Kreuz, C. (2017) Mean-balanced quantile normalization for processing label-free quantitative proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
 #' @examples mbqn(dat, mean)
 #' mbqn(dat,median)
 #' mbqn(dat, x)
@@ -17,8 +17,8 @@ mbqn <- function(dat, FUN = NULL){
   print("Compute mean balanced QN")
   if(!is.null(FUN)){
     print("Compute mean balanced QN")
-    library(preprocessCore)
-    
+    #library(preprocessCore)
+
     if(is.function(FUN)){
     # sample mean for each row (protein)
     mdat <- apply(dat,1,FUN,na.rm=TRUE)
@@ -26,13 +26,13 @@ mbqn <- function(dat, FUN = NULL){
       mdat <- FUN
       }
     #mean balanced quantile normalisation
-    qn_dat <- normalize.quantiles(dat-mdat) + mdat
+    qn_dat <- preprocessCore::normalize.quantiles(dat-mdat) + mdat
   }
   else {
   print("QN without mean balancing.")
-    library(preprocessCore)
+    #library(preprocessCore)
     #quantile normalisation
-    qn_dat <- normalize.quantiles(dat)
+    qn_dat <- preprocessCore::normalize.quantiles(dat)
   }
   return(qn_dat)
 }

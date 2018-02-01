@@ -2,12 +2,12 @@
 % Please edit documentation in R/mbqn.demo.R
 \name{mbqn.demo}
 \alias{mbqn.demo}
-\title{Demo on mean-balanced quantile normalization}
+\title{Demo of mean/median-balanced quantile normalization}
 \usage{
 mbqn.demo(dat = NULL)
 }
 \arguments{
-\item{dat}{Default NULL. Optionally a user-supplied data matrix with rows - features, e.g. protein abundances; columns - samples. Data matrices can be computed with 
+\item{dat}{Default NULL. Optionally a user-supplied data matrix with rows - features, e.g. protein abundances; columns - samples. Data matrices can be computed with
 mbqn.simu_dat()}
 }
 \value{
@@ -23,7 +23,7 @@ biocLite('preprocessCore')
 }
 \examples{
 demo_mbqn
-demo_mbqn(dat) where dat is a data matrix where columns correspond to experimental samples or (technical/biological) replicates and rows correspond to features/proteins/peptides 
+demo_mbqn(dat) where dat is a data matrix where columns correspond to experimental samples or (technical/biological) replicates and rows correspond to features/proteins/peptides
 }
 \references{
 Schad, A. and Kreuz, C. (2017) Mean-balanced quantile normalization for processing label-free quantitative proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.

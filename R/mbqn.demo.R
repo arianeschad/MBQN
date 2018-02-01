@@ -21,26 +21,25 @@
 
 mbqn.demo <- function(dat = NULL){
 
-  library(preprocessCore)
+ # library(preprocessCore)
   if(is.null(dat)){
     # the function expects a matrix as input
     # create a matrix using the same example
     # each column corresponds to a sample
     # each row corresponds to a protein
-
     dat <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),
                   ncol=3)
-    dat
+
+    print(dat)
     #     [,1] [,2] [,3]
     #[1,]    5    4    3
     #[2,]    2    1    4
     #[3,]    3    4    6
     #[4,]    4    2    8
   }
-  dim(dat)
 
   #quantile normalisation
-  qn_dat <- normalize.quantiles(dat)
+  qn_dat <- preprocessCore::normalize.quantiles(dat)
 
   # now perform mean balanced qn
 
@@ -48,6 +47,9 @@ mbqn.demo <- function(dat = NULL){
   mdat <- apply(dat,1,mean,na.rm=TRUE)
 
   #mean balanced quantile normalisation
-  mbqn_dat <- normalize.quantiles(dat-mdat) + mdat
+  mbqn_dat <- preprocessCore::normalize.quantiles(dat-mdat) + mdat
+
+  return(mbqn_dat)
+
 }
 
