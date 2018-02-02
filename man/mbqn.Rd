@@ -7,18 +7,28 @@
 mbqn(x, FUN = NULL, na.rm = TRUE)
 }
 \arguments{
-\item{x}{A data matrix. Rows represent features, e.g. protein abundances; columns replicates, samples.}
+\item{x}{A matrix where rows represent features, e.g. protein abundances/intensities and
+columns are replicates or probes.}
 
-\item{FUN}{mean, median, or a user defined function, or an array with dim = numbers of rows of dat. If left empty, quantile normalization is applied without balancing the data.}
+\item{FUN}{A function like mean or median or a user defined function or an array with
+\code{dim(user_array) = nrow(x)}. If left empty, the matrix is not balanced.}
 }
 \value{
-A matrix of mean- or median-balanced quantile normalized data.
+Mean-/Median-balanced quantile normalized \code{matrix}.
 }
 \description{
-Quantile-normalize omics data matrix. Suppress systematic flattening of feature variation across columns for features over-represented in the tails of the intensity distribution across columns. This is done by balance each row of the data matrix by its mean before and redo balancing after normalization.
+Modified quantile-normalization of a matrix representing
+omics or microarray data. Suppress systematic flattening of feature variation across columns
+for features overrepresented in the tails of the intensity distribution
+across columns.
 }
 \details{
-Function to compute a mean-balanced quantile normalization.
+Function to normalize a data matrix based on a mean-balanced quantile normalization.
+Each row of the data matrix is balanced by its mean/median before normalization.
+Row means are added to the normalized matrix. This function uses the preprocessCor
+ R package by Bolstad et al, Bioinformatics (2003). This function uses \code{normalize.quantiles()} from the package
+preprocessCore that can be installed from http://bioconductor.org/biocLite.R by
+source('http://bioconductor.org/biocLite.R') biocLite('preprocessCore').
 }
 \examples{
 mbqn(x, mean)
@@ -27,11 +37,14 @@ mbqn(x, user_function)
 mbqn(x, user_array)
 }
 \references{
-Schad, A. and Kreuz, C. (2017) Mean-balanced quantile normalization for processing label-free quantitative proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
+Schad, A. and Kreuz, C. (2017) Mean-balanced quantile
+normalization for processing label-free quantitative proteomics
+data with abundance-isolated proteins. Biostatistics xxx in prep.
 }
 \author{
-A. Schad, Aug. 2017
+A. Schad, \email{ariane.schad@zbsa.de}
 }
+\keyword{Modified}
+\keyword{Quantile}
 \keyword{normalization}
 \keyword{proteomics.}
-\keyword{quantile}

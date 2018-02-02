@@ -1,18 +1,31 @@
 #' Mean-balanced quantile normalization
 #'
-#' Function to compute a mean-balanced quantile normalization.
-#' @param x A data matrix. Rows represent features, e.g. protein abundances; columns replicates, samples.
-#' @param FUN mean, median, or a user defined function, or an array with dim = numbers of rows of dat. If left empty, quantile normalization is applied without balancing the data.
-#' @return A matrix of mean- or median-balanced quantile normalized data.
-#' @keywords quantile normalization proteomics.
-#' @references Schad, A. and Kreuz, C. (2017) Mean-balanced quantile normalization for processing label-free quantitative proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
+#' @param x A matrix where rows represent features, e.g. protein abundances/intensities and
+#' columns are replicates or probes.
+#' @param FUN A function like mean or median or a user defined function or an array with
+#' \code{dim(user_array) = nrow(x)}. If left empty, the matrix is not balanced.
+#' @details Function to normalize a data matrix based on a mean-balanced quantile normalization.
+#' Each row of the data matrix is balanced by its mean/median before normalization.
+#' Row means are added to the normalized matrix. This function uses the preprocessCor
+#'  R package by Bolstad et al, Bioinformatics (2003). This function uses \code{normalize.quantiles()} from the package
+#' preprocessCore that can be installed from http://bioconductor.org/biocLite.R by
+#' source('http://bioconductor.org/biocLite.R') biocLite('preprocessCore').
+#' @return Mean-/Median-balanced quantile normalized \code{matrix}.
+#' @keywords Modified Quantile normalization proteomics.
+#' @references Schad, A. and Kreuz, C. (2017) Mean-balanced quantile
+#' normalization for processing label-free quantitative proteomics
+#' data with abundance-isolated proteins. Biostatistics xxx in prep.
 #' @examples mbqn(x, mean)
 #' mbqn(x, median)
 #' mbqn(x, user_function)
 #' mbqn(x, user_array)
-#' @description Quantile-normalize omics data matrix. Suppress systematic flattening of feature variation across columns for features over-represented in the tails of the intensity distribution across columns. This is done by balance each row of the data matrix by its mean before and redo balancing after normalization.
-#' @author A. Schad, Aug. 2017
-
+#' @description Modified quantile-normalization of a matrix representing
+#' omics or microarray data. Suppress systematic flattening of feature variation across columns
+#' for features overrepresented in the tails of the intensity distribution
+#' across columns.
+# @seealso \code{\link{xxx}}
+#' @author A. Schad, \email{ariane.schad@zbsa.de}
+# Aug. 2017
 
 mbqn <- function(x, FUN = NULL, na.rm = TRUE){
 
