@@ -2,36 +2,48 @@
 % Please edit documentation in R/mbqn.check_saturation.R
 \name{mbqn.check_saturation}
 \alias{mbqn.check_saturation}
-\title{Test if quantile-normalization of data benefits from mean-balancing}
+\title{Test data for saturated upper tail}
 \usage{
-mbqn.check_saturation(dat, FUN = mean_fun, qlow, qup)
+mbqn.check_saturation(dat, FUN = mean_fun, qlow, qup, flag_show_fig = TRUE)
 }
 \arguments{
 \item{dat}{A data matrix. Rows - features, e.g. protein abundances; columns - samples}
+
+\item{FUN}{A function like mean or median or a user defined function or an array with
+\code{dim(user_array) = nrow(x)}. If left empty, the matrix is not balanced.}
 
 \item{qlow}{lower quantile}
 
 \item{qup}{upper quantile, default 1}
 
-\item{mean_fun}{mean or median, if left empty, quantile normalization is applied without balancing the data}
+\item{flag_show_fig}{flag to specify whether plot results to figure, default = TRUE}
+
+\item{mean_fun}{mean or median, if left empty, quantile normalization
+is applied without balancing the data}
 }
 \value{
 A matrix of mean- or median-balanced quantile normalized data
 }
 \description{
-This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
+Test if few rows of the data matrix dominate the upper tail. This script uses normalize.quantiles() from the
+package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
 }
 \details{
-Rank data and test if lower and upper intensity tails are dominated by few feature types/proteins. Compute a quantile normalization without and with mean-balancing and check standard deviation of normalized data entries located in the tails
+Rank data and test if lower and upper intensity tails are
+dominated by few feature types/proteins. Compute a quantile
+normalization without and with mean-balancing and check standard
+deviation of normalized data entries located in the tails
 }
 \examples{
-mbqn(dat, mean)
+mbqn.check_saturation(dat, mean)
 }
 \references{
-Schad, A. and Kreuz, C. (2017) Mean-balanced quantile normalization for processing label-free quantitative proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
+Schad, A. and Kreuz, C. (2017) Mean-balanced quantile
+normalization for processing label-free quantitative proteomics
+data with abundance-isolated proteins. Biostatistics xxx in prep.
 }
 \author{
-A. Schad, Aug. 2017
+A. Schad, \email{ariane.schad@zbsa.de}
 }
 \keyword{normalization}
 \keyword{proteomics}

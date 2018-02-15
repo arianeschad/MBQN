@@ -1,14 +1,13 @@
 #' Get the k largest/smallest values and their indices for each
 #' column of a matrix
 #'
-#' @description Generate a data matrix for illustration of mean-balanced.
-#' quantile normalization.
+#' @description Extract k largest/smallest values and their indices columnwise from a matrix.
 #' @param X data matrix.
 #' @param k number of searched extreme values.
 #' @param flag "min or "max"
 #' @details Subfunction used by \code{mbqn.check_saturation}. Search for
 #' k smallest (flag <- "min") or largest (flag <- "max") values in
-#' each column of an array or a matrix X. NA's are ignored in the data.
+#' each column of an array or a matrix X. NA's in the data are ignored.
 #' @return \code{list} with indices \code{ik} of extreme values \code{minmax}.
 #' @keywords quantile normalization proteomics
 #' @references Schad, A. and Kreuz, C. (2017) Mean-balanced

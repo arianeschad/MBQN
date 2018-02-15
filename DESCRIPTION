@@ -4,7 +4,7 @@ Version: 0.0.0.9000
 Authors@R: person("Ariane", "Schad", email = "ariane.schad@zbsa.de", role = c("aut", "cre"))
 Description: This function applies a modified quantile normalization of an object containing omics data or other data. The normalization removes systematics between measurements. The normalization is modified by a mean correction step reduces systematics in downstream analysis of features that are always of largest intensity accross all samples. This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
 Depends: R (>= 3.3.3)
-License: MIT License
+License: MIT License + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1.9000

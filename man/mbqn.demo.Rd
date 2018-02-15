@@ -7,29 +7,36 @@
 mbqn.demo(dat = NULL)
 }
 \arguments{
-\item{dat}{Default NULL. Optionally a user-supplied data matrix with rows - features, e.g. protein abundances; columns - samples. Data matrices can be computed with
-mbqn.simu_dat()}
+\item{dat}{A data matrix where rows represent features, e.g. protein
+abundances/intensities, and columns experimental samples or
+(technical/biological) replicates.
+Default NULL - a simple matrix is generated.}
 }
 \value{
-Various graphics illustrating saturation in case of quantile normalization of high expression for a single protein abundances across samples
+Various graphics illustrating saturation in case of
+quantile normalization of high expression for a single protein
+abundances across samples
 }
 \description{
 This function demonstrates mean-balanced quantile normalization
 }
 \details{
-This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R by
+This function uses \code{normalize.quantiles()} from the package
+preprocessCore that can be installed from http://bioconductor.org/biocLite.R by
 source('http://bioconductor.org/biocLite.R')
-biocLite('preprocessCore')
+biocLite('preprocessCore'). A data matrix can be computed with mbqn.simu_dat().
 }
 \examples{
-demo_mbqn
-demo_mbqn(dat) where dat is a data matrix where columns correspond to experimental samples or (technical/biological) replicates and rows correspond to features/proteins/peptides
+mbqn.demo
+mbqn.demo(dat)
 }
 \references{
-Schad, A. and Kreuz, C. (2017) Mean-balanced quantile normalization for processing label-free quantitative proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
+Schad, A. and Kreuz, C. (2017) Mean-balanced quantile
+normalization for processing label-free quantitative proteomics
+data with abundance-isolated proteins. Biostatistics xxx in prep.
 }
 \author{
-A. Schad, Aug. 2017
+A. Schad, \email{ariane.schad@zbsa.de}
 }
 \keyword{normalization}
 \keyword{proteomics}

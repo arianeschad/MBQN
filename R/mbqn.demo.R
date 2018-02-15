@@ -1,18 +1,29 @@
 #' Demo of mean/median-balanced quantile normalization
 #'
 #' @description This function demonstrates mean-balanced quantile normalization
-#' @param dat Default NULL. Optionally a user-supplied data matrix with rows - features, e.g. protein abundances; columns - samples. Data matrices can be computed with
-#' mbqn.simu_dat()
-#' @return Various graphics illustrating saturation in case of quantile normalization of high expression for a single protein abundances across samples
+#' @param dat A data matrix where rows represent features, e.g. protein
+#' abundances/intensities, and columns experimental samples or
+#' (technical/biological) replicates.
+#' Default NULL - a simple matrix is generated.
+# where dat is a data matrix where columns correspond
+# to experimental samples or (technical/biological) replicates and
+# rows correspond to features/proteins/peptides
+#' @return Various graphics illustrating saturation in case of
+#' quantile normalization of high expression for a single protein
+#' abundances across samples
 #' @keywords quantile normalization proteomics
-#' @references Schad, A. and Kreuz, C. (2017) Mean-balanced quantile normalization for processing label-free quantitative proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
+#' @references Schad, A. and Kreuz, C. (2017) Mean-balanced quantile
+#' normalization for processing label-free quantitative proteomics
+#' data with abundance-isolated proteins. Biostatistics xxx in prep.
 #' @examples
-#' demo_mbqn
-#' demo_mbqn(dat) where dat is a data matrix where columns correspond to experimental samples or (technical/biological) replicates and rows correspond to features/proteins/peptides
-#' @details This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R by
+#' mbqn.demo
+#' mbqn.demo(dat)
+#' @details This function uses \code{normalize.quantiles()} from the package
+#' preprocessCore that can be installed from http://bioconductor.org/biocLite.R by
 #' source('http://bioconductor.org/biocLite.R')
-#' biocLite('preprocessCore')
-#' @author A. Schad, Aug. 2017
+#' biocLite('preprocessCore'). A data matrix can be computed with mbqn.simu_dat().
+#' @author A. Schad, \email{ariane.schad@zbsa.de}
+
 
 
 #install the package, it contains a function for quantile normalization:

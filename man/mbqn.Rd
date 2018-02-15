@@ -25,10 +25,9 @@ across columns.
 \details{
 Function to normalize a data matrix based on a mean-balanced quantile normalization.
 Each row of the data matrix is balanced by its mean/median before normalization.
-Row means are added to the normalized matrix. This function uses the preprocessCor
- R package by Bolstad et al, Bioinformatics (2003). This function uses \code{normalize.quantiles()} from the package
-preprocessCore that can be installed from http://bioconductor.org/biocLite.R by
-source('http://bioconductor.org/biocLite.R') biocLite('preprocessCore').
+Row means are added to the normalized matrix.
+This function uses \code{preprocessCore::normalize.quantiles()} by Bolstad et al, Bioinformatics (2003),
+installed from http://bioconductor.org/biocLite.R.
 }
 \examples{
 mbqn(x, mean)

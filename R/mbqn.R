@@ -6,10 +6,10 @@
 #' \code{dim(user_array) = nrow(x)}. If left empty, the matrix is not balanced.
 #' @details Function to normalize a data matrix based on a mean-balanced quantile normalization.
 #' Each row of the data matrix is balanced by its mean/median before normalization.
-#' Row means are added to the normalized matrix. This function uses the preprocessCor
-#'  R package by Bolstad et al, Bioinformatics (2003). This function uses \code{normalize.quantiles()} from the package
-#' preprocessCore that can be installed from http://bioconductor.org/biocLite.R by
-#' source('http://bioconductor.org/biocLite.R') biocLite('preprocessCore').
+#' Row means are added to the normalized matrix.
+#' This function uses \code{preprocessCore::normalize.quantiles()} by Bolstad et al, Bioinformatics (2003),
+#' installed from http://bioconductor.org/biocLite.R.
+#  by source('http://bioconductor.org/biocLite.R') biocLite('preprocessCore').
 #' @return Mean-/Median-balanced quantile normalized \code{matrix}.
 #' @keywords Modified Quantile normalization proteomics.
 #' @references Schad, A. and Kreuz, C. (2017) Mean-balanced quantile
@@ -35,9 +35,7 @@ mbqn <- function(x, FUN = NULL, na.rm = TRUE){
 
   if(!is.null(FUN)){
     if(is.function(FUN)){
-
       mx <- apply(x,1,FUN,na.rm=na.rm) # row mean
-
     } else if(is.array(FUN)){
       mx <- FUN
     }

@@ -2,32 +2,38 @@
 % Please edit documentation in R/mbqn.simu_dat.R
 \name{mbqn.simu_dat}
 \alias{mbqn.simu_dat}
-\title{Simulate data matrix as input for the mean-balanced quantile normalization}
+\title{Simulate data matrix for mean-balanced quantile normalization}
 \usage{
-mbqn.simu_dat(N = NULL, M = NULL)
+mbqn.simu_dat(N = NULL, M = NULL, seed = NULL)
 }
 \arguments{
-\item{N}{number of rows of data matrix}
+\item{N}{number of rows of data matrix.}
 
-\item{M}{number of columns of data matrix}
+\item{M}{number of columns of data matrix.}
+
+\item{seed}{Seed for random number generator. Default \code{seed <- 1234}.}
 }
 \value{
-N x M matrix
+\code{matrix} of size N x M
 }
 \description{
-Generate a data matrix for illustration of mean-balanced quantile normalization
+Generate a data matrix for illustration of mean-balanced.
+quantile normalization.
 }
 \details{
-Matrix entries are from a standard normal distribution of mean 0 and sigma 1. The data is used for mbqn.demo()
+Matrix entries are from a standard normal distribution
+of mean 0 and sigma 1. This function is used for mbqn.demo().
 }
 \examples{
 mbqn.simu(1000,10)
 }
 \references{
-Schad, A. and Kreuz, C. (2017) Mean-balanced quantile normalization for processing label-free quantitative proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
+Schad, A. and Kreuz, C. (2017) Mean-balanced
+quantile normalization for processing label-free quantitative
+proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
 }
 \author{
-A. Schad, Aug. 2017
+A. Schad, \email{ariane.schad@zbsa.de}
 }
 \keyword{normalization}
 \keyword{proteomics}
