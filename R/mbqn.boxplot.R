@@ -40,10 +40,15 @@ mbqn.boxplot <- function(x, irow = NULL, vals = NULL, xlab = NULL, ylab = NULL, 
 
 
   # y-axis range
-  ylim <- range(x)
-  ymax <- max(ceiling(c(ylim,range(vals))))
+  ylim <- range(x,na.rm = T)
+  if(!is.null(vals)){
+    ymax <- max(ceiling(c(ylim,range(vals, na.rm = T))))
+    ymin <- min(floor(c(ylim,range(vals, na.rm = T))))
+  }else{
+    ymax <- ceiling(ylim)
+    ymin <- floor(ylim)
+  }
   ymax <- ymax + 0.2*ymax
-  ymin <- min(floor(c(ylim,range(vals))))
   ylim = c(ymin,ymax)
 
   #ymax <- ceiling(max(max(qn.dat),max(mbqn.dat)))
