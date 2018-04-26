@@ -4,6 +4,7 @@
 #' columns are replicates or probes.
 #' @param FUN A function like mean or median or a user defined function or an array with
 #' \code{dim(user_array) = nrow(x)}. If left empty, the matrix is not balanced.
+#' #@export
 #' @details Function to normalize a data matrix based on a mean-balanced quantile normalization.
 #' Each row of the data matrix is balanced by its mean/median before normalization.
 #' Row means are added to the normalized matrix.
@@ -26,12 +27,17 @@
 # @seealso \code{\link{xxx}}
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
 # Aug. 2017
-
+#' @export
 mbqn <- function(x, FUN = NULL, na.rm = TRUE){
 
   if (!is.matrix(x)) {
     stop("Wrong data format! Input x must be a matrix!")
   }
+
+  # check if data contains NaN or nan,
+  # since preprocessCore will give erronous results in this case
+  if (is.nan(x))
+    x <- replace(x,c("nan",NaN), NA)
 
   if(!is.null(FUN)){
     if(is.function(FUN)){
