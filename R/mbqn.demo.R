@@ -23,12 +23,12 @@
 #' source('http://bioconductor.org/biocLite.R')
 #' biocLite('preprocessCore'). A data matrix can be computed with mbqn.simu_dat().
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
-
-
-
-#install the package, it contains a function for quantile normalization:
-#source('http://bioconductor.org/biocLite.R')
-#biocLite('preprocessCore')
+#' 2017
+#' @export
+# Installation of package preprocessCore necessary!
+# It contains a function for (standard) quantile normalization:
+# source('http://bioconductor.org/biocLite.R')
+# biocLite('preprocessCore')
 
 mbqn.demo <- function(dat = NULL){
 

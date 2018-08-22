@@ -23,6 +23,7 @@
 #' @description Test if few rows of the data matrix dominate the upper tail. This script uses normalize.quantiles() from the
 #' package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
+#' 2017
 #' @export
 #mbqn.check_saturation <- function(dat, FUN = mean_fun, qlow, qup, flag_show_fig = TRUE, low_thr = 0.2, filename = NULL){
 mbqn.check_saturation <- function(dat, FUN = mean_fun, flag_show_fig = TRUE, low_thr = 0.2, filename = NULL,feature_index = NULL){

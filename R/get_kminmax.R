@@ -16,9 +16,8 @@
 #' @examples
 #' get_kminmax(X, k = 5, "max")
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
-#
-# A. Schad, Aug. 2017
-
+#  Aug. 2017
+#' @export
 get_kminmax <- function(X,k,flag){
 
   if(flag == "min"){

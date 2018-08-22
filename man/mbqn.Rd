@@ -11,7 +11,8 @@ mbqn(x, FUN = NULL, na.rm = TRUE)
 columns are replicates or probes.}
 
 \item{FUN}{A function like mean or median or a user defined function or an array with
-\code{dim(user_array) = nrow(x)}. If left empty, the matrix is not balanced.}
+\code{dim(user_array) = nrow(x)}. If left empty, the matrix is not balanced.
+#@export}
 }
 \value{
 Mean-/Median-balanced quantile normalized \code{matrix}.

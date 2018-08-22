@@ -23,8 +23,8 @@
 #' mbqn.boxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], filename = "fig_boxplot_qn.data.pdf")
 #' @description Boxplot of a data matrix dominate and highlight selected row indices.
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
-
-
+#  August 2017
+#' @export
 mbqn.boxplot <- function(x, irow = NULL, vals = NULL, xlab = NULL, ylab = NULL, main = NULL,filename = NULL, type = "l"){
 
   if(!is.matrix(x)) {warning("Data must be a matrix!"); break}
@@ -101,7 +101,7 @@ mbqn.boxplot <- function(x, irow = NULL, vals = NULL, xlab = NULL, ylab = NULL, 
   }
 
   legend(x = "topright", inset=.02,legend=leg_text, lty = lty, col =  lcol, cex =1, box.lty=0)
-  #legend(x = "topright",legend=(c("qn","mbqn")),fill = c(4,3),bty= "n",cex=1,ncol=1)
+  # legend(x = "topright",legend=(c("qn","mbqn")),fill = c(4,3),bty= "n",cex=1,ncol=1)
 
   if(!is.null(filename)){
     dev.off()

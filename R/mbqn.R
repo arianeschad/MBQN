@@ -34,10 +34,10 @@ mbqn <- function(x, FUN = NULL, na.rm = TRUE){
     stop("Wrong data format! Input x must be a matrix!")
   }
 
-  # check if data contains NaN or nan,
-  # since preprocessCore will give erronous results in this case
-  if (is.nan(x))
-    x <- replace(x,c("nan",NaN), NA)
+  # check if data contains NaN and replace it with NA, since preprocessCore will
+  # give erronous results in this case
+  if (length(which(is.nan(x)))>0)
+    x[is.nan(x)] <- NA
 
   if(!is.null(FUN)){
     if(is.function(FUN)){
