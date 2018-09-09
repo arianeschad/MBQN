@@ -1,6 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 vignettes
-mbqn.check_saturation.R
+# mbqn.check_saturation.R
 example.R
 ^.*\.pdf$

@@ -4,24 +4,15 @@
 \alias{mbqn.check_saturation_v0}
 \title{Check data matrix for rank invariant (ri) /nearly rank invariant (nri) features}
 \usage{
-mbqn.check_saturation_v0(dat, FUN = mean_fun, qlow, qup,
-  flag_show_fig = TRUE)
+mbqn.check_saturation_v0(dat, FUN = NULL, flag_show_fig = TRUE)
 }
 \arguments{
 \item{dat}{A data matrix. Rows - features, e.g. protein abundances; columns - samples}
 
-\item{FUN}{A function like mean or median or a user defined function or an array with
-\code{dim(user_array) = nrow(x)}. If left empty, the matrix is not balanced.
-#@export}
-
-\item{qlow}{lower quantile}
-
-\item{qup}{upper quantile, default 1}
+\item{FUN}{median or mean, if left empty, quantile normalization
+is applied without balancing the data}
 
 \item{flag_show_fig}{flag to specify whether results are plotted to figure, default = TRUE}
-
-\item{mean_fun}{median or mean, if left empty, quantile normalization
-is applied without balancing the data}
 }
 \value{
 A matrix of median- or mean-balanced quantile normalized data

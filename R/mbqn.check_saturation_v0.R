@@ -1,10 +1,10 @@
 #' Check data matrix for rank invariant (ri) /nearly rank invariant (nri) features
 #'
 #' @param dat A data matrix. Rows - features, e.g. protein abundances; columns - samples
-#' @param mean_fun median or mean, if left empty, quantile normalization
+#' @param FUN median or mean, if left empty, quantile normalization
 #' is applied without balancing the data
-#' @param qlow lower quantile
-#' @param qup upper quantile, default 1
+# #' @param qlow lower quantile
+# #' @param qup upper quantile, default 1
 #' @param flag_show_fig flag to specify whether results are plotted to figure, default = TRUE
 #' @inheritParams mbqn
 #' @details Rank data and check if lower and upper intensity tails are
@@ -22,7 +22,11 @@
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
 #' 2017
 #' @export
-mbqn.check_saturation_v0 <- function(dat, FUN = mean_fun, qlow, qup, flag_show_fig = TRUE){
+mbqn.check_saturation_v0 <- function(dat, FUN = NULL, flag_show_fig = TRUE){
+#qlow = NULL, qup = NULL,
+
+  # if FUN is not specified, use median!
+  if(is.null(FUN)) FUN <- median
 
   # dat <- matrix(rnorm(20000,0,1),nrow = 2000, ncol = 10)
   # dat[1,] <- dat[1,]+4
@@ -31,6 +35,7 @@ mbqn.check_saturation_v0 <- function(dat, FUN = mean_fun, qlow, qup, flag_show_f
 
   N <- dim(dat)[1] #number of rows
   M <- dim(dat)[2] #number of cols
+
 
   # row means
   m.dat <- apply(dat,1,FUN, na.rm=TRUE)

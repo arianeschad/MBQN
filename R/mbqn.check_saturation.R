@@ -1,7 +1,7 @@
 #' Check data matrix for rank invariant (ri) /nearly rank invariant (nri) features
 #'
 #' @param dat A data matrix. Rows - features, e.g. protein abundances; columns - samples
-#' @param mean_fun median or mean, if left empty, quantile normalization
+#' @param FUN median or mean, if left empty, quantile normalization
 #' is applied without balancing the data
 # #' @param qlow lower quantile
 # #' @param qup upper quantile, default 1
@@ -25,8 +25,14 @@
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
 #' 2017
 #' @export
-#mbqn.check_saturation <- function(dat, FUN = mean_fun, qlow, qup, flag_show_fig = TRUE, low_thr = 0.2, filename = NULL){
-mbqn.check_saturation <- function(dat, FUN = mean_fun, flag_show_fig = TRUE, low_thr = 0.2, filename = NULL,feature_index = NULL){
+mbqn.check_saturation <- function(dat, FUN = NULL,
+                                  flag_show_fig = TRUE,
+                                  low_thr = 0.2, filename = NULL,
+                                  feature_index = NULL){
+  # mbqn.check_saturation <- function(dat, FUN = mean_fun, qlow, qup, flag_show_fig = TRUE, low_thr = 0.2, filename = NULL){
+
+  # if FUN is not specified, use median!
+  if(is.null(FUN)) FUN <- median
 
   # dat <- matrix(rnorm(20000,0,1),nrow = 2000, ncol = 10)
   # dat[1,] <- dat[1,]+4
@@ -41,7 +47,7 @@ mbqn.check_saturation <- function(dat, FUN = mean_fun, flag_show_fig = TRUE, low
   s.qn <- apply(qn.dat, 1, sd, na.rm=TRUE)
 
   # quantile normalisation and its standard deviation with the limma function
-  limma_qn.dat <- limma::normalizeBetweenArrays(object = dat ,method = "quantile")
+  limma_qn.dat <- limma::normalizeBetweenArrays(object = dat, method = "quantile")
   # limma::normalizeQuantiles()
   limma_s.qn <- apply(limma_qn.dat, 1, sd, na.rm=TRUE)
 
@@ -53,7 +59,7 @@ mbqn.check_saturation <- function(dat, FUN = mean_fun, flag_show_fig = TRUE, low
   ## rank frequencies for each feature after QN (top-down)
   # assign NAs to 0 rank
 
-  out <- MBQN:::get_kminmax(X = qn.dat,k = N, flag = "max")
+  out <- MBQN::get_kminmax(X = qn.dat,k = N, flag = "max")
 
   tdummy = lapply(
     1:N,
