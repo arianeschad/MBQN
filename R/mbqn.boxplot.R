@@ -25,13 +25,13 @@
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
 #  August 2017
 #' @export
-mbqn.boxplot <- function(x, irow = NULL, vals = NULL, xlab = NULL, ylab = NULL, main = NULL,filename = NULL, type = "l"){
+mbqn.boxplot <- function(x, irow = NULL, vals = NULL, xlab = NULL, ylab = NULL, main = NULL,filename = NULL, type = "b"){
 
   if(!is.matrix(x)) {warning("Data must be a matrix!"); break}
 
 
   if(is.null(xlab)) xlab <- "sample"
-  if(is.null(ylab)) ylab <- "data"
+  if(is.null(ylab)) ylab <- "intensity"
   #if(is.null(main)) main <- "Normalized data and maximum value"
 
   if(!is.null(filename)){
@@ -79,13 +79,13 @@ mbqn.boxplot <- function(x, irow = NULL, vals = NULL, xlab = NULL, ylab = NULL, 
   if(is.null(irow)){
     boxplot(x,col=c("gold"),ylab = ylab, xlab = xlab, main = main, xlim = c(0,dim(x)[2]+.5))
   } else if(length(irow)==1){
-    boxplot(x,col=(c("gold")),notch=TRUE, xlab = xlab, main = main)
+    boxplot(x,col=(c("gold")),notch=F, xlab = xlab, main = main)
     lines(x[irow,],type= type ,col=c(3),ylim = ylim,xlab = xlab, ylab = ylab)
-    leg_text <- c(leg_text,paste("row",irow))
+    leg_text <- c(leg_text,paste("protein",irow))
     lcol <- c("gold",3)
     lty <- c(lty,1)
   } else if(length(irow) >1){
-    boxplot(x,col=(c("gold")),notch=TRUE, plot = TRUE, xlab = xlab, main = main)
+    boxplot(x,col=(c("gold")),notch=F, plot = TRUE, xlab = xlab, main = main)
     matlines(t(x[irow,]),type=type,col=c(3),ylim = ylim, xlab = xlab,ylab = ylab)
     leg_text <- c(leg_text,paste("row",irow))
     lcol <- c("gold",rep(3,length(irow)))
