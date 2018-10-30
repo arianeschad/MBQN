@@ -5,7 +5,7 @@
 \title{Check data matrix for rank invariant (ri) /nearly rank invariant (nri) features}
 \usage{
 mbqn.check_saturation(dat, FUN = NULL, flag_show_fig = TRUE,
-  low_thr = 0.2, filename = NULL, feature_index = NULL)
+  low_thr = 0.2, filename = NULL, feature_index = NULL, method = NULL)
 }
 \arguments{
 \item{dat}{A data matrix. Rows - features, e.g. protein abundances; columns - samples}
@@ -20,6 +20,8 @@ is applied without balancing the data}
 \item{filename}{string for naming figures, default = NULL}
 
 \item{feature_index}{index of a feature of interest that is plotted in the boxplot; default NULL}
+
+\item{method}{Package used to compute quantile normalization; default NULL - use the preprocessCore package ; "limma" uses the Limma package}
 }
 \value{
 A matrix of median- or mean-balanced quantile normalized data

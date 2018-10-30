@@ -5,7 +5,7 @@
 \title{Boxplot of data matrix with highlighted selected row intensities}
 \usage{
 mbqn.boxplot(x, irow = NULL, vals = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, filename = NULL, type = "l")
+  main = NULL, filename = NULL, type = "b")
 }
 \arguments{
 \item{x}{A data matrix. Rows represent features, e.g. protein abundances; columns represent groups, samples, e.g., experimental conditions, replicates.}

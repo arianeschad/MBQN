@@ -4,15 +4,16 @@
 \alias{mbqn}
 \title{Mean-balanced quantile normalization}
 \usage{
-mbqn(x, FUN = NULL, na.rm = TRUE)
+mbqn(x, FUN = NULL, na.rm = TRUE, method = NULL)
 }
 \arguments{
 \item{x}{A matrix where rows represent features, e.g. protein abundances/intensities and
 columns are replicates or probes.}
 
-\item{FUN}{A function like mean or median or a user defined function or an array with
-\code{dim(user_array) = nrow(x)}. If left empty, the matrix is not balanced.
-#@export}
+\item{FUN}{A function like mean, median, or a user defined function or an array with
+\code{dim(user_array) = nrow(x)}. Default NULL - features are not balanced.}
+
+\item{method}{Function used to compute quantile normalization; default NULL - use function from the preprocessCore package ; if "limma" - the function from the Limma package is used.}
 }
 \value{
 Mean-/Median-balanced quantile normalized \code{matrix}.
@@ -31,10 +32,11 @@ This function uses \code{preprocessCore::normalize.quantiles()} by Bolstad et al
 installed from http://bioconductor.org/biocLite.R.
 }
 \examples{
-mbqn(x, mean)
 mbqn(x, median)
+mbqn(x, mean)
 mbqn(x, user_function)
 mbqn(x, user_array)
+mbqn(x, median, method = "limma") # if Limma R package is installed and preferred
 }
 \references{
 Schad, A. and Kreuz, C. (2017) Mean-balanced quantile
