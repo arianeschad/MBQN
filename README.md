@@ -8,19 +8,19 @@ This package provides a modified quantile normalization function for omics data 
 
 To install this package from Github, you need R version >= 3.3.3 and the package devtools or githubinstall.
 
-In R use the following line:
-`install.packages("devtools")`
+In R use the following line:<br/>
+`install.packages("devtools")`<br/>
 `devtools::install_github("arianeschad/mbqn")`
 
 or:
 
-`library("githubinstall")`
+`library("githubinstall")`<br/>
 `githubinstall::githubinstall("mbqn")`
 
 # Additional dependencies: 
 `install.packages("preprocessCore")`
 
-(Optional)
+(Optional)<br/>
 `install.packages("limma")`
 
 Collecting data from PRIDE experiments in `example1()` requires the rpx package
@@ -34,9 +34,9 @@ The package provides the basic function: `mbqn()` which does quantile normalizat
 
 ## Examples
 Generate simple matrix, apply median-balanced quantile normalization, generate boxplot of normalized features
-`mtx <-  matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)`
-`mtx.norm <- mbqn(x = mtx, FUN = median)`
-`mbqn.boxplot(mtx.norm)` 
+`mtx <-  matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)`<br/>
+`mtx.norm <- mbqn(x = mtx, FUN = median)`<br/>
+`mbqn.boxplot(mtx.norm)`<br(>
 `mbqn.check_saturation()`
 
 This example will download data from the PRIDE repository, normalize the data, identifies RI/NRI features, and give graphical output. The example is found in folder /installationpath/mbqn/examples/.
