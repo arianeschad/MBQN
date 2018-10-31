@@ -1,46 +1,49 @@
----
-title: "MBQN Package"
-output: github_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-# mbqn
+# MBQN Package
 Mean/Median-balanced quantile normalization for processing omics data
 
-## GitHub Documents
+## Description
+This package provides a modified quantile normalization function for omics data or other matrix-like data. The modification consists of a mean balancing which reduces systematics in downstream analysis for features that are always or mostly of largest intensity accross all samples. This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
 
-This packages provides a modified quantile normalization function for omics data or other matrix-like data. The normalization removes systematic batch effects between measurements. The modification is consists of a mean balancing which reduces systematics in downstream analysis for features that are always or mostly of largest intensity accross all samples. This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
-When you click the **Knit** button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.
+## Installing the Package
 
-### Installing The Package
+To install this package from Github, you need R version >= 3.3.3 and the package devtools or githubinstall.
 
-To install this package from Github, you will need to Hadley Wickham's devtools package installed.
+In R use the following line:
+`install.packages("devtools")`
+`devtools::install_github("arianeschad/mbqn")`
 
-install.packages("devtools")
-library("devtools")
+or:
 
-Now we can install from Github using the following line:
+`library("githubinstall")`
+`githubinstall::githubinstall("mbqn")`
 
-devtools::install_github("matthewjdenny/ContentStructure")
+# Additional dependencies: 
+`install.packages("preprocessCore")`
 
-I have  had success installing with R 3.2.0+ installed but if you do not have the latest version of R installed, or run into some install errors (please email if you do), it should work as long as you install the dependencies first with the following block of code:
+(Optional)
+`install.packages("limma")`
 
-install.packages( pkgs = c("BH","coda","RcppArmadillo","gridBase",
-"gplots","slam","vegan"), dependencies = TRUE)
+Collecting data from PRIDE experiments in `example1()` requires the rpx package
+`install.packages("rpx")`
+by Laurent Gatto (2017). rpx: R Interface to the ProteomeXchange Repository. R package version 1.10.2. https://github.com/lgatto/rpx
 
-If all went well, check out the `?ContentStructure` help file to see a full working example with info on how the data should look.
 
 ## Basic Useage
 
-The package provides the basic function: `mbqn()` which does the normalization. To run this function, you will need to provide input similar to the example `example1` included as examples with the package.
+The package provides the basic function: `mbqn()` which does quantile normalization or mean balance quantile normalization of a matrix object. The matrix may contain NAs. The argument `FUN` is used to select between classical quantile normalization, and mean or median balanced quantile normalization.
 
-## Example
+## Examples
+Generate simple matrix, apply median-balanced quantile normalization, generate boxplot of normalized features
+`mtx <-  matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)`
+`mtx.norm <- mbqn(x = mtx, FUN = median)`
+`mbqn.boxplot(mtx.norm)` 
+`mbqn.check_saturation()`
 
-This example code will download data from the PRIDE repository, normalize the data, identifies RI/NRI features and give graphical output. 
+This example will download data from the PRIDE repository, normalize the data, identifies RI/NRI features, and give graphical output. The example is found in folder /installationpath/mbqn/examples/.
 
-# Load in necessary data
-example1(3)
+`example1(3)`
 
-Note that the `echo = FALSE` parameter was added to the code toxxx .
+To run example1.R for data from the PRIDE archive, the respective proteinGroups.txt file must be downloaded from the PRIDE webpage to to the folder /installationpath/mbqn/examples/PXDxxxx/ or directly by the function in exmple1.R which uses the R package rpc. 
+
+## Figures
+Figures created by MBQN are saved under /installationpath/mbqn/.
