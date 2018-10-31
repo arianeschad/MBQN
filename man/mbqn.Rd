@@ -29,7 +29,7 @@ Normalize a data matrix based on a mean-balanced quantile normalization.
 Each row of the data matrix is balanced by FUN, e.g. the median, before normalization.
 After normalization, row means are added to the normalized matrix.
 This function uses \code{preprocessCore::normalize.quantiles()} by Bolstad et al, Bioinformatics (2003),
-available from http://bioconductor.org/biocLite.R.
+available from http://bitools::package_dependencies(pkgs, db, which = 'all', reverse = TRUE)oconductor.org/biocLite.R.
 }
 \examples{
 mbqn(x, median)
