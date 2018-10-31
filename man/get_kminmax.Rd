@@ -30,9 +30,7 @@ data are ignored.
 get_kminmax(X, k = 5, "max")
 }
 \references{
-Schad, A. and Kreuz, C. (2017) Mean-balanced
-quantile normalization for processing label-free quantitative
-proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
+Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
 }
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}

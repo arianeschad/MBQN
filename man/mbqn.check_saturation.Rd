@@ -40,9 +40,7 @@ deviation of normalized data entries located in the tails
 mbqn.check_saturation(dat, mean)
 }
 \references{
-Schad, A. and Kreuz, C. (2017) Median-balanced quantile
-normalization for processing label-free quantitative proteomics
-data with abundance-isolated proteins. Biostatistics xxx in prep.
+Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
 }
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}

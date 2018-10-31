@@ -14,9 +14,10 @@
 #  see source('http://bioconductor.org/biocLite.R') and biocLite('preprocessCore').
 #' @return Mean-/Median-balanced quantile normalized \code{matrix}.
 #' @keywords Modified Quantile normalization,  proteomics.
-#' @references Schad, A. and Kreuz, C. (2017) Mean-balanced quantile
-#' normalization for processing label-free quantitative proteomics
-#' data with abundance-isolated proteins. Biostatistics xxx in prep.
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
+# Schad, A. and Kreuz, C. (2017) Mean-balanced quantile
+# normalization for processing label-free quantitative proteomics
+# data with abundance-isolated proteins. Biostatistics xxx in prep.
 #' @examples mbqn(x, median)
 #' mbqn(x, mean)
 #' mbqn(x, user_function)

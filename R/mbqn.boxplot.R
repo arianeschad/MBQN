@@ -15,9 +15,7 @@
 #' across samples
 #' @return Figure
 #' @keywords quantile normalization proteomics
-#' @references Schad, A. and Kreuz, C. (2017) Mean-balanced quantile
-#' normalization for processing label-free quantitative proteomics
-#' data with abundance-isolated proteins. Biostatistics xxx in prep.
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
 #' @examples qn.dat <- mbqn(x=dat,FUN = NULL ,na.rm = TRUE)
 #' mbqn.dat <- mbqn(x=dat,FUN = median ,na.rm = TRUE)
 #' mbqn.boxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], filename = "fig_boxplot_qn.data.pdf")

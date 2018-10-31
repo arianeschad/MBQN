@@ -11,9 +11,7 @@
 #' data are ignored.
 #' @return \code{list} with indices \code{ik} of extreme values \code{minmax}.
 #' @keywords quantile normalization, proteomics
-#' @references Schad, A. and Kreuz, C. (2017) Mean-balanced
-#' quantile normalization for processing label-free quantitative
-#' proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
 #' @examples
 #' get_kminmax(X, k = 5, "max")
 #' @author A. Schad, \email{ariane.schad@zbsa.de}

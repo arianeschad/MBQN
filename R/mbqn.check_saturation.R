@@ -17,9 +17,7 @@
 #' deviation of normalized data entries located in the tails
 #' @return A matrix of median- or mean-balanced quantile normalized data
 #' @keywords quantile normalization, proteomics
-#' @references Schad, A. and Kreuz, C. (2017) Median-balanced quantile
-#' normalization for processing label-free quantitative proteomics
-#' data with abundance-isolated proteins. Biostatistics xxx in prep.
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
 #' @examples mbqn.check_saturation(dat, mean)
 #' @description Test if few rows of the data matrix dominate the upper tail. This script uses normalize.quantiles() from the
 #' package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
