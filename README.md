@@ -51,5 +51,5 @@ To run `example1()` for data from the PRIDE archive, the respective proteinGroup
 Figures created by MBQN are saved under /installationpath/mbqn/.
 
 ## References
-Please cite: A. Schad and C. Kreutz, MBQN: R package for mean balanced quantile normalization. In prep. for Bioinf. Appl. Note, 2018
+A. Schad and C. Kreutz, MBQN: R package for mean balanced quantile normalization. In prep. for Bioinf. Appl. Note, 2018
 
