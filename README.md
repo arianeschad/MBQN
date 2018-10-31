@@ -14,7 +14,7 @@ In R use the following line:<br/>
 
 or:
 
-`library("githubinstall")`<br/>
+`install.packages("githubinstall")`<br/>
 `githubinstall::githubinstall("mbqn")`
 
 ## Additional dependencies: 
