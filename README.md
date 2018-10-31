@@ -33,14 +33,14 @@ by Laurent Gatto (2017). rpx: R Interface to the ProteomeXchange Repository. R p
 The package provides the basic function: `mbqn()` which does quantile normalization or mean balance quantile normalization of a matrix object. The matrix may contain NAs. The argument `FUN` is used to select between classical quantile normalization, and mean or median balanced quantile normalization.
 
 ## Examples
-Generate simple matrix, apply median-balanced quantile normalization, generate boxplot of normalized features
+1. Generate simple matrix, apply median-balanced quantile normalization, generate boxplot of normalized features and check for rank invariant (RI) or nearly rank invariant (NRI) features:
 
 `mtx <-  matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)`<br/>
 `mtx.norm <- mbqn(x = mtx, FUN = median)`<br/>
 `mbqn.boxplot(mtx.norm)`<br/>
-`mbqn.check_saturation()`
+`mbqn.check_saturation(mtx,FUN = median,low_thr = 0.1, filename = "simple_mtx",feature_index = 1)`
 
-This example will download data from the PRIDE repository, normalize the data, identifies RI/NRI features, and give graphical output. The example is found in folder /installationpath/mbqn/examples/.
+2. This example will download data from the PRIDE repository, normalize the data, identifies RI/NRI features, and give graphical output. The example is found in folder /installationpath/mbqn/examples/.
 
 `example1(3)`
 
