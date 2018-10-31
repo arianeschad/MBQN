@@ -2,7 +2,7 @@
 Mean/Median-balanced quantile normalization for processing omics data
 
 ## Description
-This package provides a modified quantile normalization function for omics data or other matrix-like data. The modification consists of a mean balancing which reduces systematics in downstream analysis for features that are always or mostly of largest intensity accross all samples. This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
+This package provides a modified quantile normalization function for omics data or other matrix-like data. The modification consists of a mean balancing which reduces systematics in downstream analysis for features that are always or mostly of largest intensity accross all samples. 
 
 ## Installing the Package
 
@@ -18,9 +18,10 @@ or:
 `githubinstall::githubinstall("mbqn")`
 
 ## Additional dependencies: 
+This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R It is installed by<br/>
 `install.packages("preprocessCore")`
 
-(Optional)<br/>
+Optionally, the limma package can be used for computation of the quantile normalization. It is installed by <br/>
 `install.packages("limma")`
 
 Collecting data from PRIDE experiments in `example1()` requires the rpx package
