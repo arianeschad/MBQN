@@ -1,4 +1,4 @@
-#' Demo of mean/median-balanced quantile normalization
+#' Demonstration of mean/median-balanced quantile normalization
 #'
 #' @description This function demonstrates mean-balanced quantile normalization
 #' @param dat A data matrix where rows represent features, e.g. protein
@@ -23,23 +23,19 @@
 #' source('http://bioconductor.org/biocLite.R')
 #' biocLite('preprocessCore'). A data matrix can be computed with mbqn.simu_dat().
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
-#' 2017
+#' Aug. 2017
 #' @export
 # Installation of package preprocessCore necessary!
 # It contains a function for (standard) quantile normalization:
 # source('http://bioconductor.org/biocLite.R')
 # biocLite('preprocessCore')
 
+
 mbqn.demo <- function(dat = NULL){
 
- # library(preprocessCore)
+  # if no matrix is given, create a simple dummy matrix
   if(is.null(dat)){
-    # the function expects a matrix as input
-    # create a matrix using the same example
-    # each column corresponds to a sample
-    # each row corresponds to a protein
-    dat <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),
-                  ncol=3)
+      dat <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)
 
     print(dat)
     #     [,1] [,2] [,3]
@@ -49,15 +45,15 @@ mbqn.demo <- function(dat = NULL){
     #[4,]    4    2    8
   }
 
-  #quantile normalisation
+  # quantile normalisation
   qn_dat <- preprocessCore::normalize.quantiles(dat)
 
   # now perform mean balanced qn
-
+  mdat <- mbqn(dat,FUN = median)
   # sample mean for each row (protein)
   mdat <- apply(dat,1,mean,na.rm=TRUE)
 
-  #mean balanced quantile normalisation
+  # mean balanced quantile normalisation
   mbqn_dat <- preprocessCore::normalize.quantiles(dat-mdat) + mdat
 
   return(mbqn_dat)

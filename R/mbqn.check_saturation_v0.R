@@ -36,7 +36,6 @@ mbqn.check_saturation_v0 <- function(dat, FUN = NULL, flag_show_fig = TRUE){
   N <- dim(dat)[1] #number of rows
   M <- dim(dat)[2] #number of cols
 
-
   # row means
   m.dat <- apply(dat,1,FUN, na.rm=TRUE)
 
@@ -122,12 +121,12 @@ mbqn.check_saturation_v0 <- function(dat, FUN = NULL, flag_show_fig = TRUE){
     low <- floor(min(range(mbqn.dat,na.rm = TRUE)))
     up <- ceiling(max(range(mbqn.dat,na.rm = TRUE)))
     if(length(ip)>1){
-      boxplot(qn.dat,col=(c("gold")),notch=TRUE, xlab = "column", main = "Normalized data and maximum value")
+      boxplot(qn.dat,col=(c("gold")),notch=F, xlab = "column", main = "Normalized data and maximum value")
       matlines(t(qn.dat[ip,]),type="l",col=c(4),ylim = c(low,up),xlab = "column",ylab = "normalized data")
       matlines(t(mbqn.dat[ip,]),type="l",col=c(3),ylim = c(low,up),xlab = "column",ylab = "normalized data")
     }else{
       plot(qn.dat[ip,],type="l",col=c(4),ylim = c(low,up),xlab = "column",ylab = "normalized data")
-      boxplot(qn.dat,col=(c("gold")),add = TRUE,notch=TRUE, xlab = "column", main = "Normalized data and maximum value")
+      boxplot(qn.dat,col=(c("gold")),add = TRUE,notch=F, xlab = "column", main = "Normalized data and maximum value")
       lines(mbqn.dat[ip,],type="l",col=c(3),ylim = c(low,up),xlab = "column",ylab = "normalized data")
     }
     legend(x = "topright",legend=(c("qn-data","mbqn-data")),fill = c(4,3),bty= "n",cex=1,ncol=1)
