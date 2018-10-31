@@ -34,9 +34,10 @@ The package provides the basic function: `mbqn()` which does quantile normalizat
 
 ## Examples
 Generate simple matrix, apply median-balanced quantile normalization, generate boxplot of normalized features
+
 `mtx <-  matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)`<br/>
 `mtx.norm <- mbqn(x = mtx, FUN = median)`<br/>
-`mbqn.boxplot(mtx.norm)`<br(>
+`mbqn.boxplot(mtx.norm)`<br/>
 `mbqn.check_saturation()`
 
 This example will download data from the PRIDE repository, normalize the data, identifies RI/NRI features, and give graphical output. The example is found in folder /installationpath/mbqn/examples/.
