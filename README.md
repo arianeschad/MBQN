@@ -17,7 +17,7 @@ or:
 `library("githubinstall")`<br/>
 `githubinstall::githubinstall("mbqn")`
 
-# Additional dependencies: 
+## Additional dependencies: 
 `install.packages("preprocessCore")`
 
 (Optional)<br/>
@@ -28,7 +28,7 @@ Collecting data from PRIDE experiments in `example1()` requires the rpx package
 by Laurent Gatto (2017). rpx: R Interface to the ProteomeXchange Repository. R package version 1.10.2. https://github.com/lgatto/rpx
 
 
-## Basic Useage
+# Basic Useage
 
 The package provides the basic function: `mbqn()` which does quantile normalization or mean balance quantile normalization of a matrix object. The matrix may contain NAs. The argument `FUN` is used to select between classical quantile normalization, and mean or median balanced quantile normalization.
 
