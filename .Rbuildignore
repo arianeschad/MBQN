@@ -4,3 +4,7 @@ vignettes
 # mbqn.check_saturation.R
 example.R
 ^.*\.pdf$
+mbqn.check_saturation_v2.R
+mbqn.check_saturation_v0.R
+mbqn.demo.R
+mbqn.simu_data.R
