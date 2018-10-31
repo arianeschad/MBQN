@@ -3,6 +3,7 @@
 export(get_kminmax)
 export(mbqn)
 export(mbqn.boxplot)
+export(mbqn.boxplot_dev)
 export(mbqn.check_saturation)
 export(mbqn.check_saturation_v0)
 export(mbqn.check_saturation_v2)

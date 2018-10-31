@@ -10,7 +10,7 @@ get_kminmax(X, k, flag)
 \arguments{
 \item{X}{data matrix.}
 
-\item{k}{number of searched extreme values.}
+\item{k}{number of selected extreme values. Must be less then #rows of X.}
 
 \item{flag}{"min or "max"}
 }
@@ -18,12 +18,13 @@ get_kminmax(X, k, flag)
 \code{list} with indices \code{ik} of extreme values \code{minmax}.
 }
 \description{
-Extract k largest/smallest values and their indices columnwise from a matrix.
+Extract the k largest/smallest values and their indices for each column of a matrix.
 }
 \details{
-Subfunction used by \code{mbqn.check_saturation}. Search for
-k smallest (flag <- "min") or largest (flag <- "max") values in
-each column of an array or a matrix X. NA's in the data are ignored.
+Function used by \code{mbqn.check_saturation}. Sort values of
+each column of a matrix or an array X and determine the
+k smallest (flag <- "min") or largest (flag <- "max") values in. NA's in the
+data are ignored.
 }
 \examples{
 get_kminmax(X, k = 5, "max")
@@ -36,6 +37,6 @@ proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}
 }
-\keyword{normalization}
+\keyword{normalization,}
 \keyword{proteomics}
 \keyword{quantile}

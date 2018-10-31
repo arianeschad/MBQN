@@ -13,23 +13,23 @@ columns are replicates or probes.}
 \item{FUN}{A function like mean, median, or a user defined function or an array with
 \code{dim(user_array) = nrow(x)}. Default NULL - features are not balanced.}
 
-\item{method}{Function used to compute quantile normalization; default NULL - use function from the preprocessCore package ; if "limma" - the function from the Limma package is used.}
+\item{method}{Function to compute quantile normalization; default NULL - use function from the preprocessCore package ; if "limma" - the function from the Limma package is used.}
 }
 \value{
 Mean-/Median-balanced quantile normalized \code{matrix}.
 }
 \description{
-Modified quantile-normalization of a matrix representing
-omics or microarray data. Suppress systematic flattening of feature variation across columns
+Modified quantile-normalization of a matrix, representing for example
+omics or microarray data. Suppresses systematic flattening of feature variation across columns
 for features overrepresented in the tails of the intensity distribution
-across columns.
+across columns, i.e. rank invariant (RI) or nearly rank invariant (NRI) features.
 }
 \details{
-Function to normalize a data matrix based on a mean-balanced quantile normalization.
-Each row of the data matrix is balanced by its mean/median before normalization.
-Row means are added to the normalized matrix.
+Normalize a data matrix based on a mean-balanced quantile normalization.
+Each row of the data matrix is balanced by FUN, e.g. the median, before normalization.
+After normalization, row means are added to the normalized matrix.
 This function uses \code{preprocessCore::normalize.quantiles()} by Bolstad et al, Bioinformatics (2003),
-installed from http://bioconductor.org/biocLite.R.
+available from http://bioconductor.org/biocLite.R.
 }
 \examples{
 mbqn(x, median)
@@ -48,5 +48,5 @@ A. Schad, \email{ariane.schad@zbsa.de}
 }
 \keyword{Modified}
 \keyword{Quantile}
-\keyword{normalization}
+\keyword{normalization,}
 \keyword{proteomics.}

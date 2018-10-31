@@ -9,13 +9,14 @@
 #' @param low_thr lower threshold for NRI frequency, default = 0.2
 #' @param filename string for naming figures, default = NULL
 #' @param feature_index index of a feature of interest that is plotted in the boxplot; default NULL
+#' @param method Package used to compute quantile normalization; default NULL - use the preprocessCore package ; "limma" uses the Limma package
 #' @inheritParams mbqn
 #' @details Rank data and check if lower and upper intensity tails are
 #' dominated by few feature. Compute a quantile
 #' normalization without and with mean-balancing and check standard
 #' deviation of normalized data entries located in the tails
 #' @return A matrix of median- or mean-balanced quantile normalized data
-#' @keywords quantile normalization proteomics
+#' @keywords quantile normalization, proteomics
 #' @references Schad, A. and Kreuz, C. (2017) Median-balanced quantile
 #' normalization for processing label-free quantitative proteomics
 #' data with abundance-isolated proteins. Biostatistics xxx in prep.
@@ -27,37 +28,37 @@
 #' @export
 mbqn.check_saturation <- function(dat, FUN = NULL,
                                   flag_show_fig = TRUE,
-                                  low_thr = 0.2, filename = NULL,
-                                  feature_index = NULL){
-  # mbqn.check_saturation <- function(dat, FUN = mean_fun, qlow, qup, flag_show_fig = TRUE, low_thr = 0.2, filename = NULL){
+                                  low_thr = 0.2,
+                                  filename = NULL,
+                                  feature_index = NULL,
+                                  method = NULL){
 
   # if FUN is not specified, use median!
   if(is.null(FUN)) FUN <- median
 
-  # dat <- matrix(rnorm(20000,0,1),nrow = 2000, ncol = 10)
-  # dat[1,] <- dat[1,]+4
-  # dat[2,] <- dat[2,]+2
-  # dat[3,] <- dat[3,]+1
-
   N <- dim(dat)[1] #number of rows
   M <- dim(dat)[2] #number of cols
+
+  # plot options
+  cex.main <- 1.2
+  cex.lab <- 1.
+  cex.legend <- 1.
+  cex.axis <- 1.
 
   # quantile normalisation and its standard deviation
   qn.dat <- MBQN:::mbqn(x = dat,FUN = NULL)
   s.qn <- apply(qn.dat, 1, sd, na.rm=TRUE)
 
-  # quantile normalisation and its standard deviation with the limma function
-  limma_qn.dat <- limma::normalizeBetweenArrays(object = dat, method = "quantile")
-  # limma::normalizeQuantiles()
-  limma_s.qn <- apply(limma_qn.dat, 1, sd, na.rm=TRUE)
+  # quantile normalisation and its standard deviation computed with the limma function
+  # The results from limma::normalizeBetweenArrays normalization are equal, up to numerical differences,
+  # to that of preprocessCore::normalize.quantiles!
 
-
-  # mean balanced quantile normalisation
-  mbqn.dat <- MBQN:::mbqn(dat,FUN = FUN, na.rm = TRUE)
+  # mean balanced quantile normalisation, optionally with limma qn function
+  mbqn.dat <- MBQN:::mbqn(dat,FUN = FUN, na.rm = TRUE, method = method)
 
   ##############################################################################
-  ## rank frequencies for each feature after QN (top-down)
-  # assign NAs to 0 rank
+  ## Rank frequencies for each feature after QN (top-down)
+  # & assign NAs to 0 rank
 
   out <- MBQN::get_kminmax(X = qn.dat,k = N, flag = "max")
 
@@ -78,15 +79,7 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
     {
       # ignore NAs!
       ki <- which(as.numeric(names(pi[[i]]))!=0)
-
-      # this part counts rank occupation frequencies if NAs are present
-      #if(any(names(pi[[i]])==0)){
-      #  Mp <- M - as.numeric(pi[[i]]["0"]*M)
-      #  pi[[i]][ki] <- pi[[i]][ki]*M/Mp
-      #}
-
       bla <- pi[[i]][which(pi[[i]]==max(pi[[i]][ki], na.rm =T))]
-      bla
     }
   )
 
@@ -141,22 +134,33 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
 
     pdf(fig1.name, width=8,height=4,paper='special')
 
-    plot(as.table(p[1,])*100, xlim = c(0,N), xaxt = "n", col = c(1),ylim = c(0,100), xlab = "feature index",
-         ylab = "frequency [%]",cex.main=1,cex.lab=1,cex.lab =1, cex.axis=1,
+    #    xlimit <- c(max(as.numeric(names(which.min(nri)))-3,0),as.numeric(names(which.max(nri)))+3)
+    xlimit <- c(min(as.numeric(names(nri)))-3,max(as.numeric(names(nri)))+3)
+
+    plot(as.table(p[1,])*100,
+         #xlim = c(0,N),
+         xlim = xlimit,
+         xaxt = "n",
+         col = c(1),ylim = c(0,100),
+         xlab = "feature index",
+         ylab = "frequency [%]",
+         cex.main=cex.main,cex.lab =cex.lab ,cex.axis=cex.axis,
          main = "Maxiumum occupation frequency of RI/NRI features\n & sample coverage of normalized features with zero variance ")
 
     lines(not_nas*100,xlim = c(0,N),ylim = c(0,100), lty=2, col = c(2))
 
     xticklabels <- c(names(not_nas),colnames(p))
     axis(1,at=as.integer(xticklabels), labels = FALSE)
-    text(as.integer(xticklabels), par("usr")[3] - 5, labels = xticklabels, cex=0.75, srt = 90, pos = 1, xpd = TRUE)
+    text(as.integer(xticklabels), par("usr")[3] - 5, labels = xticklabels,
+         cex=0.75, srt = 90, pos = 1, xpd = TRUE)
 
     abline(h = 0, v = NA, col = "gray70")
     abline(h = 100, v = NA, col = "gray70")
     abline(h = 50, v = NA, col = "gray70")#,lty = "dashed")
     abline(h = low_thr*100, v = NA, col = c(4),lty = "dashed")
     op <- par(cex = 0.8)
-    legend(x = "topright",legend=c("RI/NRI features","var=0 features","threshold"),col=c(1,2,4), lty=c(1:2,2), cex=0.8,bty = "n")
+    legend(x = "topleft",legend=c("RI/NRI features","var=0 features","threshold"),
+           col=c(1,2,4), lty=c(1:2,2), cex=cex.legend ,bty = "n")
 
     dev.off()
     print(paste("Save figure to ",fig1.name))
@@ -174,18 +178,28 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
     low <- floor(min(range(mbqn.dat,na.rm = TRUE)))
     up <- ceiling(max(range(mbqn.dat,na.rm = TRUE)))
     if(length(ip)>1){
-      boxplot(qn.dat,col=(c("gold")),notch=TRUE, xlab = "sample", main = "Quantile normalized data and maximum RI/NRI feature",cex.main = 0.8, outcex=0.3, xaxt = "n")
+      boxplot(qn.dat,col=(c("gold")),notch=F, xlab = "sample",
+              main = "Quantile normalized data and maximum RI/NRI feature",
+              cex.main = cex.main, outcex=0.3, xaxt = "n")
+
       axis(1, at = c(1:M), labels = c(1:M), cex.axis = .8)
-      matlines(t(qn.dat[ip,]),type="l",col=c(4),ylim = c(low,up),xlab = "sample",ylab = "normalized data", xaxt = "n")
-      matlines(t(mbqn.dat[ip,]),type="l",col=c(2),ylim = c(low,up),xlab = "sample",ylab = "normalized data", xaxt = "n")
+      matlines(t(qn.dat[ip,]),type="b",col=c(4),ylim = c(low,up),
+               xlab = "sample",ylab = "normalized data", xaxt = "n")
+      matlines(t(mbqn.dat[ip,]),type="b",col=c(2),ylim = c(low,up),
+               xlab = "sample",ylab = "normalized data", xaxt = "n")
     }else{
-      plot(qn.dat[ip,],type="l",col=c(4),ylim = c(low,up),xlab = "sample",ylab = "normalized data", xaxt = "n")
+      plot(qn.dat[ip,],type="b",col=c(4),ylim = c(low,up),xlab = "sample",
+           ylab = "normalized data", xaxt = "n")
       axis(1, at = c(1:M), labels = c(1:M), cex.axis = .8)
-      boxplot(qn.dat,col=(c("gold")),add = TRUE,notch=TRUE, xlab = "sample", main = "Quantile normalized data and maximum RI/NRI feature",cex.main = 0.8, outcex=0.3,xaxt = "n")
-      lines(mbqn.dat[ip,],type="l",col=c(2),ylim = c(low,up),xlab = "sample",ylab = "normalized data",xaxt = "n")
+      boxplot(qn.dat,col=(c("gold")),add = TRUE,notch=F, xlab = "sample",
+              main = "Quantile normalized data and maximum RI/NRI feature",
+              cex.main = cex.main, outcex=0.3,xaxt = "n")
+      lines(mbqn.dat[ip,],type="b",col=c(2),ylim = c(low,up),xlab = "sample",
+            ylab = "normalized data",xaxt = "n")
     }
     op <- par(cex = 0.8)
-    legend(x = "bottomright",legend=(c("qn feature","mbqn feature")),col=c(4,2), lty=1, cex=1,bty = "n") #fill = c(4,2),bty= "n",cex=1,ncol=1)
+    legend(x = "bottomright",legend=(c("qn feature","mbqn feature")),
+           col=c(4,2), lty=1, cex=cex.legend ,bty = "n") #fill = c(4,2),bty= "n",cex=1,ncol=1)
     dev.off()
     print(paste("Save figure to ",fig2.name))
     ###########################################################################################
@@ -194,26 +208,55 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
 
     plot.new()
     frame()
+    par(mfrow = c(1,1), cex.lab = 1.5)
+
     if(is.null(filename)) {
       fig4.name <- "Figure_example_mbqn.pdf"
     }else{fig4.name <- paste0("Figure_example_mbqn_", filename ,".pdf")}
 
     pdf(fig4.name, width=8,height=4,paper='special')
+
     low <- floor(min(range(mbqn.dat,na.rm = TRUE)))
     up <- ceiling(max(range(mbqn.dat,na.rm = TRUE)))
+
     if(length(ip)>1){
-      boxplot(mbqn.dat,col=(c("gold")),notch=TRUE, xlab = "sample", main = "MBQN data and maximum RI/NRI feature",cex.main = 0.8, outcex=0.3, xaxt = "n")
-      axis(1, at = c(1:M), labels = c(1:M), cex.axis = .8)
-      matlines(t(qn.dat[ip,]),type="l",col=c(4),ylim = c(low,up),xlab = "sample",ylab = "normalized data", xaxt = "n")
-      matlines(t(mbqn.dat[ip,]),type="l",col=c(2),ylim = c(low,up),xlab = "sample",ylab = "normalized data", xaxt = "n")
+      boxplot(mbqn.dat,col=(c("gold")),notch=F, xlab = "sample",
+              ylab = "normalized intensity",
+              main = "MBQN data and maximum RI/NRI feature",
+              cex.main = cex.main,outcex=0.2, xaxt = "n")
+      #par(cex.lab = 1.5)
+      #par(cex.main = 0.5)
+      axis(1, at = c(1:M), labels = c(1:M), cex.axis = 1.2)
+
+      matlines(t(qn.dat[ip,]),type="b",col=c(4),ylim = c(low,up),
+               xlab = "sample",ylab = "normalized intensity", xaxt = "n")
+      matlines(t(mbqn.dat[ip,]),type="b",col=c(2),ylim = c(low,up),
+               xlab = "sample",ylab = "normalized intensity", xaxt = "n")
+      par(cex.lab=cex.lab) # is for y-axis
+      par(cex.axis=cex.lab) # is for x-axis
+
     }else{
-      plot(qn.dat[ip,],type="l",col=c(4),ylim = c(low,up),xlab = "sample",ylab = "normalized data", xaxt = "n")
-      axis(1, at = c(1:M), labels = c(1:M), cex.axis = .8)
-      boxplot(mbqn.dat,col=(c("gold")),add = TRUE,notch=TRUE, xlab = "sample", main = "Quantile normalized data and maximum RI/NRI feature",cex.main = 0.8, outcex=0.3,xaxt = "n")
-      lines(mbqn.dat[ip,],type="l",col=c(2),ylim = c(low,up),xlab = "sample",ylab = "normalized data",xaxt = "n")
+      plot(qn.dat[ip,],type="b",col=c(4),ylim = c(low,up),
+           #ylim = c(35,36),
+           xlab = "sample",
+           ylab = "normalized data", xaxt = "n",
+           cex.lab = cex.lab,
+           lwd  =1.5)
+      axis(1, at = c(1:M), labels = c(1:M), cex.axis = 1)
+      boxplot(mbqn.dat,col=(c("gold")),add = TRUE,notch=F,
+              # xlab = "sample",
+              main = "Median-balanced quantile normalized data\n & maximum RI/NRI features",
+              cex.main = cex.main, outcex=0.3,xaxt = "n")
+      #lines(mbqn.dat[ip,],type="l",col=c(2),ylim = c(low,up)) # ,
+      #     xlab = "sample",ylab = "normalized data",xaxt = "n")
+
+      lines(mbqn.dat[ip,],col=c(2),ylim = c(low,up), type="b", lwd=1.5)#, #type="l"
+      # lty=1, pch=1)
+
     }
     op <- par(cex = 0.8)
-    legend(x = "bottomright",legend=(c("qn feature","mbqn feature")),col=c(4,2), lty=1, cex=1,bty = "n") #fill = c(4,2),bty= "n",cex=1,ncol=1)
+    legend(x = "bottomright",legend=(c("qn feature","mbqn feature")),
+           col=c(4,2), lty=1, lwd = 1.5, cex=cex.legend, bty = "n") #fill = c(4,2),bty= "n",cex=1,ncol=1)
     dev.off()
     print(paste("Save figure to ",fig4.name))
 
@@ -226,7 +269,7 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
       fig3.name <- "Figure_qn_nri_check.pdf"
     }else{fig3.name <- paste0("Figure_qn_nri_check_", filename ,".pdf")}
 
-    pdf(fig3.name, width=10,height=9,paper='special')
+    pdf(fig3.name, width=8,height=7,paper='special')
     par(mfrow=c(2,1))
 
     # boxplot of quantile normalized data and maximum RI/NRI feature after qn and mbqn
@@ -236,40 +279,56 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
     if(!is.null(feature_index)) ip <- unique(c(ip,feature_index))
 
     if(length(ip)>1){
-      boxplot(qn.dat,col=(c("gold")),notch=TRUE, ylim = c(low,up),xlab = "sample", main = "Quantile normalized data and maximum RI/NRI feature",cex.main = 0.8, outcex=0.4, xaxt = "n")
+      boxplot(qn.dat,col=(c("gold")),notch=F, ylim = c(low,up),
+              xlab = "sample",
+              main = "Quantile normalized data and maximum RI/NRI feature",
+              cex.main = cex.main, outcex=0.4, xaxt = "n")
       axis(1, at = c(1:M), labels = c(1:M), cex.axis = .9)
-      matlines(t(qn.dat[ip,]),type="l",col=c(4),ylim = c(low,up),xlab = "sample",ylab = "normalized data", xaxt = "n")
-      matlines(t(mbqn.dat[ip,]),type="l",col=c(2),ylim = c(low,up),xlab = "sample",ylab = "normalized data", xaxt = "n")
+      matlines(t(qn.dat[ip,]),type="b",pch=1, col=c(4),ylim = c(low,up),
+               xlab = "sample",ylab = "normalized data", xaxt = "n")
+      matlines(t(mbqn.dat[ip,]),type="b",pch=1,col=c(2),ylim = c(low,up),
+               xlab = "sample",ylab = "normalized data", xaxt = "n")
     }else{
-      plot(qn.dat[ip,],type="l",col=c(4),ylim = c(low,up),xlab = "sample",ylab = "normalized data", xaxt = "n")
+      plot(qn.dat[ip,],col=c(4), type="b", ylim = c(low,up),xlab = "sample",
+           ylab = "normalized data", xaxt = "n")
       axis(1, at = c(1:M), labels = c(1:M), cex.axis = .9)
-      boxplot(qn.dat,col=(c("gold")),add = TRUE,notch=TRUE, xlab = "sample", main = "Quantile normalized data and maximum RI/NRI feature",cex.main = 0.8, outcex=0.4,xaxt = "n")
-      lines(mbqn.dat[ip,],type="l",col=c(2),ylim = c(low,up),xlab = "sample",ylab = "normalized data",xaxt = "n")
+      boxplot(qn.dat,col=(c("gold")),add = TRUE,notch=F,
+              xlab = "sample", main = "Quantile normalized data and maximum RI/NRI feature",
+              cex.main = cex.main, outcex=0.4,xaxt = "n")
+      #lines(mbqn.dat[ip,],col=c(2),ylim = c(low,up), type="l", xaxt = "n")
+      lines(mbqn.dat[ip,],col=c(2),ylim = c(low,up), type="b", lwd=1.5, xaxt = "n")#, #type="l"
+      # lty=1, pch=1)
+
     }
     par(cex.lab=.8) # y-axis
     par(cex.axis=.8) # x-axis
     #op <- par(cex = 0.8)
-    legend(x = "bottomright",legend=(c("qn feature","mbqn feature")),col=c(4,2), lty=1, cex=0.8, bty = "n")
+    legend(x = "bottomright",legend=(c("qn feature","mbqn feature")),col=c(4,2),
+           lty=1, cex=0.8, bty = "n")
     fig_label("A.", cex=1.7)
 
     # ri/nri check and zero variance qn features
-
-    plot(as.table(p[1,])*100, xlim = c(0,N), xaxt = "n", col = c(1),ylim = c(0,100), xlab = "feature index",
-         ylab = "frequency [%]",cex.main = .85, cex.lab = 1,cex.lab = 1, cex.axis = 1,
-         main = "Maxiumum occupation frequency of RI/NRI features\n & sample coverage of normalized features with zero variance ")
+    plot(as.table(p[1,])*100, xlim = xlimit, #xlim = c(0,N),
+         xaxt = "n", col = c(1),
+         ylim = c(0,100), xlab = "feature index",
+         ylab = "frequency [%]",cex.main = .85,
+         cex.lab = cex.lab, cex.axis = 1,cex.main =cex.main,
+         main = "Maximum occupation frequency of RI/NRI features\n & sample coverage of normalized features with zero variance ")
 
     lines(not_nas*100,xlim = c(0,N),ylim = c(0,100), lty=2, col = c(2))
 
     xticklabels <- c(names(not_nas),colnames(p))
     axis(1,at = as.integer(xticklabels), labels = FALSE, cex.axis = .8)
-    text(as.integer(xticklabels), par("usr")[3] - 5, labels = xticklabels, cex=0.75, srt = 90, pos = 1, xpd = TRUE)
+    text(as.integer(xticklabels), par("usr")[3] - 5, labels = xticklabels,
+         cex=0.75, srt = 90, pos = 1, xpd = TRUE)
 
     abline(h = 0, v = NA, col = "gray70")
     abline(h = 100, v = NA, col = "gray70")
     abline(h = 50, v = NA, col = "gray70")#,lty = "dashed")
     abline(h = low_thr*100, v = NA, col = c(4),lty = "dashed")
     op <- par(cex = .8)
-    legend(x = "topright",legend=c("RI/NRI features","var=0 features","threshold"),col=c(1,2,4), lty=c(1:2,2), cex=0.8, bty = "n")
+    legend(x = "topleft",legend=c("RI/NRI features","var=0 features","threshold"),
+           col=c(1,2,4), lty=c(1:2,2), cex=0.8, bty = "n")
 
     fig_label("B.", cex=2)
 
@@ -282,6 +341,7 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
 
 }
 
+#####################################################################
 # helper function from
 # https://logfc.wordpress.com/2017/03/15/adding-figure-labels-a-b-c-in-the-top-left-corner-of-the-plotting-region/
 

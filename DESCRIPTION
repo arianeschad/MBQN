@@ -7,9 +7,8 @@ Depends: R (>= 3.3.3)
 License: MIT License + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.0
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
 Imports: preprocessCore (>= 1.36.0)
-

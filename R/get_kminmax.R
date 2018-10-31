@@ -1,15 +1,16 @@
 #' Get the k largest/smallest values and their indices for each
 #' column of a matrix
 #'
-#' @description Extract k largest/smallest values and their indices columnwise from a matrix.
+#' @description Extract the k largest/smallest values and their indices for each column of a matrix.
 #' @param X data matrix.
-#' @param k number of searched extreme values.
+#' @param k number of selected extreme values. Must be less then #rows of X.
 #' @param flag "min or "max"
-#' @details Subfunction used by \code{mbqn.check_saturation}. Search for
-#' k smallest (flag <- "min") or largest (flag <- "max") values in
-#' each column of an array or a matrix X. NA's in the data are ignored.
+#' @details Function used by \code{mbqn.check_saturation}. Sort values of
+#' each column of a matrix or an array X and determine the
+#' k smallest (flag <- "min") or largest (flag <- "max") values in. NA's in the
+#' data are ignored.
 #' @return \code{list} with indices \code{ik} of extreme values \code{minmax}.
-#' @keywords quantile normalization proteomics
+#' @keywords quantile normalization, proteomics
 #' @references Schad, A. and Kreuz, C. (2017) Mean-balanced
 #' quantile normalization for processing label-free quantitative
 #' proteomics data with abundance-isolated proteins. Biostatistics xxx in prep.
@@ -35,6 +36,6 @@ get_kminmax <- function(X,k,flag){
   ik <- ik[1:k,]
   minmax <- minmax[1:k,]
 
-  ## return results
+  ## return results --
   return(list(ik = ik, minmax = minmax))
 }

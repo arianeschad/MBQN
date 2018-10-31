@@ -2,7 +2,7 @@
 % Please edit documentation in R/mbqn.demo.R
 \name{mbqn.demo}
 \alias{mbqn.demo}
-\title{Demo of mean/median-balanced quantile normalization}
+\title{Demonstration of mean/median-balanced quantile normalization}
 \usage{
 mbqn.demo(dat = NULL)
 }
@@ -37,7 +37,7 @@ data with abundance-isolated proteins. Biostatistics xxx in prep.
 }
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}
-2017
+Aug. 2017
 }
 \keyword{normalization}
 \keyword{proteomics}
