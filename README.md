@@ -6,8 +6,6 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-
 # mbqn
 Mean/Median-balanced quantile normalization for processing omics data
 
