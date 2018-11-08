@@ -2,8 +2,8 @@
 #'
 #' @param x A matrix where rows represent features, e.g. protein abundances/intensities and
 #' columns are samples from replicates or conditions.
-#' @param FUN A function like mean, median, or a user defined function or an array with
-#' \code{dim(user_array) = nrow(x)}. Default NULL - features are not balanced.
+#' @param FUN A function like mean, median, or a user defined function, or an array with
+#' \code{dim(user_array) = nrow(x)}. Functions can be parsed also as characters. Default NULL - features are not balanced, i.e. QN is used.
 #' @param method Function to compute quantile normalization; default NULL - use function from the preprocessCore package ; if "limma" - the function from the Limma package is used.
 #' @export
 #' @details Normalize a data matrix based on a mean-balanced quantile normalization.
@@ -22,9 +22,10 @@
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)
 #' mbqn(X)
 #'
-#' ## Compute median and mean balanced quantile normalization
+#' ## Compute mean balanced quantile normalization
+#' mbqn(X, mean) # Use arithmetic mean to center features
 #' mbqn(X, median) # Use median to center features
-#' mbqn(X, mean) # Use mean to center features
+#' mbqn(X, "median") # Use median to center features
 #'
 #' ## Use user defined array of weighted averages for centering
 #' wt <- c(1,3,1)/5 # Weights for each sample
@@ -49,8 +50,6 @@ mbqn <- function(x, FUN = NULL, na.rm = TRUE, method = NULL){
            call. = FALSE)
     }
 
-  if(is.character(FUN)) FUN <- match.fun(FUN)
-
   if (!is.matrix(x)) {
     stop("Wrong data format! Input x must be a matrix!")
   }
@@ -61,9 +60,10 @@ mbqn <- function(x, FUN = NULL, na.rm = TRUE, method = NULL){
     x[is.nan(x)] <- NA
 
   if(!is.null(FUN)){
+    if(is.character(FUN)) FUN <- match.fun(FUN)
     if(is.function(FUN)){
       mx <- apply(x,1,FUN,na.rm=na.rm) # row mean
-    } else if(is.array(FUN)){
+    }else if(is.array(FUN)){
       mx <- FUN
     }
     # balanced quantile normalisation
