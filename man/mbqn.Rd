@@ -8,10 +8,10 @@ mbqn(x, FUN = NULL, na.rm = TRUE, method = NULL)
 }
 \arguments{
 \item{x}{A matrix where rows represent features, e.g. protein abundances/intensities and
-columns are replicates or probes.}
+columns are samples from replicates or conditions.}
 
-\item{FUN}{A function like mean, median, or a user defined function or an array with
-\code{dim(user_array) = nrow(x)}. Default NULL - features are not balanced.}
+\item{FUN}{A function like mean, median, or a user defined function, or an array with
+\code{dim(user_array) = nrow(x)}. Functions can be parsed also as characters. Default NULL - features are not balanced, i.e. QN is used.}
 
 \item{method}{Function to compute quantile normalization; default NULL - use function from the preprocessCore package ; if "limma" - the function from the Limma package is used.}
 }
@@ -20,7 +20,7 @@ Mean-/Median-balanced quantile normalized \code{matrix}.
 }
 \description{
 Modified quantile-normalization of a matrix, representing for example
-omics or microarray data. Suppresses systematic flattening of feature variation across columns
+omics or other data sorted in a matrix. Prevents systematic flattening of feature variation across columns
 for features overrepresented in the tails of the intensity distribution
 across columns, i.e. rank invariant (RI) or nearly rank invariant (NRI) features.
 }
@@ -29,14 +29,25 @@ Normalize a data matrix based on a mean-balanced quantile normalization.
 Each row of the data matrix is balanced by FUN, e.g. the median, before normalization.
 After normalization, row means are added to the normalized matrix.
 This function uses \code{preprocessCore::normalize.quantiles()} by Bolstad et al, Bioinformatics (2003),
-available from http://bitools::package_dependencies(pkgs, db, which = 'all', reverse = TRUE)oconductor.org/biocLite.R.
+available from http://bitools::package_dependencies(pkgs, db, which = 'all', reverse = TRUE)bioconductor.org/biocLite.R.
 }
 \examples{
-mbqn(x, median)
-mbqn(x, mean)
-mbqn(x, user_function)
-mbqn(x, user_array)
-mbqn(x, median, method = "limma") # if Limma R package is installed and preferred
+## Compute quantile normalization using preprocessCore
+X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)
+mbqn(X)
+
+## Compute mean balanced quantile normalization
+mbqn(X, mean) # Use arithmetic mean to center features
+mbqn(X, median) # Use median to center features
+mbqn(X, "median") # Use median to center features
+
+## Use user defined array of weighted averages for centering
+wt <- c(1,3,1)/5 # Weights for each sample
+user_array <- apply(X,1,weighted.mean, wt ,na.rm =T)
+mbqn(X, user_array)
+
+## Use limma package to compute quantile normalization
+mbqn(X, median, method = "limma")
 }
 \references{
 Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018

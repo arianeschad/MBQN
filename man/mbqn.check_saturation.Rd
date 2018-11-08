@@ -2,10 +2,11 @@
 % Please edit documentation in R/mbqn.check_saturation.R
 \name{mbqn.check_saturation}
 \alias{mbqn.check_saturation}
-\title{Check data matrix for rank invariant (ri) /nearly rank invariant (nri) features}
+\title{Check data matrix for rank invariant (RI) and nearly rank invariant (NRI) features}
 \usage{
-mbqn.check_saturation(dat, FUN = NULL, flag_show_fig = TRUE,
-  low_thr = 0.2, filename = NULL, feature_index = NULL, method = NULL)
+mbqn.check_saturation(dat, FUN = NULL, low_thr = 0.2,
+  feature_index = NULL, method = NULL, show_fig = TRUE,
+  save.fig = T, filename = NULL)
 }
 \arguments{
 \item{dat}{A data matrix. Rows - features, e.g. protein abundances; columns - samples}
@@ -13,15 +14,17 @@ mbqn.check_saturation(dat, FUN = NULL, flag_show_fig = TRUE,
 \item{FUN}{median or mean, if left empty, quantile normalization
 is applied without balancing the data}
 
-\item{flag_show_fig}{flag to specify whether results are plotted to figure, default = TRUE}
-
 \item{low_thr}{lower threshold for NRI frequency, default = 0.2}
-
-\item{filename}{string for naming figures, default = NULL}
 
 \item{feature_index}{index of a feature of interest that is plotted in the boxplot; default NULL}
 
 \item{method}{Package used to compute quantile normalization; default NULL - use the preprocessCore package ; "limma" uses the Limma package}
+
+\item{show_fig}{flag to specify whether results are plotted to figure, default = TRUE}
+
+\item{save.fig}{Save figures to file}
+
+\item{filename}{string for naming figures, default = NULL}
 }
 \value{
 A matrix of median- or mean-balanced quantile normalized data

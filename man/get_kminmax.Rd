@@ -27,6 +27,7 @@ k smallest (flag <- "min") or largest (flag <- "max") values in. NA's in the
 data are ignored.
 }
 \examples{
+X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)
 get_kminmax(X, k = 5, "max")
 }
 \references{

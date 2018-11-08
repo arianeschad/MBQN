@@ -2,17 +2,17 @@
 % Please edit documentation in R/mbqn.boxplot.R
 \name{mbqn.boxplot}
 \alias{mbqn.boxplot}
-\title{Boxplot of data matrix where selected row intensities are highlighted}
+\title{Boxplot of data matrix with selected rows highlighted}
 \usage{
-mbqn.boxplot(mtx, irow = NULL, vals = NULL, xlab = NULL, ylab = NULL,
-  main = NULL, filename = NULL, type = "l")
+mbqn.boxplot(mtx, irow = NULL, vals = NULL, xlab = NULL,
+  ylab = NULL, main = NULL, filename = NULL, type = "l")
 }
 \arguments{
 \item{mtx}{A data matrix. Rows represent features, e.g. protein abundances; columns represent groups, samples, e.g., experimental conditions, replicates.}
 
 \item{irow}{row index or array of row indices for highlighting}
 
-\item{vals}{numeric array of length \code{dim(x)[2]} to plot on top of boxplot}
+\item{vals}{numeric array of length \code{dim(x)[2]} that is  plot on top of boxplot}
 
 \item{xlab}{xaxis-label}
 
@@ -20,7 +20,7 @@ mbqn.boxplot(mtx, irow = NULL, vals = NULL, xlab = NULL, ylab = NULL,
 
 \item{main}{figure title}
 
-\item{filename}{save plot to file with filename}
+\item{filename}{save plot to file with filename in working directory}
 
 \item{type}{line style for plot of row intensities}
 }
@@ -28,16 +28,19 @@ mbqn.boxplot(mtx, irow = NULL, vals = NULL, xlab = NULL, ylab = NULL,
 Figure
 }
 \description{
-Boxplot of a data matrix dominate and highlight selected row indices.
+Create a boxplot of data matrix and highlight selected features. Plot additional user-defined data on top of it.
 }
 \details{
-Create boxplot of data and highlight values of selected rows with lines or points
-across samples
+Create a boxplot of a data matrix and highlight values of selected rows with lines or points
+across samples. Plot additional user-defined lines on top of the boxplot.
 }
 \examples{
-qn.dat <- mbqn(x=dat,FUN = NULL ,na.rm = TRUE)
-mbqn.dat <- mbqn(x=dat,FUN = median ,na.rm = TRUE)
-mbqn.boxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], filename = "fig_boxplot_qn.data.pdf")
+## Creat boxplot of quantile normalized data matrix, plot feature from median balanced quantile normalization on top of it.
+X <- matrix(rexp(20000, rate=.1), ncol=10)
+X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3) # Create data matrix
+qn.dat <- mbqn(x=X,FUN = NULL ,na.rm = TRUE) # Quantile normalization
+mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile normalization
+mbqn.boxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b",filename = "fig_boxplot_qn.data.pdf") # Create boxplot and save output to file
 }
 \references{
 Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
@@ -45,6 +48,6 @@ Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalizatio
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}
 }
-\keyword{normalization}
+\keyword{normalization,}
 \keyword{proteomics}
 \keyword{quantile}
