@@ -1,58 +1,45 @@
 ---
-title: "Vignette Title"
+title: "MBQN Package"
 author: "A. Schad"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{MBQN Package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
-
-## Vignette Info
-
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+## GitHub Documents
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+This packages contains a modified quantile normalization function for omics data or other matrix like data. The normalization removes systematics batch effects between measurements. The modification is obtained by a mean correction step. This reduces systematics in downstream analysis of features that are always of largest intensity accross all samples. This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+### Installing The Package
 
-## More Examples
+To install this package from Github, you will need to Hadley Wickham's devtools package installed.
 
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+install.packages("devtools")
+library("devtools")
 
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
+To install MBQN run the following line:
 
-Also a quote using `>`:
+devtools::install_github("arianeschad/mbqn")
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+Additional packages needed to run MBQN and examples: 
+install.packages( pkgs = c("preprocessCore","limma","rpx"), dependencies = TRUE)
+
+After installation, check out the `?MBQN` help file to see a full working example with further documentation.
+
+## Basic Useage
+
+The package provides the basic function `mbqn()` which does the normalization. To run this function, you will need to provide a matrix as input similar to data matrix in `example1`.
+
+## Example
+
+This example code will download data from the PRIDE repository, normalize the data, identifies RI/NRI features and give graphical output. 
+
+example1(2)
