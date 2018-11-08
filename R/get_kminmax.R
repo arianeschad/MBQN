@@ -13,6 +13,7 @@
 #' @keywords quantile normalization, proteomics
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
 #' @examples
+#' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)
 #' get_kminmax(X, k = 5, "max")
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
 #  Aug. 2017
