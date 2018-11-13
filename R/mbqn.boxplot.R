@@ -2,7 +2,7 @@
 #'
 #' @param mtx A data matrix. Rows represent features, e.g. protein abundances; columns represent groups, samples, e.g., experimental conditions, replicates.
 #' @param irow row index or array of row indices for highlighting
-#' @param vals numeric array of length \code{dim(x)[2]} that is  plot on top of boxplot
+#' @param vals numeric array of length \code{dim(x)[2]} that is plot on top of boxplot
 #' @param xlab xaxis-label
 #' @param ylab yaxis-label
 #' @param main figure title

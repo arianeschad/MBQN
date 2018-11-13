@@ -12,7 +12,7 @@ mbqn.boxplot(mtx, irow = NULL, vals = NULL, xlab = NULL,
 
 \item{irow}{row index or array of row indices for highlighting}
 
-\item{vals}{numeric array of length \code{dim(x)[2]} that is  plot on top of boxplot}
+\item{vals}{numeric array of length \code{dim(x)[2]} that is plot on top of boxplot}
 
 \item{xlab}{xaxis-label}
 
