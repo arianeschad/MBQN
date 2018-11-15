@@ -1,0 +1,9 @@
+get_kminmax             Get the k largest/smallest values and their
+                        indices for each column of a matrix
+mbqn                    Mean-balanced quantile normalization
+mbqn.boxplot            Boxplot of data matrix with selected rows
+                        highlighted
+mbqn.check_saturation   Check data matrix for rank invariant (RI) and
+                        nearly rank invariant (NRI) features
+mbqn.example1           Example illustrating the analysis of PRIDE data
+                        with the MBQN package
