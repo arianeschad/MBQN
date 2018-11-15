@@ -1,4 +1,46 @@
-# Examples: Analyse selected PRIDE data used in the Bioinformatics Applications Note
+#' Example illustrating the analysis of PRIDE data with the MBQN package
+#'
+#' @description This function runs an example to illustrate the check of LFQ intensities
+#' of proteins for rank invariant (RI) and nearly rank invariant (NRI) features
+#' and the normalization of the data. It downloads a selected dataset from PRIDE
+#' or it uses the dataset in filepath. The example needs the R package "rpx" to
+#' download data from PRIDE.
+#' @param which.example Numerical values between 1-4, default = 1,
+#' to select between 4 dataset.
+#' @param filepath Character with path where to store and search for proteinGroups.txt
+#' file; default = NULL uses "installationpath/MBQN/examples".
+#' @inheritParams mbqn
+#' @importFrom grDevices dev.copy2pdf dev.off dev.size pdf
+#' @details Collecting information on the experiments requires the package rpx by Laurent Gatto (2017),
+# #' rpx: R Interface to the ProteomeXchange Repository.
+# #' R package version
+#' version 1.10.2 from https://github.com/lgatto/rpx.\cr
+#' The function used to read the proteinGroups.txt files uses source code
+#' of SafeQuant::parseMaxQuantProteinGroupTxt, \cr
+# #' See "SafeQuant" by Erik Ahrne (2016). SafeQuant: A Toolbox for the Analysis of Proteomics Data. R package version 2.3.1.
+#' version 2.3.1, https://CRAN.R-project.org/package=SafeQuant.\cr\cr
+#' Experiments on PRIDE that are supported by this Example:\cr
+#' 1 PXD001584 - contains a RI (default)\cr
+#' 2 PXD005138 - contains a RI feature\cr
+#' 3 PXD005861 - contains RI feature\cr
+#' 4 PXD006617 - contains RI feature\cr\cr
+#' See the Reference for further details on these examples.
+# These examples are used in Bioinformatics Applications Note
+# MBQN: R package for mean balanced quantile-normalization, Bioinformatics, 2018.
+# @return A matrix of median- or mean-balanced quantile normalized data
+#' @concept quantile, quantile normalization, rank invariance
+#' @family mbqn
+# #' @include mbqn
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note, 2018
+#'@examples ## Check LFQ intensities of proteomics data PXD001584 downloaded
+#'from PRIDE for RI and NRI features
+#'\dontrun{
+#' example1(which.example = 1)
+#'}
+#' @author A. Schad, \email{ariane.schad@zbsa.de}
+#' 2017
+#' @export mbqn.example1
+# Example: Analyse selected PRIDE data used in the Bioinformatics Applications Note
 # "MBQN: R package for mean balanced quantile-normalization, Bioinformatics, 2018"
 # This script depends on R packege "rpx" and "SafeQuant"
 #
@@ -11,31 +53,24 @@
 # of SafeQuant::parseMaxQuantProteinGroupTxt
 # See "SafeQuant" by Erik Ahrne (2016). SafeQuant: A Toolbox for the Analysis of Proteomics Data. R package version 2.3.1.
 # https://CRAN.R-project.org/package=SafeQuant
-
 # Usage:
 # > source("examples/example1.R")
 # > example1(which.example = 1)
-
 # Arguments:
 # which.example - select an example between 1-4, default = 1
 # filepath - path where file is stored and found, default = NULL specifies "installationpath/MBQN/examples"
-
 # PXD experiments selected as examples
 # 1. PXD001584 - contains a RI
 # file = '/Users/schad/zbsa/2017_RobustQuantilenorm/PublicData/pride/proteinGroups/ftp.pride.ebi.ac.uk/2015/01/PXD001584/MaxQuantOutput/proteinGroups.txt'
 # 2. PXD005138 - contains a RI feature
 # 3. PXD005861 - contains RI feature (default)
 # 4. PXD006617 - contains RI feature
-
 #file = '~/examples/PXD001584/proteinGroups.txt'
 #file = '~/examples/PXD005138/proteinGroups.txt'
 #file = '~/examples/PXD005861/proteinGroups.txt'
 #file = '~/examples/PXD006617/proteinGroups.txt'
-
-
 # A. Schad, April 2018
-
-example1 <- function(which.example = 1, source.path = NULL){
+mbqn.example1 <- function(which.example = 1, source.path = NULL){
   if(is.null(which.example)) stop("Error: Select an example between 1-4")
 
   ###################################################################################
@@ -74,7 +109,7 @@ example1 <- function(which.example = 1, source.path = NULL){
   pxdid <- str[pmatch("PXD",str)]
 
   # Read file
-  dat <- read.csv(file, allowEscapes = T, check.names = F,sep = "\t")
+  dat <- read.csv(file, allowEscapes = TRUE, check.names = FALSE,sep = "\t")
 
   ###################################################################################
   # Select all columns with LFQ intensities
@@ -98,7 +133,7 @@ example1 <- function(which.example = 1, source.path = NULL){
                                    #idScore = dat[, "Q-value"],
                                    isDecoy = dat[, "Reverse"] == "+",
                                    nbPeptides = dat[, "Peptides"],
-                                   isNormAnchor = rep(T, nrow(mtx)),
+                                   isNormAnchor = rep(TRUE, nrow(mtx)),
                                    isFiltered = dat[, "Reverse"] == "+",
                                    row.names = dat[, "Protein IDs"])
   ##isPotential.contaminant = dat[,"Potential contaminant"]=="+",
@@ -121,9 +156,9 @@ example1 <- function(which.example = 1, source.path = NULL){
                                   show_fig = TRUE,
                                   low_thr = 0.5,
                                   filename = "",
-                                  feature_index = NULL, save.fig = F)
+                                  feature_index = NULL, save.fig = FALSE)
 
-  mb <- MBQN::mbqn(as.matrix(mtx[,ix]),FUN = median, na.rm = T)
+  mb <- MBQN::mbqn(as.matrix(mtx[,ix]),FUN = median, na.rm = TRUE)
 
 
   # get protein name of strongest nri/ri feature
@@ -183,9 +218,9 @@ example1 <- function(which.example = 1, source.path = NULL){
 
   # standard deviation
   breaks = seq(0,2,0.01)
-  hist(apply(mbqn.mtx,1,sd, na.rm =T),main = "Histogram of feature variation",
+  hist(apply(mbqn.mtx,1,sd, na.rm = TRUE),main = "Histogram of feature variation",
        xlab = "std",breaks= breaks,col = 3,add = F)
-  hist(apply(qn.mtx,1,sd, na.rm =T),breaks= breaks,col = 4,add = T)
-  legend(x = 1.5, y = 50, legend = c("MBQN","QN"),fill = c(3,4), bty = "n",border = F)
+  hist(apply(qn.mtx,1,sd, na.rm = TRUE),breaks = breaks,col = 4,add = TRUE)
+  legend(x = 1.5, y = 50, legend = c("MBQN","QN"),fill = c(3,4), bty = "n",border = FALSE)
 
 }
