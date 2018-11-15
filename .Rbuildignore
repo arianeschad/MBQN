@@ -1,8 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^.*\.pdf$
-^vignettes/$
-^figures/$
 ^examples/example2\.R$
 ^examples/example3\.R$
 ^examples/example4\.R$
@@ -10,3 +8,9 @@
 ^R/mbqn\.boxplot_dev\.R$
 ^R/mbqn\.simu_data\.R$
 ^R/mbqn\.demo\.R$
+^.*\.zip$
+^\.git/$
+^\figures/$
+^temp/$
+^README\.Rmd$
+^README-.*\.png$
