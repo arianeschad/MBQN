@@ -1,37 +1,43 @@
 #' Check data matrix for rank invariant (RI) and nearly rank invariant (NRI) features
 #'
 #' @param dat A data matrix. Rows - features, e.g. protein abundances; columns - samples
-#' @param FUN median or mean, if left empty, quantile normalization
+#' @param FUN median, mean, or another function used to balance features across colums. If left empty, quantile normalization
 #' is applied without balancing the data
 # #' @param qlow lower quantile
 # #' @param qup upper quantile, default 1
-#' @param show_fig flag to specify whether results are plotted to figure, default = TRUE
-#' @param low_thr lower threshold for NRI frequency, default = 0.2
-#' @param filename string for naming figures, default = NULL
-#' @param feature_index index of a feature of interest that is plotted in the boxplot; default NULL
-#' @param method Package used to compute quantile normalization; default NULL - use the preprocessCore package ; "limma" uses the Limma package
-#' @param save.fig Save figures to file
+#' @param show_fig Logical to specify whether results are plotted to figure, default = TRUE
+#' @param low_thr Numerical value for the lower threshold for NRI frequency, default = 0.2
+#' @param filename String for naming figures, default = NULL
+#' @param feature_index Integer that indicates the index of a feature of interest that is plotted in the boxplot; default NULL
+#' @param method Packagename containing function used to compute quantile normalization; default NULL - use the preprocessCore package ; "limma" uses the Limma package
+#' @param save_fig Logical to save figures to file
+#' @param verbose Logical for running function quiet
 #' @inheritParams mbqn
+#' @importFrom grDevices dev.copy2pdf dev.off dev.size pdf
 #' @details Rank data and check if lower and upper intensity tails are
 #' dominated by few feature. Compute a quantile
 #' normalization without and with mean-balancing and check standard
 #' deviation of normalized data entries located in the tails
 #' @return A matrix of median- or mean-balanced quantile normalized data
-#' @keywords quantile normalization, proteomics
+# #' @keywords quantile normalization, proteomics
+#' @concept quantile , quantile normalization, rank invariance
+#' @family mbqn
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
-#' @examples mbqn.check_saturation(dat, mean)
+#' @examples ## Check data matrix for RI and NRI features
+#' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
+#' mbqn.check_saturation(X, mean, low_thr = 0.5, save_fig = FALSE)
 #' @description Test if few rows of the data matrix dominate the upper tail. This script uses normalize.quantiles() from the
 #' package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
 #' 2017
-#' @export
+#' @export mbqn.check_saturation
 mbqn.check_saturation <- function(dat, FUN = NULL,
                                   low_thr = 0.2,
                                   feature_index = NULL,
                                   method = NULL,
                                   show_fig = TRUE,
-                                  save.fig = T,
-                                  filename = NULL){
+                                  save_fig = TRUE,
+                                  filename = NULL,verbose = TRUE){
 
   # if FUN is not specified, use median!
   if(is.null(FUN)) FUN <- median
@@ -47,7 +53,7 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
   cex.axis <- 1.
 
   # quantile normalisation and its standard deviation
-  qn.dat <- MBQN:::mbqn(x = dat,FUN = NULL)
+  qn.dat <- MBQN::mbqn(x = dat,FUN = NULL, verbose = verbose)
   s.qn <- apply(qn.dat, 1, sd, na.rm=TRUE)
 
   # quantile normalisation and its standard deviation computed with the limma function
@@ -55,7 +61,7 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
   # to that of preprocessCore::normalize.quantiles!
 
   # mean balanced quantile normalisation, optionally with limma qn function
-  mbqn.dat <- MBQN:::mbqn(dat,FUN = FUN, na.rm = TRUE, method = method)
+  mbqn.dat <- MBQN::mbqn(dat,FUN = FUN, na.rm = TRUE, method = method, verbose = verbose)
 
   ##############################################################################
   ## Rank frequencies for each feature after QN (top-down)
@@ -67,7 +73,7 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
     1:N,
     function(i)
     {
-      table(which(out$ik==i,arr.ind =T)[,1]*(!is.na(dat[i,])),useNA = 'ifany')
+      table(which(out$ik==i,arr.ind =TRUE)[,1]*(!is.na(dat[i,])),useNA = 'ifany')
     }
   )
 
@@ -80,7 +86,7 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
     {
       # ignore NAs!
       ki <- which(as.numeric(names(pi[[i]]))!=0)
-      bla <- pi[[i]][which(pi[[i]]==max(pi[[i]][ki], na.rm =T))]
+      bla <- pi[[i]][which(pi[[i]]==max(pi[[i]][ki], na.rm =TRUE))]
     }
   )
 
@@ -91,17 +97,17 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
   names(p) <- as.character(which(max_pi_vals>=low_thr))
   p <- as.table(p)
 
-  if(length(p)>1){
-    warning('There might be multiple RI/NRI features!')
-  }
 
+  if(length(p)>1){
+    if(verbose) message('Caution: There might be multiple RI/NRI features!')
+  }
 
   max_p <- max(p)*100
   ip <- as.integer(names(which(p*100==max_p)))
 
   freq_ismissing = sum(is.na(qn.dat[ip,]))/dim(qn.dat)[2] # cnt how often protein is missing
 
-  print(paste('Maximum frequency of RI/NRI feature(s): ',max_p,"%"))
+  if(verbose) print(paste('Maximum frequency of RI/NRI feature(s): ',max_p,"%"))
 
   #########################################################################################
   # which features have zero variation after QN
@@ -163,9 +169,9 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
     legend(x = "topleft",inset=c(0,0.01),xpd = T, legend=c("RI/NRI features","coverage of RI features","threshold"),
            col=c(1,2,4), lty=c(1,1,2), cex=cex.legend ,bty = "n")
 
-    if(save.fig){
+    if(save_fig){
       dev.copy2pdf(file=file.path(current.dir,fig1.name),width=8,height=4,out.type = "pdf")
-      print(paste("Save figure to ",fig1.name))
+      if(verbose) print(paste("Save figure to ",fig1.name))
     }
     ###########################################################################################
     # boxplot of quantile normalized data and maximum RI/NRI feature after qn and mbqn
@@ -202,9 +208,9 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
     legend(x = "bottomright",legend=(c("QN feature","MBQN feature")),
            col=c(4,2), lty=1, cex=cex.legend ,bty = "n") #fill = c(4,2),bty= "n",cex=1,ncol=1)
 
-    if(save.fig){
+    if(save_fig){
       dev.copy2pdf(file=file.path(current.dir,fig2.name),width=8,height=4,out.type = "pdf")
-      print(paste("Save figure to ",fig2.name))
+      if(verbose) print(paste("Save figure to ",fig2.name))
     }
     ###########################################################################################
 
@@ -223,7 +229,7 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
     up <- ceiling(max(range(mbqn.dat,na.rm = TRUE)))
 
     if(length(ip)>1){
-      boxplot(mbqn.dat,col=(c("gold")),notch=F, xlab = "sample",
+      boxplot(mbqn.dat,col=(c("gold")),notch=FALSE, xlab = "sample",
               ylab = "normalized intensity",
               main = "MBQN data and maximum RI/NRI feature",
               cex.main = cex.main,outcex=0.2, xaxt = "n")
@@ -241,7 +247,7 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
            cex.lab = cex.lab,
            lwd  =1.5)
       axis(1, at = c(1:M), labels = c(1:M), cex.axis = 1)
-      boxplot(mbqn.dat,col=(c("gold")),add = TRUE,notch=F,
+      boxplot(mbqn.dat,col=(c("gold")),add = TRUE,notch=FALSE,
               main = "Median-balanced quantile normalized data\n & maximum RI/NRI features",
               cex.main = cex.main, outcex=0.3,xaxt = "n")
        lines(mbqn.dat[ip,],col=c(2),ylim = c(low,up), type="b", lwd=1.5)
@@ -251,9 +257,9 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
     legend(x = "bottomright",legend=(c("qn feature","mbqn feature")),
            col=c(4,2), lty=1, lwd = 1.5, cex=cex.legend, bty = "n") #fill = c(4,2),bty= "n",cex=1,ncol=1)
 
-    if(save.fig){
+    if(save_fig){
       dev.copy2pdf(file=file.path(current.dir,fig4.name),width=8,height=4,out.type = "pdf")
-      print(paste("Save figure to ",fig4.name))
+      if(verbose) print(paste("Save figure to ",fig4.name))
     }
     ###########################################################################################
 
@@ -274,7 +280,7 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
     if(!is.null(feature_index)) ip <- unique(c(ip,feature_index))
 
     if(length(ip)>1){
-      boxplot(qn.dat,col=(c("gold")),notch=F, ylim = c(low,up),
+      boxplot(qn.dat,col=(c("gold")),notch=FALSE, ylim = c(low,up),
               xlab = "sample",
               ylab = "normalized data",
               main = "Quantile normalized data and maximum RI/NRI feature",
@@ -286,7 +292,7 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
       plot(qn.dat[ip,],col=c(4), type="b", ylim = c(low,up),xlab = "sample",
            ylab = "normalized data", xaxt = "n")
       axis(1, at = c(1:M), labels = c(1:M), cex.axis = .9)
-      boxplot(qn.dat,col=(c("gold")),add = TRUE,notch=F,
+      boxplot(qn.dat,col=(c("gold")),add = TRUE,notch=FALSE,
               xlab = "sample", main = "Quantile normalized data and \n &maximum RI/NRI feature",
               cex.main = cex.main, outcex=0.4,xaxt = "n")
       lines(mbqn.dat[ip,],col=c(2),ylim = c(low,up), type="b", lwd=1.5, xaxt = "n")
@@ -324,9 +330,9 @@ mbqn.check_saturation <- function(dat, FUN = NULL,
 
     fig_label("B.", cex=2)
 
-    if(save.fig){
+    if(save_fig){
       dev.copy2pdf(file=file.path(current.dir,fig3.name),width=8,height=7,out.type = "pdf")
-      print(paste("Save figure to ",fig3.name))
+      if(verbose) print(paste("Save figure to ",fig3.name))
     }
 
   }
