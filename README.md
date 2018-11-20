@@ -6,9 +6,18 @@ This package provides a modified quantile normalization function for omics data 
 
 ## Installing the Package
 
-To install this package from Github, you need R version >= 3.3.3 and the package devtools or githubinstall.
+To install this package from Github, you need R version >= 3.3.3.
 
-In R use the following line:<br/>
+Installation from package binary: <br/>
+`install.packages("https://github.com/arianeschad/mbqn/MBQN_0.0.0.9000.tgz", repos = NULL, type = "source")`
+
+Installation from package source: <br/>
+`install.packages(https://github.com/arianeschad/mbqn/MBQN_0.0.0.9000.tar.gz",repos = NULL,type = "source")`
+
+Installation from source via githubinstall: <br/>
+You need the package devtools or githubinstall.<br/>
+
+In R use the following commands:<br/>
 `install.packages("devtools")`<br/>
 `devtools::install_github("arianeschad/mbqn")`
 
@@ -41,9 +50,10 @@ The package provides two basic functions: `mbqn()` applies quantile normalizatio
 `mbqn.boxplot(mtx.norm, irow = 1)`<br/>
 `mbqn.check_saturation(mtx,FUN = median,low_thr = 0.1, filename = "simple_mtx",feature_index = 1)`
 
-2. This example will download data with LFQ intensities from the PRIDE repository, normalize the data, identifies RI/NRI features, and give graphical output. The example is found in the folder /installationpath/mbqn/examples/.
+2. This example will download data with LFQ intensities from the PRIDE repository, normalize the data, identifies RI/NRI features, and give graphical output. The example is in the folder /installationpath/mbqn/examples/.
 
-`example1(which.example = 3)`
+`source("examples/example1.R")`<br/>
+`example1(which.example = 2)`
 
 To run `example1()` for data from the PRIDE archive, the respective proteinGroups.txt file must be downloaded from the PRIDE webpage to the folder /installationpath/mbqn/examples/PXDxxxx/ in advance or directly by running the code included in `exmple1()` which uses the R package rpc. One can choose between four selected data sets. 
 
