@@ -16,30 +16,58 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## GitHub Documents
 
-This packages contains a modified quantile normalization function for omics data or other matrix like data. The normalization removes systematics batch effects between measurements. The modification is obtained by a mean correction step. This reduces systematics in downstream analysis of features that are always of largest intensity accross all samples. This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
+This package supplies a modified quantile normalization for preprocessing omics or other matrix-like organized data with intensity values biased by shifts of mean and scatter. The modification balances the mean intensity before quantile normalization. This reduces systematics in downstream analysis for intensity features that are always or mostly of largest intensity across samples/columns, i.e. which are rank invariant (RI) or nearly rank invariant (NRI). The main function of this package depends on normalize.quantiles() from the package preprocessCore, which can be installed from http://bioconductor.org/biocLite.R
 
 ### Installing The Package
 
-To install this package from Github, you will need to Hadley Wickham's devtools package installed.
+To install this package from Github, you need R version >= 3.3.3.
 
-install.packages("devtools")
-library("devtools")
+Installation from package binary: <br/>
+`install.packages("https://github.com/arianeschad/mbqn/MBQN_0.0.0.9000.tgz", repos = NULL, type = "source")`
 
-To install MBQN run the following line:
+Installation from package source: <br/>
+`install.packages(https://github.com/arianeschad/mbqn/MBQN_0.0.0.9000.tar.gz",repos = NULL,type = "source")`
 
+Installation from source via githubinstall: <br/>
+You need the package devtools or githubinstall.<br/>
+
+In R use the following commands:<br/>
+`install.packages("devtools")`<br/>
+`devtools::install_github("arianeschad/mbqn")`
 devtools::install_github("arianeschad/mbqn")
+
+or:
+
+`install.packages("githubinstall")`<br/>
+`githubinstall::githubinstall("mbqn")`
 
 Additional packages needed to run MBQN and examples: 
 install.packages( pkgs = c("preprocessCore","limma","rpx"), dependencies = TRUE)
 
-After installation, check out the `?MBQN` help file to see a full working example with further documentation.
+After installation, check the `?MBQN/example1` help file to see a full working example with further documentation.
 
 ## Basic Useage
 
 The package provides the basic function `mbqn()` which does the normalization. To run this function, you will need to provide a matrix as input similar to data matrix in `example1`.
 
+## Basic Useage
+
+The package provides two basic functions: `mbqn()` applies quantile normalization or mean-balanced quantile normalization to a matrix. The matrix may contain NAs. The argument `FUN` is used to select between classical quantile normalization (default), and mean or median balanced quantile normalization. The function `mbqn.check_saturation()` can be used to check a data matrix for rank or nearly rank invariant features. It provides a list of potential RI/NRI features, a rank invariance frequency, and a graphical output. 
+
 ## Example
+1. Generate a simple matrix, apply median-balanced quantile normalization, generate a boxplot of normalized features and check for rank invariant (RI) or nearly rank invariant (NRI) features:
 
-This example code will download data from the PRIDE repository, normalize the data, identifies RI/NRI features and give graphical output. 
+`mtx <-  matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)`<br/>
+`mtx.norm <- mbqn(x = mtx, FUN = median)`<br/>
+`mbqn.boxplot(mtx.norm, irow = 1)`<br/>
+`mbqn.check_saturation(mtx,FUN = median,low_thr = 0.1, filename = "simple_mtx",feature_index = 1)`
 
-example1(2)
+2. This example will download data with LFQ intensities from the PRIDE repository, normalize the data, identifies RI/NRI features, and give graphical output. The example is in the folder /installationpath/mbqn/examples/.
+
+`source("examples/example1.R")`<br/>
+`example1(which.example = 2)`
+
+To run `example1()` for data from the PRIDE archive, the respective proteinGroups.txt file must be downloaded from the PRIDE webpage to the folder /installationpath/mbqn/examples/PXDxxxx/ in advance or directly by running the code included in `exmple1()` which uses the R package rpc. One can choose between four selected data sets. 
+
+## References
+A. Schad and C. Kreutz, MBQN: R package for mean balanced quantile normalization. In prep. for Bioinf. Appl. Note, 2018

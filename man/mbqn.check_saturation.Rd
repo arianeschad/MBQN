@@ -6,25 +6,27 @@
 \usage{
 mbqn.check_saturation(dat, FUN = NULL, low_thr = 0.2,
   feature_index = NULL, method = NULL, show_fig = TRUE,
-  save.fig = T, filename = NULL)
+  save_fig = TRUE, filename = NULL, verbose = TRUE)
 }
 \arguments{
 \item{dat}{A data matrix. Rows - features, e.g. protein abundances; columns - samples}
 
-\item{FUN}{median or mean, if left empty, quantile normalization
+\item{FUN}{median, mean, or another function used to balance features across colums. If left empty, quantile normalization
 is applied without balancing the data}
 
-\item{low_thr}{lower threshold for NRI frequency, default = 0.2}
+\item{low_thr}{Numerical value for the lower threshold for NRI frequency, default = 0.2}
 
-\item{feature_index}{index of a feature of interest that is plotted in the boxplot; default NULL}
+\item{feature_index}{Integer that indicates the index of a feature of interest that is plotted in the boxplot; default NULL}
 
-\item{method}{Package used to compute quantile normalization; default NULL - use the preprocessCore package ; "limma" uses the Limma package}
+\item{method}{Packagename containing function used to compute quantile normalization; default NULL - use the preprocessCore package ; "limma" uses the Limma package}
 
-\item{show_fig}{flag to specify whether results are plotted to figure, default = TRUE}
+\item{show_fig}{Logical to specify whether results are plotted to figure, default = TRUE}
 
-\item{save.fig}{Save figures to file}
+\item{save_fig}{Logical to save figures to file}
 
-\item{filename}{string for naming figures, default = NULL}
+\item{filename}{String for naming figures, default = NULL}
+
+\item{verbose}{Logical for running function quiet}
 }
 \value{
 A matrix of median- or mean-balanced quantile normalized data
@@ -40,15 +42,21 @@ normalization without and with mean-balancing and check standard
 deviation of normalized data entries located in the tails
 }
 \examples{
-mbqn.check_saturation(dat, mean)
+## Check data matrix for RI and NRI features
+X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
+mbqn.check_saturation(X, mean, low_thr = 0.5, save_fig = FALSE)
 }
 \references{
 Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
+}
+\seealso{
+Other mbqn: \code{\link{get_kminmax}},
+  \code{\link{mbqn.boxplot}}, \code{\link{mbqn.nri}},
+  \code{\link{mbqn}}
 }
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}
 2017
 }
-\keyword{normalization,}
-\keyword{proteomics}
-\keyword{quantile}
+\concept{mbqn}
+\concept{quantile , quantile normalization, rank invariance}
