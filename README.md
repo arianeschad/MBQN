@@ -14,8 +14,7 @@ Installation from package binary: <br/>
 Installation from package source: <br/>
 `install.packages(https://github.com/arianeschad/mbqn/MBQN_0.0.0.9000.tar.gz",repos = NULL,type = "source")`
 
-Installation from source via githubinstall: <br/>
-You need the package devtools or githubinstall.<br/>
+Installation from source via githubinstall: You need the package devtools or githubinstall.<br/>
 
 In R use the following commands:<br/>
 `install.packages("devtools")`<br/>
@@ -27,18 +26,18 @@ or:
 `githubinstall::githubinstall("mbqn")`
 
 ## Additional dependencies: 
-This function uses normalize.quantiles() from the package preprocessCore that can be installed from http://bioconductor.org/biocLite.R It is installed by<br/>
+This function uses normalize.quantiles() from the package preprocessCore, see https://github.com/bmbolstad/preprocessCore: <br/>
 `install.packages("preprocessCore")`
 
-Optionally, the limma package can be used for computation of the quantile normalization. It is installed by <br/>
+Optionally, the limma package can be used for computation of the quantile normalization:<br/>
 `install.packages("limma")`
 
 Collecting data from PRIDE experiments in `example1()` requires the rpx package
 `install.packages("rpx")`
-by Laurent Gatto (2017). rpx: R Interface to the ProteomeXchange Repository. R package version 1.10.2. https://github.com/lgatto/rpx
+by Laurent Gatto (2017). rpx: R Interface to the ProteomeXchange Repository. R package version 1.10.2., see https://github.com/lgatto/rpx.
 
 
-# Basic Useage
+# Basic Usage
 
 The package provides two basic functions: `mbqn()` applies quantile normalization or mean-balanced quantile normalization to a matrix. The matrix may contain NAs. The argument `FUN` is used to select between classical quantile normalization (default), and mean or median balanced quantile normalization. The function `mbqn.check_saturation()` can be used to check a data matrix for rank or nearly rank invariant features. It provides a list of potential RI/NRI features, a rank invariance frequency, and a graphical output. 
 
