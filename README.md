@@ -26,16 +26,14 @@ or:
 `githubinstall::githubinstall("mbqn")`
 
 ## Additional dependencies: 
-This function uses normalize.quantiles() from the package preprocessCore, see https://github.com/bmbolstad/preprocessCore: <br/>
+This function uses normalize.quantiles() from the package preprocessCore by B. Bolstad (2016),  preprocessCore: A collection of pre-processing functions. R package version 1.36.0. available from https://github.com/bmbolstad/preprocessCore: <br/>
 `install.packages("preprocessCore")`
 
-Optionally, the limma package can be used for computation of the quantile normalization:<br/>
+Optionally, the limma package can be used for computation of the quantile normalization: <br/>
 `install.packages("limma")`
 
-Collecting data from PRIDE experiments in `example1()` requires the rpx package
+Collecting data from PRIDE experiments in `example1()` requires the rpx package by L. Gatto (2017), rpx: R Interface to the ProteomeXchange Repository. R package version 1.10.2. available from https://github.com/lgatto/rpx: <br/>
 `install.packages("rpx")`
-by Laurent Gatto (2017). rpx: R Interface to the ProteomeXchange Repository. R package version 1.10.2., see https://github.com/lgatto/rpx.
-
 
 # Basic Usage
 
