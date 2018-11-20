@@ -35,14 +35,15 @@ mbqn.demo <- function(dat = NULL){
 
   # if no matrix is given, create a simple dummy matrix
   if(is.null(dat)){
-      dat <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)
+      dat <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
 
     print(dat)
-    #     [,1] [,2] [,3]
-    #[1,]    5    4    3
-    #[2,]    2    1    4
-    #[3,]    3    4    6
-    #[4,]    4    2    8
+    #      [,1] [,2] [,3]
+    # [1,]    5    1    6
+    # [2,]    2    4   NA
+    # [3,]    3    2    1
+    # [4,]   NA    3    3
+    # [5,]    4    4    1
   }
 
   # quantile normalisation
