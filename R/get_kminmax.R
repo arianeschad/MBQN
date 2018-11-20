@@ -10,14 +10,16 @@
 #' k smallest (flag <- "min") or largest (flag <- "max") values in. NA's in the
 #' data are ignored.
 #' @return \code{list} with indices \code{ik} of extreme values \code{minmax}.
-#' @keywords quantile normalization, proteomics
+# #' @keywords quantile normalization, proteomics
+#' @family mbqn
+#' @concept quantile, quantile normalization, rank invariance
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
 #' @examples
-#' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)
-#' get_kminmax(X, k = 5, "max")
+#' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create a data matrix
+#' get_kminmax(X, k = 5, "max") # get indices of the 5 largest values in each column
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
 #  Aug. 2017
-#' @export
+#' @export get_kminmax
 get_kminmax <- function(X,k,flag){
 
   if(flag == "min"){
