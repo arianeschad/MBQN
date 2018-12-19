@@ -1,8 +1,8 @@
-#' Boxplot of data matrix with lines
+#' Combined boxplot and line plot
 #'
-#' @param mtx data matrix where Rows represent features, e.g. protein abundance; columns represent groups, samples, e.g., replicates, experimental conditions.
+#' @param mtx data matrix where rows represent features, e.g. protein abundance; columns represent groups, samples, e.g., replicates, experimental conditions.
 #' @param irow integer for row index or array of row indices for highlighting
-#' @param vals numeric array of length \code{dim(mtx)[2]} that is plot on top of boxplot
+#' @param vals numeric array of length \code{dim(mtx)[2]} that is plot on top of the boxplot
 # #' @param xlab xaxis-label
 # #' @param ylab yaxis-label
 # #' @param main figure title
@@ -10,8 +10,8 @@
 #' @param type line style for plot of row intensities
 # @inheritParams mbqn
 #' @param ... basic plot options like: xlab, ylab, main, ylim, las
-#' @details Create a boxplot of a data matrix and highlight values of selected rows with lines or points
-#' across samples. Plot additional user-defined lines on top of the boxplot.
+#' @details This function calls the \code{graphics::boxplot} function. Each box represents a group/column of the data matrix. Selected rows/features or user-defined arrays are plot as lines or points
+#' on top of the boxes. Missing values are ignored.
 #' @return Figure
 #' @keywords quantile normalization, proteomics
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
@@ -23,7 +23,7 @@
 #' mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile normalization
 #' ## Create boxplot and save output to file:
 #' mbqn.boxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b",filename = "fig_boxplot_qn.data.pdf")
-#' @description Create a boxplot of a data matrix and highlight selected features. Plot additional user-defined data on top of it.
+#' @description Create a boxplot of a data matrix with groups. Plot selected features and/or additional user-defined data on top of it.
 #' @importFrom grDevices dev.copy2pdf dev.off dev.size pdf
 #' @importFrom graphics abline axis boxplot frame grconvertX grconvertY legend lines matlines par plot plot.new strheight strwidth text
 #' @concept quantile, quantile normalization, rank invariance
@@ -63,11 +63,11 @@ mbqn.boxplot <- function(mtx, irow = NULL, vals = NULL,filename = NULL, type = "
     ylim <- opt.args$ylim}
 
   # set a new graphic window
+  plot.new()
   frame()
-  # Add extra space to right of plot area; change clipping to figure
-  par(new = TRUE, mar=c(6.1, 4.1, 4.1, 8.1), xpd=TRUE, cex.axis = 0.8)
-
-  #grid(nx=NA, ny=NULL) #grid over boxplot
+  # Add extra space to right of plot area for legend; change clipping to figure
+  par(new = TRUE, mar=c(6.9, 4.1, 4.1, 9.1), xpd=TRUE, cex.axis = 0.8)
+  # grid(nx=NA, ny=NULL) #grid over boxplot
 
   leg_text <- "data"
   lcol <- c("gold")
@@ -102,7 +102,7 @@ mbqn.boxplot <- function(mtx, irow = NULL, vals = NULL,filename = NULL, type = "
     lty <- c(lty,1:length(irow))
   }
   if(!is.null(vals)){
-    n <- if(is.null(names(vals))) "array" else names(vals)
+    n <- ifelse(is.null(dim(vals)),"feature", names(vals))
     if(is.data.frame(vals))  vals <- data.matrix(vals)
     lines(vals,type=type, pch = 1,col=c(4),ylim = ylim,xlab = xlab, ylab = ylab)
     leg_text <- c(leg_text,n)
@@ -113,7 +113,7 @@ mbqn.boxplot <- function(mtx, irow = NULL, vals = NULL,filename = NULL, type = "
   if(is.null(irow)){
     legend(x = "topright", inset=c(-0.3,0),legend=leg_text, fill = lcol, col =  lcol, cex =.8, box.lty=0, pt.cex = 0.8)
   }else{
-    legend(x = "topright", inset=c(-0.4,0),
+    legend(x = "topright", inset=c(-0.5,0),
            legend=leg_text[-1], lty = lty[-1],
            col=lcol[-1], cex =.8, box.lty=0, pt.cex = 0.8)
   }
