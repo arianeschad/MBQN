@@ -14,5 +14,5 @@ NeedsCompilation: no
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
-Imports: stats, graphics, grDevices, preprocessCore (>= 1.36.0)
+Imports: stats, graphics, grDevices, filesstrings, preprocessCore (>= 1.36.0)
 Suggests: limma (>= 3.30.13), knitr
