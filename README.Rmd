@@ -82,10 +82,10 @@ Example 2: This example will download data with LFQ intensities from the PRIDE r
 
 ```{r, eval = FALSE}
 ## Normalize LFQ intensity data from the PRIDE repository
-mbqn.example1(which.example = 3, source.path = "/examples")
+mbqn.example1(which.example = 3)
 ```
 
-In order to run `mbqn.example1()`, the respective proteinGroups.txt file must be first downloaded from the PRIDE repository to the folder currentdir/examples/PXDxxxx/ in advance or you can directly download the data by running the code included in `mbqn.exmple1()`. 
+In order to run `mbqn.example1()`, the respective proteinGroups.txt file must be first downloaded from the PRIDE repository to the folder currentdir/examples/PXDxxxx/ in advance or you can directly download the data by running the code included in `mbqn.example1()`. 
 
 ## Figures
 Figures created with MBQN are saved in the current working directory.

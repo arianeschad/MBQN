@@ -7,15 +7,15 @@
 #' download data from PRIDE.
 #' @param which.example Numerical values between 1-4, default = 1,
 #' to select between 4 dataset.
-#' @param filepath Character with path where to store and search for proteinGroups.txt
+#' @param source.path Character with path where to store and search for proteinGroups.txt
 #' file; default = NULL uses "installationpath/MBQN/examples".
 #' @inheritParams mbqn
 #' @importFrom grDevices dev.copy2pdf dev.off dev.size pdf
 #' @importFrom filesstrings file.move
 #' @details Collecting information on the experiments requires the package rpx by Laurent Gatto (2017),
-# #' rpx: R Interface to the ProteomeXchange Repository.
-# #' R package version
 #' version 1.10.2 from https://github.com/lgatto/rpx.\cr
+# "rpx: R Interface to the ProteomeXchange Repository".
+# R package version
 #' The function used to read the proteinGroups.txt files uses source code
 #' of SafeQuant::parseMaxQuantProteinGroupTxt, \cr
 # #' See "SafeQuant" by Erik Ahrne (2016). SafeQuant: A Toolbox for the Analysis of Proteomics Data. R package version 2.3.1.
@@ -36,10 +36,10 @@
 #' \[3\] Turetschek R, Desalegn G, Epple T, Kaul HP, Wienkoop S. Key metabolic traits of Pisum sativum maintain cell vitality during Didymella pinodes infection: cultivar resistance and the microsymbionts' influence. J Proteomics. 2017 Mar 4. pii: S1874-3919(17)30075-1\cr
 #' \[4\] Ranjbar Sistani N, Kaul HP, Desalegn G, Wienkoop S. Rhizobium Impacts on Seed Productivity, Quality, and Protection of Pisum sativum upon Disease Stress Caused by Didymella pinodes: Phenotypic, Proteomic, and Metabolomic Traits. Front Plant Sci. 2017 8:1961\cr
 #' \[5\] Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note, 2018\cr
-#'@examples ## Check LFQ intensities of proteomics data PXD001584 downloaded
-#'from PRIDE for RI and NRI features
+#' @examples ## Check LFQ intensities of proteomics data PXD001584 downloaded
+#' ## from PRIDE for RI and NRI features
 #'\dontrun{
-#' example1(which.example = 3)
+#' mbqn.example1(which.example = 3)
 #'}
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
 #' 2017

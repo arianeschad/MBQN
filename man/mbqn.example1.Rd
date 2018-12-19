@@ -10,7 +10,7 @@ mbqn.example1(which.example = 1, source.path = NULL)
 \item{which.example}{Numerical values between 1-4, default = 1,
 to select between 4 dataset.}
 
-\item{filepath}{Character with path where to store and search for proteinGroups.txt
+\item{source.path}{Character with path where to store and search for proteinGroups.txt
 file; default = NULL uses "installationpath/MBQN/examples".}
 }
 \description{
@@ -35,9 +35,9 @@ See the Reference for further details on these examples.
 }
 \examples{
 ## Check LFQ intensities of proteomics data PXD001584 downloaded
-from PRIDE for RI and NRI features
+## from PRIDE for RI and NRI features
 \dontrun{
-example1(which.example = 3)
+mbqn.example1(which.example = 3)
 }
 }
 \references{
