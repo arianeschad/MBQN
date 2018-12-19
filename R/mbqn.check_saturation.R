@@ -5,7 +5,7 @@
 #' is applied without balancing the data
 # #' @param qlow lower quantile
 # #' @param qup upper quantile, default 1
-#' @param show_fig Logical to specify whether results are plotted to figure, default = TRUE
+#' @param show_fig Logical flag indicating whether results should be displayed; default = TRUE.
 #' @param low_thr Numerical value for the lower threshold for NRI frequency, default = 0.2
 #' @param filename String for naming figures, default = NULL
 #' @param feature_index Integer that indicates the index of a feature of interest that is plotted in the boxplot; default NULL
