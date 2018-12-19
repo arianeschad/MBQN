@@ -46,16 +46,16 @@ mbqn.demo <- function(dat = NULL){
     # [5,]    4    4    1
   }
 
-  # quantile normalisation
-  qn_dat <- preprocessCore::normalize.quantiles(dat)
-
-  # now perform mean balanced qn
-  mdat <- mbqn(dat,FUN = median)
+  # perform median balanced qn
+  mbqn_dat <- mbqn(dat,FUN = median)
   # sample mean for each row (protein)
   mdat <- apply(dat,1,mean,na.rm=TRUE)
 
-  # mean balanced quantile normalisation
-  mbqn_dat <- preprocessCore::normalize.quantiles(dat-mdat) + mdat
+  # create a boxplot
+  mbqn.boxplot(mbqn_dat)
+
+  # check saturation i.e. for rank invariance
+  mbqn.check_saturation(dat)
 
   return(mbqn_dat)
 
