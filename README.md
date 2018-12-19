@@ -29,9 +29,11 @@ or
 githubinstall::githubinstall("mbqn")
 ```
 
-Installation from package binary: <br/> `install.packages("https://github.com/arianeschad/mbqn/MBQN_0.0.0.9000.tgz", repos = NULL, type = "source")`
+Installation from source via CRAN: <br/>
 
-Installation from package source: <br/> `install.packages(https://github.com/arianeschad/mbqn/MBQN_0.0.0.9000.tar.gz",repos = NULL,type = "source")`
+``` r
+install.packages("mbqn")
+```
 
 Dependencies:
 -------------
