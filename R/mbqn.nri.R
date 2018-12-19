@@ -1,4 +1,6 @@
-#' Selective mean-balanced quantile normalization for (nearly) rank invariant features
+#' Quantile normalization of a data matrix where rank invariant (RI)/
+#' nearly rank invariant (NRI) features are mean balanced
+# Selective mean-balanced quantile normalization for (nearly) rank invariant features
 #'
 #' @description Apply quantile normalization to a data matrix. Selected rows or rows with a rank invariance frequency above a threshold (=NRI features) are normalized with
 #' the mean balanced quantile normalization.

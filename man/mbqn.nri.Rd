@@ -2,7 +2,8 @@
 % Please edit documentation in R/mbqn.nri.R
 \name{mbqn.nri}
 \alias{mbqn.nri}
-\title{Selective mean-balanced quantile normalization for (nearly) rank invariant features}
+\title{Quantile normalization of a data matrix where rank invariant (RI)/
+nearly rank invariant (NRI) features are mean balanced}
 \usage{
 mbqn.nri(x, FUN = NULL, na.rm = TRUE, method = NULL, low_thr = 0.5,
   index = NULL)
