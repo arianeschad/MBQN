@@ -2,17 +2,17 @@
 % Please edit documentation in R/mbqn.boxplot.R
 \name{mbqn.boxplot}
 \alias{mbqn.boxplot}
-\title{Boxplot of data matrix with lines}
+\title{Combined boxplot and line plot}
 \usage{
 mbqn.boxplot(mtx, irow = NULL, vals = NULL, filename = NULL,
   type = "l", ...)
 }
 \arguments{
-\item{mtx}{data matrix where Rows represent features, e.g. protein abundance; columns represent groups, samples, e.g., replicates, experimental conditions.}
+\item{mtx}{data matrix where rows represent features, e.g. protein abundance; columns represent groups, samples, e.g., replicates, experimental conditions.}
 
 \item{irow}{integer for row index or array of row indices for highlighting}
 
-\item{vals}{numeric array of length \code{dim(mtx)[2]} that is plot on top of boxplot}
+\item{vals}{numeric array of length \code{dim(mtx)[2]} that is plot on top of the boxplot}
 
 \item{filename}{save plot to file with filename in working directory}
 
@@ -24,11 +24,11 @@ mbqn.boxplot(mtx, irow = NULL, vals = NULL, filename = NULL,
 Figure
 }
 \description{
-Create a boxplot of a data matrix and highlight selected features. Plot additional user-defined data on top of it.
+Create a boxplot of a data matrix with groups. Plot selected features and/or additional user-defined data on top of it.
 }
 \details{
-Create a boxplot of a data matrix and highlight values of selected rows with lines or points
-across samples. Plot additional user-defined lines on top of the boxplot.
+This function calls the \code{graphics::boxplot} function. Each box represents a group/column of the data matrix. Selected rows/features or user-defined arrays are plot as lines or points
+on top of the boxes. Missing values are ignored.
 }
 \examples{
 ## Create boxplot of quantile normalized data matrix and plot

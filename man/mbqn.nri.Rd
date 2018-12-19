@@ -27,8 +27,7 @@ Functions can be parsed also as characters. If FUN = NULL, features are not bala
 Normalized \code{matrix}.
 }
 \description{
-Apply quantile normalization to a data matrix. Selected rows or nearly rank
-invariant values with a rank invariance frequency above a threshold are normalized with
+Apply quantile normalization to a data matrix. Selected rows or rows with a rank invariance frequency above a threshold (=NRI features) are normalized with
 the mean balanced quantile normalization.
 }
 \details{

@@ -47,12 +47,11 @@ The package provides two basic functions: `mbqn()` applies quantile normalizatio
 `mbqn.boxplot(mtx.norm, irow = 1)`<br/>
 `mbqn.check_saturation(mtx,FUN = median,low_thr = 0.1, filename = "simple_mtx",feature_index = 1)`
 
-2. This example will download data with LFQ intensities from the PRIDE repository, normalize the data, identifies RI/NRI features, and give graphical output. The example is in the folder /installationpath/mbqn/examples/.
+2. This example will download data with LFQ intensities from the PRIDE repository, normalize the data, identifies RI/NRI features, and give graphical output. By default, files are stored in the folder /installationpath/mbqn/examples/PXDxxx.
 
-`source("examples/example1.R")`<br/>
-`example1(which.example = 2)`
+`mbqn.example1(which.example = 3, source.path = "/examples")`
 
-To run `example1()` for data from the PRIDE archive, the respective proteinGroups.txt file must be downloaded from the PRIDE webpage to the folder /installationpath/mbqn/examples/PXDxxxx/ in advance or directly by running the code included in `exmple1()` which uses the R package rpc. One can choose between four selected data sets. 
+To run `mbqn.example1()` for data from the PRIDE archive, the respective proteinGroups.txt file must be downloaded from the PRIDE webpage to the folder /examples/PXDxxxx/ in advance or directly by running the code included in `exmple1()` which uses the R package rpc. One can choose between four selected data sets. 
 
 ## Figures
 Figures created by MBQN are saved under /installationpath/mbqn/.

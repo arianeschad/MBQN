@@ -27,10 +27,10 @@ The function used to read the proteinGroups.txt files uses source code
 of SafeQuant::parseMaxQuantProteinGroupTxt, \cr
 version 2.3.1, https://CRAN.R-project.org/package=SafeQuant.\cr\cr
 Experiments on PRIDE that are supported by this Example:\cr
-1 PXD001584 - contains a RI [1]\cr
-2 PXD005138 - contains a RI feature [2]\cr
-3 PXD005861 - contains RI feature (default) [3]\cr
-4 PXD006617 - contains RI feature [4]\cr\cr
+1 PXD001584 - contains a RI (default) (file size 10.8 MB) [1]\cr
+2 PXD005138 - contains a RI feature (file size 7440.6 MB) [2]\cr
+3 PXD005861 - contains RI feature (file size 334.7 MB) [3]\cr
+4 PXD006617 - contains RI feature (file size 290.8 MB) [4]\cr\cr
 See the Reference for further details on these examples.
 }
 \examples{

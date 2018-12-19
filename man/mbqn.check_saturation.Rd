@@ -20,7 +20,7 @@ is applied without balancing the data}
 
 \item{method}{Packagename containing function used to compute quantile normalization; default NULL - use the preprocessCore package ; "limma" uses the Limma package}
 
-\item{show_fig}{Logical to specify whether results are plotted to figure, default = TRUE}
+\item{show_fig}{Logical flag indicating whether results should be displayed; default = TRUE.}
 
 \item{save_fig}{Logical to save figures to file}
 
