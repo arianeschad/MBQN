@@ -35,27 +35,40 @@ mbqn.demo <- function(dat = NULL){
 
   # if no matrix is given, create a simple dummy matrix
   if(is.null(dat)){
-      dat <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
+      dat <- matrix(c(5,2,3,NA,2,4,1,4,2,3,1,4,6,NA,1,3,NA,1,4,3,NA,1,2,3),ncol=4)
 
     print(dat)
-    #      [,1] [,2] [,3]
-    # [1,]    5    1    6
-    # [2,]    2    4   NA
-    # [3,]    3    2    1
-    # [4,]   NA    3    3
-    # [5,]    4    4    1
+    #      [,1] [,2] [,3] [,4]
+    # [1,]    5    1    6    4
+    # [2,]    2    4   NA    3
+    # [3,]    3    2    1   NA
+    # [4,]   NA    3    3    1
+    # [5,]    2    1   NA    2
+    # [5,]    4    4    1    3
+
   }
 
-  # perform median balanced qn
+  # perform qn, median balanced qn, and qn with median balanced nri feature
+  qn_dat <- mbqn(dat,FUN=NULL)
   mbqn_dat <- mbqn(dat,FUN = median)
-  # sample mean for each row (protein)
-  mdat <- apply(dat,1,mean,na.rm=TRUE)
+  qn_nri_dat <- mbqn.nri(dat,FUN = median, low_thr = 0.6)
 
-  # create a boxplot
-  mbqn.boxplot(mbqn_dat)
+  # sample mean for each row (protein)
+  #mdat <- apply(dat,1,mean,na.rm=TRUE)
 
   # check saturation i.e. for rank invariance
-  mbqn.check_saturation(dat)
+  res <- mbqn.check_saturation(dat)
+
+  plot.new()
+  frame()
+  # create a boxplot for dat
+  mbqn.boxplot(dat)
+  # create a boxplot for qn-data
+  mbqn.boxplot(qn_dat)
+  # create a boxplot for mbqn-data
+  mbqn.boxplot(mbqn_dat)
+  # create a boxplot for qn-data with nri features median balanced
+  mbqn.boxplot(qn_nri_dat, irow = res$ip)
 
   return(mbqn_dat)
 
