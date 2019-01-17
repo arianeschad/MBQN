@@ -4,9 +4,10 @@
 \alias{mbqn.check_saturation}
 \title{Check data matrix for rank invariant (RI) and nearly rank invariant (NRI) features}
 \usage{
-mbqn.check_saturation(dat, FUN = NULL, low_thr = 0.2,
+mbqn.check_saturation(dat, FUN = NULL, low_thr = 0.5,
   feature_index = NULL, method = NULL, show_fig = TRUE,
-  save_fig = TRUE, filename = NULL, verbose = TRUE)
+  save_fig = TRUE, show_nri_only = FALSE, filename = NULL,
+  verbose = TRUE, ...)
 }
 \arguments{
 \item{dat}{A data matrix. Rows - features, e.g. protein abundances; columns - samples}
@@ -14,7 +15,7 @@ mbqn.check_saturation(dat, FUN = NULL, low_thr = 0.2,
 \item{FUN}{median, mean, or another function used to balance features across colums. If left empty, quantile normalization
 is applied without balancing the data}
 
-\item{low_thr}{Numerical value for the lower threshold for NRI frequency, default = 0.2}
+\item{low_thr}{Numerical value for the lower threshold for NRI frequency, default = 0.5}
 
 \item{feature_index}{Integer that indicates the index of a feature of interest that is plotted in the boxplot; default NULL}
 
@@ -24,22 +25,31 @@ is applied without balancing the data}
 
 \item{save_fig}{Logical to save figures to file}
 
+\item{show_nri_only}{Logical to print and save only the RI/NRI detection graph; default FALSE}
+
 \item{filename}{String for naming figures, default = NULL}
 
 \item{verbose}{Logical for running function quiet}
+
+\item{...}{Optional plot arguments passed to \code{mbqn.boxplot}}
 }
 \value{
-A matrix of median- or mean-balanced quantile normalized data
+List with the components:
+\item{\code{p}}{a matrix of the rank invariance frequencies and the sample coverage over all RI/NRI features}
+\item{\code{max_p}}{value of the maximum rank invariance frequency in percent}
+\item{\code{ip}}{index of the feature with maximum rank invariance frequency}
+\item{\code{nri}}{a table of the rank invariance frequencies in percent of NRI/RI features}
+\item{\code{var0_feature}}{index of features with zero sample variance after QN.}
 }
 \description{
-Test if few rows of the data matrix dominate the upper tail. This script uses normalize.quantiles() from the
-package preprocessCore that can be installed from http://bioconductor.org/biocLite.R
+Check data matrix for rows with intensity features which dominate the upper tail, i.e. for
+features that have constant or nearly constant rank across samples.
 }
 \details{
 Rank data and check if lower and upper intensity tails are
-dominated by few feature. Compute a quantile
-normalization without and with mean-balancing and check standard
-deviation of normalized data entries located in the tails
+dominated by few features. Apply quantile
+normalization without and with mean-balancing and check the standard
+deviation of normalized features located in the tails.
 }
 \examples{
 ## Check data matrix for RI and NRI features
@@ -51,12 +61,12 @@ Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalizatio
 }
 \seealso{
 Other mbqn: \code{\link{get_kminmax}},
-  \code{\link{mbqn.boxplot}}, \code{\link{mbqn.nri}},
-  \code{\link{mbqn}}
+  \code{\link{mbqn.boxplot}},
+  \code{\link{mbqn.get_nri_features}},
+  \code{\link{mbqn.nri}}, \code{\link{mbqn}}
 }
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}
-2017
 }
 \concept{mbqn}
-\concept{quantile , quantile normalization, rank invariance}
+\concept{quantile, quantile normalization, rank invariance}

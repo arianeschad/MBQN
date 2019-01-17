@@ -49,6 +49,5 @@ mbqn.example1(which.example = 3)
 }
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}
-2017
 }
 \concept{quantile, quantile normalization, rank invariance}
