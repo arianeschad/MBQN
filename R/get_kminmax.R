@@ -13,7 +13,7 @@
 # #' @keywords quantile normalization, proteomics
 #' @family mbqn
 #' @concept quantile, quantile normalization, rank invariance
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 #' @examples
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create a data matrix
 #' get_kminmax(X, k = 5, "max") # get indices of the 5 largest values in each column
