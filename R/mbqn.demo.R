@@ -1,10 +1,9 @@
 #' Demonstration of mean/median-balanced quantile normalization
 #'
-#' @description This function demonstrates mean-balanced quantile normalization
-#' @param dat A data matrix where rows represent features, e.g. protein
-#' abundances/intensities, and columns experimental samples or
-#' (technical/biological) replicates.
-#' Default NULL - a simple matrix is generated.
+#' @description This function demonstrates mean/median-balanced quantile normalization
+#' @param dat a matrix where rows represent features, e.g. protein
+#' abundances/intensities, and columns represent experimental samples.
+#' Default \code{NULL} - a simple matrix is generated.
 # where dat is a data matrix where columns correspond
 # to experimental samples or (technical/biological) replicates and
 # rows correspond to features/proteins/peptides
@@ -16,26 +15,20 @@
 #' normalization for processing label-free quantitative proteomics
 #' data with abundance-isolated proteins. Biostatistics xxx in prep.
 #' @examples
-#' mbqn.demo
+#' mbqn.demo()
+#' dat <- mbqn.simu.data()
 #' mbqn.demo(dat)
-#' @details This function uses \code{normalize.quantiles()} from the package
-#' preprocessCore that can be installed from http://bioconductor.org/biocLite.R by
-#' source('http://bioconductor.org/biocLite.R')
-#' biocLite('preprocessCore'). A data matrix can be computed with mbqn.simu_dat().
+#' @details Normalize a matrix and return boxplots of quantile normalized and mean balanced normalized
+#' data. An omics-like data matrix can be generated with \code{mbqn.simu.dat()}.
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
-#' Aug. 2017
+# Aug. 2017
 #' @export mbqn.demo
-# Installation of package preprocessCore necessary!
-# It contains a function for (standard) quantile normalization:
-# source('http://bioconductor.org/biocLite.R')
-# biocLite('preprocessCore')
-
 
 mbqn.demo <- function(dat = NULL){
 
   # if no matrix is given, create a simple dummy matrix
   if(is.null(dat)){
-      dat <- matrix(c(5,2,3,NA,2,4,1,4,2,3,1,4,6,NA,1,3,NA,1,4,3,NA,1,2,3),ncol=4)
+    dat <- matrix(c(5,2,3,NA,2,4,1,4,2,3,1,4,6,NA,1,3,NA,1,4,3,NA,1,2,3),ncol=4)
 
     print(dat)
     #      [,1] [,2] [,3] [,4]
@@ -51,26 +44,26 @@ mbqn.demo <- function(dat = NULL){
   # perform qn, median balanced qn, and qn with median balanced nri feature
   qn_dat <- mbqn(dat,FUN=NULL)
   mbqn_dat <- mbqn(dat,FUN = median)
-  qn_nri_dat <- mbqn.nri(dat,FUN = median, low_thr = 0.6)
+  qn_nri_dat <- mbqn.nri(dat,FUN = "median", low_thr = 0.5)
 
   # sample mean for each row (protein)
   #mdat <- apply(dat,1,mean,na.rm=TRUE)
 
   # check saturation i.e. for rank invariance
-  res <- mbqn.check_saturation(dat)
+  res <- mbqn.check_saturation(dat, save_fig = FALSE, verbose = FALSE)
+  ylim <- range(dat, na.rm =T)
 
   plot.new()
   frame()
+  par(mfrow=c(2,2))
   # create a boxplot for dat
-  mbqn.boxplot(dat)
+  mbqn.boxplot(dat, filename = NULL, add.leg = F, main = "data", ylim = ylim)
   # create a boxplot for qn-data
-  mbqn.boxplot(qn_dat)
+  mbqn.boxplot(qn_dat, filename = NULL, irow = res$ip, add.leg = F, main = "QN data", ylim = ylim)
   # create a boxplot for mbqn-data
-  mbqn.boxplot(mbqn_dat)
+  mbqn.boxplot(mbqn_dat, filename = NULL, add.leg = F, main = "MBQN data", ylim = ylim)
   # create a boxplot for qn-data with nri features median balanced
-  mbqn.boxplot(qn_nri_dat, irow = res$ip)
-
-  return(mbqn_dat)
+  mbqn.boxplot(qn_nri_dat, irow = res$ip, filename = NULL, add.leg = F, main ="QN with MBQN of NRI", ylim = ylim)
 
 }
 
