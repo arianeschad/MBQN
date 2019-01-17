@@ -12,6 +12,7 @@
 #' @inheritParams mbqn
 #' @importFrom grDevices dev.copy2pdf dev.off dev.size pdf
 #' @importFrom filesstrings file.move
+#' @importFrom utils read.csv untar unzip
 #' @details Collecting information on the experiments requires the package rpx by Laurent Gatto (2017),
 #' version 1.10.2 from https://github.com/lgatto/rpx.\cr
 # "rpx: R Interface to the ProteomeXchange Repository".
@@ -42,7 +43,7 @@
 #' mbqn.example1(which.example = 3)
 #'}
 #' @author A. Schad, \email{ariane.schad@zbsa.de}
-#' 2017
+# 2017
 #' @export mbqn.example1
 mbqn.example1 <- function(which.example = 1, source.path = NULL){
   if(is.null(which.example)) stop("Error: Select an example between 1-4")
@@ -58,7 +59,15 @@ mbqn.example1 <- function(which.example = 1, source.path = NULL){
 
   file <- file.path(source.path,ids[which.example],"proteinGroups.txt")
   if(!file.exists(file)){
-    print("File does not exist - start download of file. This can take a few minutes...!")
+    print("File does not exist - start downloading file. This can take a few minutes!")
+    r.input <- readline("Do you want to continue? [y/n]")
+    stopifnot(r.input=="y")
+    print("Proceed with download...")
+
+    #reply <- readline(prompt="Press [enter] to continue...")
+    #if(reply) {print("Start download of file.")
+    #  }else{ }
+
     px <- rpx::PXDataset(ids[which.example])
     # General Informations on PXD File
     rpx::pxtax(px) #
@@ -98,18 +107,31 @@ mbqn.example1 <- function(which.example = 1, source.path = NULL){
   mtx <- as.matrix(dat[, grepl("^LFQ", names(dat))])
   mtx[mtx == 0] <- NA
   ix <- c(1:dim(mtx)[2])
+  ylim <- NULL
+  low_thr <- 0.5
   # select columns
-  if(pxdid == "PXD005861") {
+  if(pxdid == "PXD001584") {
     ix <- c(1:9, 19:27)
-   # ix <- c(10:18,31:39)
-   # ix <- c(1:9, 10:18, 19:27, 31:39)
+    # ix <- c(10:18,31:39)
+    # ix <- c(1:9, 10:18, 19:27, 31:39)
     mtx <- mtx[,ix]
-    colstr <- sapply(strsplit(split = "LFQ intensity ",colnames(mtx)),function(x) x[2])
-    colstr <- sub(pattern = "_20_2h",replacement = "",colstr)
-    colnames(mtx) <- colstr
+    ylim <- c(22.5,36)
+    #colstr <- sapply(strsplit(split = "LFQ intensity ",colnames(mtx)),function(x) x[2])
+    #colstr <- sub(pattern = "_20_2h",replacement = "",colstr)
+    #colnames(mtx) <- colstr
   }
 
-  if(which.example==1) ylim <- c(21,36)
+  if(pxdid == "PXD006617") {
+    #ix <- c(1:9, 19:27)
+    # ix <- c(10:18,31:39)
+    # ix <- c(1:9, 10:18, 19:27, 31:39)
+    #mtx <- mtx[,ix]
+    ylim <- c(16.5,36)
+    low_thr <- 0.5
+    #colstr <- sapply(strsplit(split = "LFQ intensity ",colnames(mtx)),function(x) x[2])
+    #colstr <- sub(pattern = "_20_2h",replacement = "",colstr)
+    #colnames(mtx) <- colstr
+  }
 
   # check for all proteins with NA intensity across all samples
   allColNA <- as.vector(apply(mtx, 1, function(r) {
@@ -133,27 +155,27 @@ mbqn.example1 <- function(which.example = 1, source.path = NULL){
                                    row.names = dat[, "Protein IDs"])
   ##isPotential.contaminant = dat[,"Potential contaminant"]=="+",
   featureAnnotations <- featureAnnotations[!allColNA, ]
-  #mtx <- as.matrix(mtx[!allColNA, rownames(expDesign)])
 
   # remove empty rows
-  mtx <- as.matrix(mtx[!allColNA, ]) # mod. by A. Schad
+  mtx <- as.matrix(mtx[!allColNA, ])
 
   # log2 transform intensities
   mtx <- log2(mtx)
 
   res <- MBQN::mbqn.check_saturation(mtx,
                                   FUN = median,
+                                  low_thr = low_thr,
+                                  las = 2, type = "l",
+                                  feature_index = NULL,
                                   show_fig = TRUE,
-                                  low_thr = 0.5,
-                                  filename = "",
-                                  feature_index = NULL, save_fig = FALSE)
+                                  filename = pxdid,
+                                  show_nri_only = TRUE, save_fig = TRUE)
 
+  dev.off()
   mb <- MBQN::mbqn(as.matrix(mtx),FUN = median, na.rm = TRUE)
-
 
   # get protein name of strongest nri/ri feature
   nri_max <-as.numeric(names(which.max(res$nri)))
-
   featureAnnotations$proteinDescription[nri_max]
   featureAnnotations$proteinName[nri_max]
   featureAnnotations$nbPeptides[nri_max]
@@ -166,11 +188,8 @@ mbqn.example1 <- function(which.example = 1, source.path = NULL){
   df$proteinDescription <- paste(strtrim(df$proteinDescription,80),"...")
 
   # use mbqn.boxplot function, highlight RI/NRI Features
-  # Create supplement Fig. S2
-  save.fig <- T
-
+  save.fig <- TRUE
   fig1.name <- paste0("fig_qnLFQ_", pxdid,".pdf")
-  fig2.name <- paste0("fig_mbqnLFQ_", pxdid,".pdf")
 
   mbqn.mtx <- mbqn(mtx,FUN = median)
   qn.mtx <- mbqn(mtx,FUN = NULL)
@@ -179,19 +198,23 @@ mbqn.example1 <- function(which.example = 1, source.path = NULL){
 
   plot.new()
   frame()
-  par(mfrow = c(1,1))
-  mbqn.boxplot(mtx = qn.mtx,main = paste("QN"), ylab = "LFQ intensity", ylim = ylim,irow = c(as.numeric(names(res$nri))))
+  colnames(qn.mtx ) <- colnames(mtx)
+  mbqn.boxplot(mtx = qn.mtx,main = paste("QN"),
+               ylab = "LFQ intensity",
+               ylim = ylim, xlab = "",las =2,
+               irow = c(as.numeric(names(res$nri))))
   if(save.fig){
-    dev.copy2pdf(file=file.path(getwd(),fig1.name),width=8,height=8,out.type = "pdf")
+    dev.copy2pdf(file=file.path(getwd(),fig1.name),width=10,height=6,paper="a4r",out.type = "pdf")
     print(paste("Save figure to ",fig1.name))
   }
 
+# fig2.name <- paste0("fig_mbqnLFQ_", pxdid,".pdf")
 # plot.new()
 #  frame()
 #  par(mfrow = c(1,1))
 #  mbqn.boxplot(mtx = mbqn.mtx,main = paste("MBQN"), ylab = "", ylim = ylim)
 #  if(save.fig){
-#    dev.copy2pdf(file=file.path(getwd(),fig2.name),width=8,height=7,out.type = "pdf")
+#    dev.copy2pdf(file=file.path(getwd(),fig2.name),width=10,height=7,out.type = "pdf")
 #    print(paste("Save figure to ",fig2.name))
 #  }
 
@@ -199,23 +222,46 @@ mbqn.example1 <- function(which.example = 1, source.path = NULL){
   fig3.name <- paste0("fig_mbqn_vs_qn_", pxdid,".pdf")
   plot.new()
   frame()
-  par(mfrow = c(1,1))
-  mbqn.boxplot(mtx = mbqn.mtx,main = "MBQN with QN-feature", irow = c(as.numeric(names(res$nri)),144), vals = data.frame(QN.feature.114 = qn.mtx[144,]),ylim = ylim)
+ # par(mfrow = c(1,1))
+
+  colnames(mbqn.mtx ) <- colnames(mtx)
+  mbqn.boxplot(mtx = mbqn.mtx,main = "MBQN with QN-feature",
+               irow = c(as.numeric(names(res$nri)),144),
+               xlab= "", las =2,
+               vals = data.frame(QN.feature.114 = qn.mtx[144,]),
+               ylim = ylim)
   if(save.fig){
-    dev.copy2pdf(file=file.path(getwd(),fig3.name),width=8,height=7,out.type = "pdf")
+    dev.copy2pdf(file=file.path(getwd(),fig3.name),width=10,height=6,paper="a4r", out.type = "pdf")
     print(paste("Save figure to ",fig3.name))
   }
   }
 
   # QN of data and balance only NRI/RI features
   fig4.name <- paste0("fig_qn_balance_nri_only_", pxdid,".pdf")
+  dev.off()
   plot.new()
   frame()
   par(mfrow = c(1,1))
-  mbqn.boxplot(mbqn.nri(mtx,FUN = median,low_thr = 0.4),as.numeric(names(res$nri)),
-               ylim = ylim, xlab= "", las=2, main = "QN with RI/NRI balanced")
+
+  colnames(mtx) <- gsub("LFQ intensity","",colnames(mtx))
+
+  df <- as.data.frame(qn.mtx[as.numeric(names(res$nri)),])
+  rownames(df) <- paste("QN feature",names(res$nri))
+  df2 <- as.data.frame(mtx[as.numeric(names(res$nri)),])
+  rownames(df2) <- paste("data",names(res$nri))
+  colnames(df) <- colnames(df2)
+  df <- rbind(df,df2)
+  df <- as.data.frame(t(df))
+
+  mbqn.boxplot(mbqn.nri(mtx,FUN = median,low_thr = 0.5, verbose = F),
+               irow = as.numeric(names(res$nri)),
+               ylim = ylim, xlab= "", las=2,
+               vals = df,lwd = 1.,
+               main = "QN with RI/NRI balanced",
+               cex.axis = 1, cex.lab = .9, cex = .9, y.intersp = 1.1 )
+
   if(save.fig){
-    dev.copy2pdf(file=file.path(getwd(),fig4.name),width=8,height=7,out.type = "pdf")
-    print(paste("Save figure to ",fig4.name))
+    dev.copy2pdf(file=file.path(getwd(),fig4.name),width=9,height=6,paper="a4r", out.type = "pdf")
+     print(paste("Save figure to ",fig4.name))
   }
 }
