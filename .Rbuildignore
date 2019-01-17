@@ -6,8 +6,8 @@
 ^examples/example4\.R$
 ^examples/examples_old\.R$
 ^R/mbqn\.boxplot_dev\.R$
-^R/mbqn\.simu_data\.R$
-^R/mbqn\.demo\.R$
+^R/mbqn\.simu\.distortion\.R$
+#^R/mbqn\.demo\.R$
 ^.*\.zip$
 ^\.git/$
 ^\figures/$
