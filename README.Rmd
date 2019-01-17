@@ -72,8 +72,9 @@ Example 1: Generate a simple matrix, apply median-balanced quantile normalizatio
 ```{r example, eval = FALSE}
 ## basic example
 mtx <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)
-mtx.norm <- MBQN::mbqn(x = mtx, FUN = median)
-MBQN::mbqn.boxplot(mtx.norm, irow = 1,)
+mtx.norm <- MBQN::mbqn(x = mtx, FUN = median) # mbqn of full matrix
+mtx.nri.norm <- MBQN::mbqn.nri(x = mtx, FUN = median, low_thr = 0.6) # qn of matrix - apply median balancing to NRI features with rank invariance frequency >0.6
+MBQN::mbqn.boxplot(mtx.norm, irow = 1)
 MBQN::mbqn.check_saturation(mtx,FUN = median,low_thr = 0.1, filename = "simple_mtx",feature_index = 1)
 ```
 
@@ -90,5 +91,5 @@ In order to run `mbqn.example1()`, the respective proteinGroups.txt file must be
 Figures created with MBQN are saved in the current working directory.
 
 ## References
-A. Schad and C. Kreutz, MBQN: R package for mean balanced quantile normalization. In prep. for Bioinf. Appl. Note, 2018
+A. Schad and C. Kreutz, MBQN: R package for mean balanced quantile normalization. In prep. 2019
 
