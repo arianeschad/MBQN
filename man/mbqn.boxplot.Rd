@@ -5,18 +5,20 @@
 \title{Combined boxplot and line plot}
 \usage{
 mbqn.boxplot(mtx, irow = NULL, vals = NULL, filename = NULL,
-  type = "l", ...)
+  type = "l", add.leg = TRUE, ...)
 }
 \arguments{
 \item{mtx}{data matrix where rows represent features, e.g. protein abundance; columns represent groups, samples, e.g., replicates, experimental conditions.}
 
 \item{irow}{integer for row index or array of row indices for highlighting}
 
-\item{vals}{numeric array of length \code{dim(mtx)[2]} that is plot on top of the boxplot}
+\item{vals}{numeric array/matrix of length \code{dim(mtx)[2]} that is plot on top of the boxplot}
 
 \item{filename}{save plot to file with filename in working directory}
 
 \item{type}{line style for plot of row intensities}
+
+\item{add.leg}{add legend to plot; default TRUE}
 
 \item{...}{basic plot options like: xlab, ylab, main, ylim, las}
 }
@@ -33,7 +35,6 @@ on top of the boxes. Missing values are ignored.
 \examples{
 ## Create boxplot of quantile normalized data matrix and plot
 ## feature from median balanced quantile normalization on top of it.
-X <- matrix(rexp(20000, rate=.1), ncol=10)
 X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create data matrix
 qn.dat <- mbqn(x=X,FUN = NULL ,na.rm = TRUE) # Quantile normalization
 mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile normalization
@@ -46,6 +47,7 @@ Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalizatio
 \seealso{
 Other mbqn: \code{\link{get_kminmax}},
   \code{\link{mbqn.check_saturation}},
+  \code{\link{mbqn.get_nri_features}},
   \code{\link{mbqn.nri}}, \code{\link{mbqn}}
 }
 \author{
