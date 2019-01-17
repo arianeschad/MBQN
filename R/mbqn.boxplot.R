@@ -150,7 +150,16 @@ plot(NA, type="n",
      bty="n", yaxt="n",cex = 0.8,
      ylim = ylim,
      xaxt="n", xlab = '', ylab = '')
-if(is.null(irow)){
+  if(is.null(irow) & is.null(vals)){
+    legend(x = "topleft",
+           legend=leg_text,
+           fill = lcol[1],
+           border = "black",
+           col =  lcol,
+           cex = cex.leg,
+           box.lty=0, bty= "n",
+           pt.cex = pt.cex)
+  }else if(is.null(irow)){
   legend(x = "topleft",
          legend=leg_text,
          #fill = c(lcol[1],NA),
