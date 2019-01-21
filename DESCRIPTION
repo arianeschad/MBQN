@@ -1,18 +1,18 @@
 Package: MBQN
-Version: 0.0.0.9000
+Version: 0.99.0
 Title: Mean/Median balanced quantile normalization
-Authors@R: c(person("Ariane", "Schad", email = "ariane.schad@zbsa.de", role = c("aut", "cre")))
-#Maintainer: Ariane Schad <ariane.schad@zbsa.de>
+Author: Ariane Schad [aut,cre] 
+Maintainer: Ariane Schad <ariane.schad@zbsa.de>
 Description: Modified quantile normalization for omics or other matrix-like data distorted in location and scale.
-Depends: R (>= 3.3.3)
 License: GPL-3 + file LICENSE
-# Collate: mbqn.R mbqn.nri.R mbqn.boxplot.R mbqn.check_saturation.R get_kminmax.R 
+Depends: R (>= 3.3.3)
+Imports: stats, graphics, rpx, grDevices, filesstrings, preprocessCore (>= 1.36.0)
+Suggests: limma (>= 3.30.13), knitr
 URL: https://github.com/arianeschad/mbqn
+biocViews: Normalization, Preprocessing
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr
-Imports: stats, graphics, rpx, grDevices, filesstrings, preprocessCore (>= 1.36.0)
-Suggests: limma (>= 3.30.13), knitr
