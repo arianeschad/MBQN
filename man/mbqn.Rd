@@ -42,30 +42,30 @@ This function uses \code{preprocessCore::normalize.quantiles()} by Bolstad et al
 available from http://bioconductor.org/biocLite.R.
 }
 \examples{
-## Compute mean balanced quantile normalization
+\dontrun{
+## Compute mean and median balanced quantile normalization
 X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
 mbqn(X, mean) # Use arithmetic mean to center features
 mbqn(X, median) # Use median to center features
 mbqn(X, "median")
 
-\dontrun{
 ## Use user defined array of weights for averaging
 wt <- c(1,3,1)/5 # Weights for each sample
 user_array <- apply(X,1,weighted.mean, wt ,na.rm =TRUE)
 mbqn(X, user_array)
 
 ## Use limma package to compute quantile normalization
-mbqn(X, median, method = "limma")}
+mbqn(X, median, method = "limma")
+}
 }
 \references{
 Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep., 2019
 }
 \seealso{
 Other mbqn: \code{\link{get_kminmax}},
-  \code{\link{mbqn.boxplot}},
-  \code{\link{mbqn.check_saturation}},
-  \code{\link{mbqn.get_nri_features}},
-  \code{\link{mbqn.nri}}
+  \code{\link{mbqnBoxplot}},
+  \code{\link{mbqnCheckSaturation}},
+  \code{\link{mbqnGetNRIfeatures}}, \code{\link{mbqnNRI}}
 }
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}

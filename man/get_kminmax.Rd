@@ -34,10 +34,10 @@ get_kminmax(X, k = 5, "max") # get indices of the 5 largest values in each colum
 Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 }
 \seealso{
-Other mbqn: \code{\link{mbqn.boxplot}},
-  \code{\link{mbqn.check_saturation}},
-  \code{\link{mbqn.get_nri_features}},
-  \code{\link{mbqn.nri}}, \code{\link{mbqn}}
+Other mbqn: \code{\link{mbqnBoxplot}},
+  \code{\link{mbqnCheckSaturation}},
+  \code{\link{mbqnGetNRIfeatures}}, \code{\link{mbqnNRI}},
+  \code{\link{mbqn}}
 }
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}
