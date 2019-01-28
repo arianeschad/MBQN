@@ -27,10 +27,10 @@ The function used to read the proteinGroups.txt files uses source code
 of SafeQuant::parseMaxQuantProteinGroupTxt, \cr
 version 2.3.1, https://CRAN.R-project.org/package=SafeQuant.\cr\cr
 Experiments on PRIDE that are supported by this Example:\cr
-1 PXD001584 - contains a RI (default) (file size 10.8 MB) [1]\cr
-2 PXD005138 - contains a RI feature (file size 7440.6 MB) [2]\cr
-3 PXD005861 - contains RI feature (file size 334.7 MB) [3]\cr
-4 PXD006617 - contains RI feature (file size 290.8 MB) [4]\cr\cr
+1 PXD001584 - contains one RI feature (default) (file size 10.8 MB) [1]\cr
+2 PXD005138 - contains one RI feature (file size 7440.6 MB) [2]\cr
+3 PXD005861 - contains one RI feature (file size 334.7 MB) [3]\cr
+4 PXD006617 - contains one RI feature (file size 290.8 MB) [4]\cr\cr
 See the Reference for further details on these examples.
 }
 \examples{
@@ -45,9 +45,16 @@ mbqnExample(which.example = 3)
 [2] Beaumont V, et al. Phosphodiesterase 10A Inhibition Improves Cortico-Basal Ganglia Function in Huntington's Disease Models. Neuron. 2016 92(6):1220-1237\cr
 [3] Turetschek R, Desalegn G, Epple T, Kaul HP, Wienkoop S. Key metabolic traits of Pisum sativum maintain cell vitality during Didymella pinodes infection: cultivar resistance and the microsymbionts' influence. J Proteomics. 2017 Mar 4. pii: S1874-3919(17)30075-1\cr
 [4] Ranjbar Sistani N, Kaul HP, Desalegn G, Wienkoop S. Rhizobium Impacts on Seed Productivity, Quality, and Protection of Pisum sativum upon Disease Stress Caused by Didymella pinodes: Phenotypic, Proteomic, and Metabolomic Traits. Front Plant Sci. 2017 8:1961\cr
-[5] Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note, 2018\cr
+[5] Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019\cr
+}
+\seealso{
+Other data: \code{\link{example_NApattern}},
+  \code{\link{mbqnBoxplot}}, \code{\link{mbqnDemo}},
+  \code{\link{mbqnSimuData}},
+  \code{\link{mbqnSimuDistortion}}
 }
 \author{
-A. Schad, \email{ariane.schad@zbsa.de}
+Ariane Schad
 }
+\concept{data}
 \concept{quantile, quantile normalization, rank invariance}

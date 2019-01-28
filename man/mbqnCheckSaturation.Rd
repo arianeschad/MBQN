@@ -5,9 +5,8 @@
 \title{Check data matrix for rank invariant (RI) and nearly rank invariant (NRI) features}
 \usage{
 mbqnCheckSaturation(dat, FUN = NULL, low_thr = 0.5,
-  feature_index = NULL, method = NULL, show_fig = TRUE,
-  save_fig = TRUE, show_nri_only = FALSE, filename = NULL,
-  verbose = TRUE, ...)
+  feature_index = NULL, show_fig = TRUE, save_fig = TRUE,
+  show_nri_only = FALSE, filename = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{dat}{A data matrix. Rows - features, e.g. protein abundances; columns - samples}
@@ -18,8 +17,6 @@ is applied without balancing the data}
 \item{low_thr}{Numerical value for the lower threshold for NRI frequency, default = 0.5}
 
 \item{feature_index}{Integer that indicates the index of a feature of interest that is plotted in the boxplot; default NULL}
-
-\item{method}{Packagename containing function used to compute quantile normalization; default NULL - use the preprocessCore package ; "limma" uses the Limma package}
 
 \item{show_fig}{Logical flag indicating whether results should be displayed; default = TRUE.}
 
@@ -61,7 +58,6 @@ Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalizatio
 }
 \seealso{
 Other mbqn: \code{\link{get_kminmax}},
-  \code{\link{mbqnBoxplot}},
   \code{\link{mbqnGetNRIfeatures}}, \code{\link{mbqnNRI}},
   \code{\link{mbqn}}
 }

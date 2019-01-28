@@ -9,10 +9,7 @@ mbqnNRI(x, FUN = NULL, na.rm = TRUE, method = NULL, low_thr = 0.5,
 }
 \arguments{
 \item{x}{A data matrix, where rows represent proteins and
-columns samples from different replicates, treatments, or conditions.
-function from the preprocessCore package ; if "limma" - the QN function from the
-Limma package is used.
-computation of average feature expression.}
+columns samples from different replicates, treatments, or conditions.}
 
 \item{FUN}{A function like mean, median, a user defined function, or a numeric array
 of weights with
@@ -23,16 +20,16 @@ i.e. normal QN is used.}
 \item{na.rm}{A logical value indicating whether NA values should be omitted in the
 computation of average feature expression.}
 
-\item{method}{Method used to compute quantile normalization; default NULL - use QN
-function from the preprocessCore package ; if "limma" - the QN function from the
-Limma package is used.}
+\item{method}{Packagename providing the function used to compute the standard quantile normalization;
+default NULL or "limma" - use \code{normalizeBetweenArrays()} from the limma package,
+if "preprocessCore" - \code{normalize.quantiles()} from the preprocessCore package is used.}
 
 \item{low_thr}{Value between [0 1] as lower threshold that specifies the critical
 rank invariance frequency, with default set to 0.5.}
 
 \item{index}{A single index or a vector of indices of selected rows.}
 
-\item{verbose}{Logical indicating to run function quietly}
+\item{verbose}{Logical indicating to run function quietly.}
 }
 \value{
 Normalized \code{matrix}.
@@ -59,7 +56,6 @@ Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalizatio
 }
 \seealso{
 Other mbqn: \code{\link{get_kminmax}},
-  \code{\link{mbqnBoxplot}},
   \code{\link{mbqnCheckSaturation}},
   \code{\link{mbqnGetNRIfeatures}}, \code{\link{mbqn}}
 }

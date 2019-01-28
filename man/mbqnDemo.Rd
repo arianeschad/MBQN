@@ -7,21 +7,20 @@
 mbqnDemo(dat = NULL)
 }
 \arguments{
-\item{dat}{a matrix where rows represent features, e.g. protein
-abundances/intensities, and columns represent experimental samples.
+\item{dat}{a matrix where rows represent features, e.g. of protein
+abundances/intensities, and columns represent samples.
 Default \code{NULL} - a simple matrix is generated.}
 }
 \value{
-Various graphics illustrating saturation in case of
-quantile normalization of high expression for a single protein
-abundances across samples
+Various graphics illustrating the effect of normalization on
+rank mixing and rank invariant intensity features
 }
 \description{
-This function demonstrates mean/median-balanced quantile normalization
+Visualize the intensity distribution of unnormalized, quantile and mean/median-balanced quantile normalized data
 }
 \details{
-Normalize a matrix and return boxplots of quantile normalized and mean balanced normalized
-data. An omics-like data matrix can be generated with \code{mbqn.simu.dat()}.
+Normalize matrix and return boxplots of quantile normalized and mean balanced normalized
+data.
 }
 \examples{
 mbqnDemo()
@@ -29,13 +28,15 @@ dat <- mbqnSimuData()
 mbqnDemo(dat)
 }
 \references{
-Schad, A. and Kreuz, C. (2017) Mean-balanced quantile
-normalization for processing label-free quantitative proteomics
-data with abundance-isolated proteins. Biostatistics xxx in prep.
+Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+}
+\seealso{
+Other data: \code{\link{example_NApattern}},
+  \code{\link{mbqnBoxplot}}, \code{\link{mbqnExample}},
+  \code{\link{mbqnSimuData}},
+  \code{\link{mbqnSimuDistortion}}
 }
 \author{
-A. Schad, \email{ariane.schad@zbsa.de}
+Ariane Schad
 }
-\keyword{normalization}
-\keyword{proteomics}
-\keyword{quantile}
+\concept{data}

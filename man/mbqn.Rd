@@ -19,14 +19,14 @@ i.e. normal QN is used.}
 \item{na.rm}{A logical value indicating whether NA values should be omitted in the
 computation of average feature expression.}
 
-\item{method}{Method used to compute quantile normalization; default NULL - use QN
-function from the preprocessCore package ; if "limma" - the QN function from the
-Limma package is used.}
+\item{method}{Packagename providing the function used to compute the standard quantile normalization;
+default NULL or "limma" - use \code{normalizeBetweenArrays()} from the limma package,
+if "preprocessCore" - \code{normalize.quantiles()} from the preprocessCore package is used.}
 
-\item{verbose}{Logical indicating to run function quietly}
+\item{verbose}{Logical indicating to run function quietly.}
 }
 \value{
-Mean-/Median-balanced quantile normalized \code{matrix}.
+Normalized matrix
 }
 \description{
 Modified quantile-normalization of a matrix, representing for example
@@ -38,7 +38,7 @@ across columns, i.e. rank invariant (RI) or nearly rank invariant (NRI) features
 Normalize a data matrix based on a mean-balanced quantile normalization.
 Each row of the data matrix is balanced by FUN, e.g. the median, before normalization.
 After normalization, row means are added to the normalized matrix.
-This function uses \code{preprocessCore::normalize.quantiles()} by Bolstad et al, Bioinformatics (2003),
+By default, this function uses \code{limma::normalizeQuantiles()}.
 available from http://bioconductor.org/biocLite.R.
 }
 \examples{
@@ -53,9 +53,6 @@ mbqn(X, "median")
 wt <- c(1,3,1)/5 # Weights for each sample
 user_array <- apply(X,1,weighted.mean, wt ,na.rm =TRUE)
 mbqn(X, user_array)
-
-## Use limma package to compute quantile normalization
-mbqn(X, median, method = "limma")
 }
 }
 \references{
@@ -63,7 +60,6 @@ Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalizatio
 }
 \seealso{
 Other mbqn: \code{\link{get_kminmax}},
-  \code{\link{mbqnBoxplot}},
   \code{\link{mbqnCheckSaturation}},
   \code{\link{mbqnGetNRIfeatures}}, \code{\link{mbqnNRI}}
 }
@@ -71,4 +67,3 @@ Other mbqn: \code{\link{get_kminmax}},
 A. Schad, \email{ariane.schad@zbsa.de}
 }
 \concept{mbqn}
-\concept{quantile, quantile normalization, rank invariance}

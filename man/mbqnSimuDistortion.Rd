@@ -2,10 +2,10 @@
 % Please edit documentation in R/mbqnSimuDistortion.R
 \name{mbqnSimuDistortion}
 \alias{mbqnSimuDistortion}
-\title{Simulate distortion of mean and scale of a data matrix}
+\title{Simulate an omics-like intensity matrix with mean and scale distorted samples}
 \usage{
-mbqnSimuDistortion(ncol = NULL, max_mean = 0.05, max_scale = 0.01,
-  seed = 1234)
+mbqnSimuDistortion(ncol = 18, max_mean = 0.05, max_scale = 0.01,
+  seed = 1234, flag.fig = FALSE)
 }
 \arguments{
 \item{ncol}{number of columns of data matrix}
@@ -15,31 +15,40 @@ mbqnSimuDistortion(ncol = NULL, max_mean = 0.05, max_scale = 0.01,
 \item{max_scale}{Realtive change in scale, i.e. 0.01 corresponds to 1\%}
 
 \item{seed}{Seed for random number generator. Default \code{seed <- 1234}}
+
+\item{flag.fig}{Logical that indicates whether results are plot to pdf, default FALSE}
 }
 \value{
-\code{matrix} of size nrow x ncol
+\code{list} of distorted matrix of size nrow x ncol, arrays of mean and scale distortions, and figures in pdfs
 }
 \description{
-Simulate an omics-like, columnwise distortion in mean and scale
-of a data matrix
+Illustrate the influence of normalization on expression analysis.
+Distort columnwise mean and scale of a simulated, omics-like matrix with a single differentially
+expressed NRI feature. Apply a two-sided t-test before and after application of different normalizations.
 }
 \details{
-For model "rand" the random matrix entries are drawn from a standard normal distribution
-of mean 0 and sigma 1. For model "omics" the meand and standard deviation of each row i is
-drawn from Gaussian distribution \eqn{N(\mu_i,sd_i^2)} with \eqn{sd_i~N(0,0.0625)} and \eqn{\mu_i~N(28,4)}.
-About 21\% of the values are omitted according to the missing value pattern present in the LFQ intensities
-of PXD001584 (Ramond et al. 2015).
+Shift and scale the sample mean and standard deviation of a simulated matrix of structured, random
+values with missing values. The distortions for center and scale relative to mean and standard deviation of each sample
+are drawn from a Gaussian distribution \eqn{|N(0,\sigma^2)|} with \eqn{\sigma_mean=}\code{max_mean} and
+\eqn{\sigma_scale}=\code{max_scale}, respectively. A single, rank invariant (RI) feature with differential expression is stacked to the matrix before mean and scale distortion. A two-sided t-test
+is applied to the RI feature before and after normalization with QN and MBQN.
 }
 \examples{
 \dontrun{
-MBQN:::mbqnSimuDistortion(ncol = 9)
+MBQN:::mbqnSimuDistortion(ncol = 18)
 }
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019. \cr
-Ramond, E. et al. (2015) Importance of host cell arginine uptake in Francisella phagosomal
-escape and ribosomal protein amounts. Mol Cell Proteomics 14, 870-881.
+Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+}
+\seealso{
+\code{\link[=mbqnSimuData]{mbqnSimuData()}} for data generation
+
+Other data: \code{\link{example_NApattern}},
+  \code{\link{mbqnBoxplot}}, \code{\link{mbqnDemo}},
+  \code{\link{mbqnExample}}, \code{\link{mbqnSimuData}}
 }
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}
 }
+\concept{data}

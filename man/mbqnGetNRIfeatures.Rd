@@ -20,11 +20,11 @@ i.e. normal QN is used.}
 \item{low_thr}{Value between [0 1] as lower threshold that specifies the critical
 rank invariance frequency, with default set to 0.5.}
 
-\item{method}{Method used to compute quantile normalization; default NULL - use QN
-function from the preprocessCore package ; if "limma" - the QN function from the
-Limma package is used.}
+\item{method}{Packagename providing the function used to compute the standard quantile normalization;
+default NULL or "limma" - use \code{normalizeBetweenArrays()} from the limma package,
+if "preprocessCore" - \code{normalize.quantiles()} from the preprocessCore package is used.}
 
-\item{verbose}{Logical indicating to run function quietly}
+\item{verbose}{Logical indicating to run function quietly.}
 }
 \value{
 List of identified RI and NRI features, rank frequencies, and rank variation.
@@ -37,11 +37,10 @@ same ranks across samples/columns. A user-defined threhold is used to identify n
 Compute rank frequencies rank variation of each feature of a quantile normalized matrix.
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
+Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 }
 \seealso{
 Other mbqn: \code{\link{get_kminmax}},
-  \code{\link{mbqnBoxplot}},
   \code{\link{mbqnCheckSaturation}}, \code{\link{mbqnNRI}},
   \code{\link{mbqn}}
 }

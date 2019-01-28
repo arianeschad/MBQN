@@ -8,11 +8,12 @@ mbqnBoxplot(mtx, irow = NULL, vals = NULL, filename = NULL,
   type = "l", add.leg = TRUE, ...)
 }
 \arguments{
-\item{mtx}{data matrix where rows represent features, e.g. protein abundance; columns represent groups, samples, e.g., replicates, experimental conditions.}
+\item{mtx}{a data matrix where rows represent features, e.g. protein abundance; columns represent groups, samples, e.g., replicates, experimental conditions.}
 
-\item{irow}{integer for row index or array of row indices for highlighting}
+\item{irow}{an integer for row index or array of row indices for highlighting}
 
-\item{vals}{numeric array/matrix of length \code{dim(mtx)[2]} that is plot on top of the boxplot}
+\item{vals}{numeric, array, matrix, or data frame. Array, matrix rows or data frame fields of length
+\code{dim(mtx)[2]} are plot on top of the boxplot}
 
 \item{filename}{save plot to file with filename in working directory}
 
@@ -42,18 +43,18 @@ mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile norm
 mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b",filename = "fig_boxplot_qn.data.pdf")
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
+Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 }
 \seealso{
-Other mbqn: \code{\link{get_kminmax}},
-  \code{\link{mbqnCheckSaturation}},
-  \code{\link{mbqnGetNRIfeatures}}, \code{\link{mbqnNRI}},
-  \code{\link{mbqn}}
+Other data: \code{\link{example_NApattern}},
+  \code{\link{mbqnDemo}}, \code{\link{mbqnExample}},
+  \code{\link{mbqnSimuData}},
+  \code{\link{mbqnSimuDistortion}}
 }
 \author{
-A. Schad, \email{ariane.schad@zbsa.de}
+Ariane Schad
 }
-\concept{mbqn}
+\concept{data}
 \concept{quantile, quantile normalization, rank invariance}
 \keyword{normalization,}
 \keyword{proteomics}

@@ -9,7 +9,7 @@ mbqnSimuData(model = "rand", nrow = NULL, ncol = NULL, seed = 1234)
 \arguments{
 \item{model}{Two different type of matrix models are available: "rand" generates a random matrix
 of size nrow x ncol, "omics" generates a Gaussian random matrix which mimics intensity profiles and
-missing values as present in a selected real data set.}
+missing values as present in a real data set.}
 
 \item{nrow}{number of rows of data matrix.}
 
@@ -21,14 +21,17 @@ missing values as present in a selected real data set.}
 \code{matrix} of size nrow x ncol
 }
 \description{
-Generate a random data matrix with or without proteomics-like properties
+Generate a random data matrix with or without proteomics, log-transformed feature
+intensity-like properties
 }
 \details{
-For model "rand" the random matrix entries are drawn from a standard normal distribution
-of mean 0 and sigma 1. For model "omics" the meand and standard deviation of each row i is
-drawn from Gaussian distribution \eqn{N(\mu_i,sd_i^2)} with \eqn{sd_i~N(0,0.0625)} and \eqn{\mu_i~N(28,4)}.
-About 21\% of the values are omitted according to the missing value pattern present in the LFQ intensities
-of PXD001584 (Ramond et al. 2015).
+For model "rand" the matrix entries are drawn from a standard normal
+distribution \eqn{N(0,1)}. For model "omics" the matrix entries of each row
+are drawn from a Gaussian distribution \eqn{N(\mu_i,\sigma_i^2)} where the
+mean and standard deviation itself are drawn Gaussian distributions, i.e.
+\eqn{\sigma_i~N(0,0.0625)} and \eqn{\mu_i~N(28,4)}. About 35\% of the matrix
+values are set to NA according to the missing value pattern present in the protein LFQ
+intensities of PXD001584 [1].
 }
 \examples{
 mbqnSimuData(model = "rand", 1000,10)
@@ -36,10 +39,18 @@ mbqnSimuData(model = "rand")
 mbqnSimuData(model = "omics")
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019. \cr
-Ramond, E. et al. (2015) Importance of host cell arginine uptake in Francisella phagosomal
-escape and ribosomal protein amounts. Mol Cell Proteomics 14, 870-881.
+[1] Ramond, E. et al. (2015) Importance of host cell arginine uptake in Francisella phagosomal
+escape and ribosomal protein amounts. Mol Cell Proteomics 14, 870-881.\cr
+}
+\seealso{
+\code{\link[MBQN:example_NApattern]{MBQN::example_NApattern()}} for description of missing value pattern
+
+Other data: \code{\link{example_NApattern}},
+  \code{\link{mbqnBoxplot}}, \code{\link{mbqnDemo}},
+  \code{\link{mbqnExample}},
+  \code{\link{mbqnSimuDistortion}}
 }
 \author{
 A. Schad, \email{ariane.schad@zbsa.de}
 }
+\concept{data}
