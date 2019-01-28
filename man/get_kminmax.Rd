@@ -2,28 +2,26 @@
 % Please edit documentation in R/get_kminmax.R
 \name{get_kminmax}
 \alias{get_kminmax}
-\title{Get the k largest/smallest values and their indices for each
-column of a matrix}
+\title{Get indices and values of the k largest/smallest elements}
 \usage{
-get_kminmax(X, k, flag)
+get_kminmax(X, k, flag = "max")
 }
 \arguments{
-\item{X}{data matrix.}
+\item{X}{a data matrix.}
 
-\item{k}{number of selected extreme values. Must be less then #rows of X.}
+\item{k}{integer specifying the number of selected extreme values. Must be less \code{<= nrows(X)}.}
 
-\item{flag}{"min or "max"}
+\item{flag}{"min" or "max"(default)}
 }
 \value{
 \code{list} with indices \code{ik} of extreme values \code{minmax}.
 }
 \description{
-Extract the k largest/smallest values and their indices for each column of a matrix.
+Extract the k largest or smallest values and their indices of each column of a matrix.
 }
 \details{
-Function used by \code{mbqn.check_saturation}. Sort values of
-each column of a matrix or an array X and determine the
-k smallest (flag <- "min") or largest (flag <- "max") values in. NA's in the
+Order the values of each column of X and determine the
+k smallest (\code{flag = "min"}) or largest (\code{flag = "max"}) values and their indices. NA's in the
 data are ignored.
 }
 \examples{
@@ -34,13 +32,11 @@ get_kminmax(X, k = 5, "max") # get indices of the 5 largest values in each colum
 Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 }
 \seealso{
-Other mbqn: \code{\link{mbqnBoxplot}},
-  \code{\link{mbqnCheckSaturation}},
+Other mbqn: \code{\link{mbqnCheckSaturation}},
   \code{\link{mbqnGetNRIfeatures}}, \code{\link{mbqnNRI}},
   \code{\link{mbqn}}
 }
 \author{
-A. Schad, \email{ariane.schad@zbsa.de}
+Ariane Schad
 }
 \concept{mbqn}
-\concept{quantile, quantile normalization, rank invariance}
