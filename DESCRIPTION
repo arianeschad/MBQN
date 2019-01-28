@@ -5,13 +5,13 @@ Author: Ariane Schad [aut,cre]
 Maintainer: Ariane Schad <ariane.schad@zbsa.de>
 Description: Modified quantile normalization for omics or other matrix-like data distorted in location and scale.
 License: GPL-3 + file LICENSE
-Depends: R (>= 3.3.3)
-Imports: stats, graphics, rpx, grDevices, filesstrings, preprocessCore (>= 1.36.0)
-Suggests: limma (>= 3.30.13), knitr
-URL: https://github.com/arianeschad/mbqn
-biocViews: Normalization, Preprocessing
+Depends: R (>= 3.3)
+Imports: stats, graphics, rpx, grDevices, filesstrings, limma (>= 3.30.13), preprocessCore (>= 1.36.0)
+Suggests: knitr
+biocViews: Normalization, Preprocessing, Proteomics, Software
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/arianeschad/mbqn
 NeedsCompilation: no
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
