@@ -10,7 +10,6 @@
 #' @param index A single index or a vector of indices of selected rows.
 #' @param low_thr Value between \[0 1\] as lower threshold that specifies the critical
 #' rank invariance frequency, with default set to 0.5.
-# #' @param ... Optional arguments passed to \code{mbqn()}
 #' @details Specified rows and/or rows with a rank invariance frequency between samples above \code{threshold}
 #' are normalized with the mean/median balanced quantile normalization. Remaining rows are quantile normalized
 #' without balancing of means.
@@ -27,19 +26,20 @@
 #' @export mbqnNRI
 # Created: Nov 2018
 
-mbqnNRI <- function(x, FUN = NULL, na.rm = TRUE, low_thr = 0.5 ,index = NULL, verbose = TRUE){
+mbqnNRI <- function(x, FUN = NULL, na.rm = TRUE, method = NULL, low_thr = 0.5 ,index = NULL, verbose = TRUE){
 
-    if(is.null(index)){
-        if (!is.numeric(low_thr) || low_thr >1)
-          { stop("Wrong data format, low_thr must be a value within [0 1]!")}
+  if(is.null(index)){
+    if (!is.numeric(low_thr) || low_thr >1)
+    { stop("Wrong data format, low_thr must be a value within [0 1]!")}
 
-      res  <- mbqnGetNRIfeatures(x, FUN = FUN,
-                                    low_thr = low_thr,
-                                    verbose = verbose)
-      index <- as.numeric(names(res$nri))
-      }
-  x.mbqn <- mbqn(x = x, FUN = FUN,na.rm = na.rm, verbose = verbose)
-  x.qn <- mbqn(x = x, FUN = NULL ,na.rm = na.rm, verbose = verbose)
+    res  <- mbqnGetNRIfeatures(x, FUN = FUN,
+                               method = method,
+                               low_thr = low_thr,
+                               verbose = verbose)
+    index <- as.numeric(names(res$nri))
+  }
+  x.mbqn <- mbqn(x = x, FUN = FUN,na.rm = na.rm, method = method, verbose = verbose)
+  x.qn <- mbqn(x = x, FUN = NULL ,na.rm = na.rm, method = method, verbose = verbose)
   if(length(index)>0) x.qn[index,] <- x.mbqn[index,]
-return(x.qn)
+  return(x.qn)
 }
