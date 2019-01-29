@@ -22,7 +22,7 @@
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
 #' mbqnNRI(X, median,low_thr = 0.5) # Balance NRI features selected by threshold
 #' mbqnNRI(X, median, index = c(1,2)) # Balance selected features
-#' @author A. Schad, \email{ariane.schad@zbsa.de}
+#' @author Ariane Schad
 #' @export mbqnNRI
 # Created: Nov 2018
 
