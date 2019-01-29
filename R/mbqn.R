@@ -1,23 +1,27 @@
 #' Mean-balanced quantile normalization
 #'
-#' @param x A data matrix, where rows represent proteins and
-#' columns samples from different replicates, treatments, or conditions.
-#' @param FUN A function like mean, median, a user defined function, or a numeric array
+#' @param x a data matrix, where rows represent intensity features, e.g.
+#' of protein abundance, and columns represent samples, e.g. replicates, treatments, or conditions.
+#' @param FUN a function like mean, median, a user defined function, or a numeric array
 #' of weights with
 #' \code{dim(user_array) = nrow(x)} to balance each intensity profile across samples.
 #' Functions can be parsed also as characters. If FUN = NULL, features are not balanced,
 #' i.e. normal QN is used.
-#' @param na.rm A logical value indicating whether NA values should be omitted in the
+#' @param na.rm a logical value indicating whether NA values should be omitted in the
 #' computation of average feature expression.
-#' @param verbose Logical indicating to run function quietly
+#' @param method packagename providing the function used to compute the standard quantile normalization;
+#' default NULL or "limma" - use \code{normalizeBetweenArrays()} from the limma package,
+#' if "preprocessCore" - \code{normalize.quantiles()} from the preprocessCore package is used.
+#' @param verbose a logical indicating to run function quietly.
 #' @details Normalize a data matrix based on a mean-balanced quantile normalization.
 #' Each row of the data matrix is balanced by FUN, e.g. the median, before normalization.
 #' After normalization, row means are added to the normalized matrix.
-#' This function uses \code{limma::normalizeBetweenArrays()}
+#' By default, this function uses \code{limma::normalizeQuantiles()}.
+# # \code{limma::normalizeBetweenArrays()}
 #' available from http://bioconductor.org/biocLite.R.
-#' @return Normalized \code{matrix}.
-#' @importFrom limma normalizeBetweenArrays
-#' @concept quantile, quantile normalization, rank invariance
+#' @return Normalized matrix
+#' @importFrom limma normalizeQuantiles
+# #' @concept quantile, quantile normalization, rank invariance
 #' @family mbqn
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep., 2019
 #' @examples
@@ -34,27 +38,23 @@
 #' mbqn(X, user_array)
 # #'
 # #' ## Use limma package to compute quantile normalization
-# #' mbqn(X, median, method = "limma")
+# #' mbqn(X, median, method = "preprocessCore")
 #' }
 #' @description Modified quantile-normalization of a matrix, representing for example
 #' omics or other data sorted in a matrix. Prevents systematic flattening of feature variation across columns
 #' for features overrepresented in the tails of the intensity distribution
 #' across columns, i.e. rank invariant (RI) or nearly rank invariant (NRI) features.
-#' @author A. Schad, \email{ariane.schad@zbsa.de}
+#' @author Ariane Schad
 #' @export mbqn
 # Created: July 2017
 
-mbqn <- function(x, FUN = NULL, na.rm = TRUE, verbose = TRUE){
+mbqn <- function(x, FUN = NULL, na.rm = TRUE, method = NULL, verbose = TRUE){
 
-  # Check if package preprocessCore is installed  to run this function
-   # if (!requireNamespace("preprocessCore", quietly = TRUE)) {
-  #    stop("Package \"pkg\" needed for this function to work. Please install it.",
-  #         call. = FALSE)
-      if (!requireNamespace("limma", quietly = TRUE)) {
-        stop("Package \"pkg\" needed for this function to work. Please install it.",
-             call. = FALSE)
-
-    }
+  # Check if package limma is installed to run this function
+  if (!requireNamespace("limma", quietly = TRUE)) {
+    stop("Package \"pkg\" needed for this function to work. Please install it.",
+         call. = FALSE)
+  }
 
   if (!is.matrix(x)) {
     stop("Wrong data format! Input must be a matrix!")
@@ -69,29 +69,37 @@ mbqn <- function(x, FUN = NULL, na.rm = TRUE, verbose = TRUE){
     if(is.character(FUN)) FUN <- match.fun(FUN)
     if(is.function(FUN)){
       mx <- apply(x,1,FUN,na.rm=na.rm) # row mean
-      }
+    }
     if(is.numeric(FUN)){mx <- FUN
     if(sum(abs(FUN)==0,na.rm =T))  print("Array-elements are all zero. Comput QN without mean balancing.")
     }
+
     # balanced quantile normalisation
-    #if(!is.null(method) && method == "limma"){
-      dummy <- limma::normalizeBetweenArrays(x-mx)
+    if(is.null(method) || method == "limma"){
+      dummy <- normalizeQuantiles(x-mx)
       rownames(dummy) <- NULL
-    #}#else{
-     # dummy <- preprocessCore::normalize.quantiles(x-mx)
-    #  }
-      qn_x <- dummy + mx
+    } else if (method == "preprocessCore"){
+      # Check if package preprocessCore is installed  to run this function
+      if (!requireNamespace("preprocessCore", quietly = TRUE)) {
+        stop("Package \"pkg\" needed for this function to work. Please install it.",
+             call. = FALSE)}
+      dummy <- preprocessCore::normalize.quantiles(x-mx)
+    }
+    qn_x <- dummy + mx
 
   }else{
     if(verbose) print("Comput QN without mean balancing.")
     # quantile normalisation
-   # if(!is.null(method) && method == "limma") {
-      # qn_x <- limma::normalizeBetweenArrays(x)
-      qn_x <- normalizeBetweenArrays(x)
+    if(is.null(method) || method == "limma") {
+      qn_x <- normalizeQuantiles(x)
       rownames(qn_x) <- NULL
-  #  }else{
-   #   qn_x <- preprocessCore::normalize.quantiles(x)
-  #  }
+    }else if (method == "preprocessCore"){
+      # Check if package preprocessCore is installed  to run this function
+      if (!requireNamespace("preprocessCore", quietly = TRUE)) {
+        stop("Package \"pkg\" needed for this function to work. Please install it.",
+             call. = FALSE)}
+      qn_x <- preprocessCore::normalize.quantiles(x)
+    }
   }
   colnames(qn_x) <- colnames(x)
   return(qn_x)
