@@ -34,9 +34,11 @@ values are set to NA according to the missing value pattern present in the prote
 intensities of PXD001584 [1].
 }
 \examples{
+\dontrun{
 mbqnSimuData(model = "rand", 1000,10)
 mbqnSimuData(model = "rand")
 mbqnSimuData(model = "omics")
+}
 }
 \references{
 [1] Ramond, E. et al. (2015) Importance of host cell arginine uptake in Francisella phagosomal
