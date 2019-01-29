@@ -8,7 +8,7 @@ Mean/Median-balanced quantile normalization for preprocessing omics data
 Description
 -----------
 
-This package supplies a modified quantile normalization for preprocessing omics or other matrix-like organized data with intensity values biased by global, columnwise distortions of intensity mean and scale. The modification balances the mean intensity of features (i.e. rows) which are rank invariant (RI) or nearly rank invariant (NRI) across samples/columns, before quantile normalization in order to reduce systematics in downstream analysis \[1\].
+This package supplies a modified quantile normalization (QN) for preprocessing and analysis of omics or other matrix-like organized data with intensity values biased by global, columnwise distortions of intensity mean and scale. The modification balances the mean intensity of features (i.e. rows) which are rank invariant (RI) or nearly rank invariant (NRI) across samples/columns before quantile normalization as they are otherwise over-suppressed by QN \[1\]. This allows to reduce systematics in downstream analysis. Additional package functions help to detect, identify, and visualize potential RI or NRI features in the data and demonstrate the use of the modification.
 
 Installation
 ------------
@@ -40,7 +40,7 @@ BiocManager::install("MBQN")
 Dependencies
 ------------
 
-The MBQN package uses `normalizeQuantiles()` from the package `limma`\[2\] for computation of the quantile normalization, available from <https://bioconductor.org/packages/release/bioc/html/limma.html>. <br/>
+The MBQN package uses `normalizeQuantiles()` from the package `limma`\[2\], available from <https://bioconductor.org/packages/release/bioc/html/limma.html>, for computation of the quantile normalization. <br/>
 
 Optionally, `normalize.quantiles()` from the package `preprocessCore`\[3\], available from <https://github.com/bmbolstad/preprocessCore>, can be used for quantile normalization. <br/>
 
