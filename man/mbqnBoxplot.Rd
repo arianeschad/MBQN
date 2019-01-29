@@ -15,13 +15,13 @@ mbqnBoxplot(mtx, irow = NULL, vals = NULL, filename = NULL,
 \item{vals}{numeric, array, matrix, or data frame. Array, matrix rows or data frame fields of length
 \code{dim(mtx)[2]} are plot on top of the boxplot}
 
-\item{filename}{save plot to file with filename in working directory}
+\item{filename}{save plot as pdf with filename in working directory}
 
 \item{type}{line style for plot of row intensities}
 
 \item{add.leg}{add legend to plot; default TRUE}
 
-\item{...}{basic plot options like: xlab, ylab, main, ylim, las}
+\item{...}{additional arguments passed to plot, e.g. xlab, ylab, main, ylim, las}
 }
 \value{
 Figure
@@ -36,11 +36,13 @@ on top of the boxes. Missing values are ignored.
 \examples{
 ## Create boxplot of quantile normalized data matrix and plot
 ## feature from median balanced quantile normalization on top of it.
+\dontrun{
 X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create data matrix
 qn.dat <- mbqn(x=X,FUN = NULL ,na.rm = TRUE) # Quantile normalization
 mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile normalization
 ## Create boxplot and save output to file:
 mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b",filename = "fig_boxplot_qn.data.pdf")
+}
 }
 \references{
 Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019

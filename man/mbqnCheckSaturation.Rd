@@ -4,34 +4,39 @@
 \alias{mbqnCheckSaturation}
 \title{Check data matrix for rank invariant (RI) and nearly rank invariant (NRI) features}
 \usage{
-mbqnCheckSaturation(dat, FUN = NULL, low_thr = 0.5,
+mbqnCheckSaturation(x, FUN = NULL, low_thr = 0.5,
   feature_index = NULL, show_fig = TRUE, save_fig = TRUE,
   show_nri_only = FALSE, filename = NULL, verbose = TRUE, ...)
 }
 \arguments{
-\item{dat}{A data matrix. Rows - features, e.g. protein abundances; columns - samples}
+\item{x}{a data matrix, where rows represent intensity features, e.g.
+of protein abundance, and columns represent samples, e.g. replicates, treatments, or conditions.}
 
-\item{FUN}{median, mean, or another function used to balance features across colums. If left empty, quantile normalization
-is applied without balancing the data}
+\item{FUN}{a function like mean, median, a user defined function, or a numeric array
+of weights with
+\code{dim(user_array) = nrow(x)} to balance each intensity profile across samples.
+Functions can be parsed also as characters. If FUN = NULL, features are not balanced,
+i.e. normal QN is used.}
 
-\item{low_thr}{Numerical value for the lower threshold for NRI frequency, default = 0.5}
+\item{low_thr}{Value between [0 1] as lower threshold that specifies the critical
+rank invariance frequency, with default set to 0.5.}
 
-\item{feature_index}{Integer that indicates the index of a feature of interest that is plotted in the boxplot; default NULL}
+\item{feature_index}{an integer that indicates the index of a feature of interest that is plotted in the boxplot; default NULL}
 
-\item{show_fig}{Logical flag indicating whether results should be displayed; default = TRUE.}
+\item{show_fig}{a logical flag indicating whether results should be displayed; default = TRUE.}
 
-\item{save_fig}{Logical to save figures to file}
+\item{save_fig}{a logical indicating to save figures to pdf}
 
-\item{show_nri_only}{Logical to print and save only the RI/NRI detection graph; default FALSE}
+\item{show_nri_only}{a logical to display and save only the RI/NRI detection graph to pdf; default FALSE}
 
-\item{filename}{String for naming figures, default = NULL}
+\item{filename}{a string for naming figures, default = NULL}
 
-\item{verbose}{Logical for running function quiet}
+\item{verbose}{a logical indicating to run function quietly.}
 
-\item{...}{Optional plot arguments passed to \code{mbqn.boxplot}}
+\item{...}{Optional plot arguments passed to \code{mbqnBoxplot}}
 }
 \value{
-List with the components:
+A list with elements:
 \item{\code{p}}{a matrix of the rank invariance frequencies and the sample coverage over all RI/NRI features}
 \item{\code{max_p}}{value of the maximum rank invariance frequency in percent}
 \item{\code{ip}}{index of the feature with maximum rank invariance frequency}
@@ -43,6 +48,8 @@ Check data matrix for intensity features in rows which dominate the upper tail, 
 features that have constant or nearly constant rank across samples.
 }
 \details{
+is applied without balancing the data
+
 Rank data and check if lower and upper intensity tails are
 dominated by few features. Apply quantile
 normalization without and with mean-balancing and check the standard
@@ -62,7 +69,6 @@ Other mbqn: \code{\link{get_kminmax}},
   \code{\link{mbqn}}
 }
 \author{
-A. Schad, \email{ariane.schad@zbsa.de}
+Ariane Schad
 }
 \concept{mbqn}
-\concept{quantile, quantile normalization, rank invariance}
