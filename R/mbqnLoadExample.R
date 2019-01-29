@@ -92,6 +92,6 @@ mbqnLoadExample <- function(which.example = 1, source.path = NULL){
   # log2 transform intensities
   mtx <- log2(mtx)
 
-  return(list(mtx = mtx, featureAnnotations = featureAnnotations))
+  return(list(mtx = mtx, pxdid = pxdid, featureAnnotations = featureAnnotations))
 }
 
