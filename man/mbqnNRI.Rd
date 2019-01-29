@@ -8,19 +8,19 @@ mbqnNRI(x, FUN = NULL, na.rm = TRUE, method = NULL, low_thr = 0.5,
   index = NULL, verbose = TRUE)
 }
 \arguments{
-\item{x}{A data matrix, where rows represent proteins and
-columns samples from different replicates, treatments, or conditions.}
+\item{x}{a data matrix, where rows represent intensity features, e.g.
+of protein abundance, and columns represent samples, e.g. replicates, treatments, or conditions.}
 
-\item{FUN}{A function like mean, median, a user defined function, or a numeric array
+\item{FUN}{a function like mean, median, a user defined function, or a numeric array
 of weights with
 \code{dim(user_array) = nrow(x)} to balance each intensity profile across samples.
 Functions can be parsed also as characters. If FUN = NULL, features are not balanced,
 i.e. normal QN is used.}
 
-\item{na.rm}{A logical value indicating whether NA values should be omitted in the
+\item{na.rm}{a logical value indicating whether NA values should be omitted in the
 computation of average feature expression.}
 
-\item{method}{Packagename providing the function used to compute the standard quantile normalization;
+\item{method}{packagename providing the function used to compute the standard quantile normalization;
 default NULL or "limma" - use \code{normalizeBetweenArrays()} from the limma package,
 if "preprocessCore" - \code{normalize.quantiles()} from the preprocessCore package is used.}
 
@@ -29,7 +29,7 @@ rank invariance frequency, with default set to 0.5.}
 
 \item{index}{A single index or a vector of indices of selected rows.}
 
-\item{verbose}{Logical indicating to run function quietly.}
+\item{verbose}{a logical indicating to run function quietly.}
 }
 \value{
 Normalized \code{matrix}.
@@ -60,7 +60,7 @@ Other mbqn: \code{\link{get_kminmax}},
   \code{\link{mbqnGetNRIfeatures}}, \code{\link{mbqn}}
 }
 \author{
-A. Schad, \email{ariane.schad@zbsa.de}
+Ariane Schad
 }
 \concept{mbqn}
 \concept{quantile, quantile normalization, rank invariance}
