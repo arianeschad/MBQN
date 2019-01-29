@@ -5,7 +5,6 @@
 .DS_Store
 *.pdf
 figures/
-inst/doc
 examples/examples_old.R
 R/mbqn.check_saturation_v0.R
 R/mbqn.check_saturation_v2.R
@@ -23,3 +22,5 @@ examples/example3.R
 examples/example4.R
 
 
+packrat/lib*/
+packrat/src/
