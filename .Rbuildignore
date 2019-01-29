@@ -16,3 +16,5 @@
 ^temp/$
 ^README\.Rmd$
 ^README-.*\.png$
+^packrat/
+^\.Rprofile$
