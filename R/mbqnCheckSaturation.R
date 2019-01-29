@@ -1,30 +1,32 @@
 #' Check data matrix for rank invariant (RI) and nearly rank invariant (NRI) features
 #'
-#' @param dat A data matrix. Rows - features, e.g. protein abundances; columns - samples
-#' @param FUN median, mean, or another function used to balance features across colums. If left empty, quantile normalization
+# #' @param x a data matrix. Rows - features, e.g. protein abundances; columns - samples
+# #' @param FUN median, mean, or another function used to balance features across colums. If left empty, quantile normalization
 #' is applied without balancing the data
-#' @param low_thr Numerical value for the lower threshold for NRI frequency, default = 0.5
-#' @param feature_index Integer that indicates the index of a feature of interest that is plotted in the boxplot; default NULL
-#' @param show_fig Logical flag indicating whether results should be displayed; default = TRUE.
-#' @param save_fig Logical to save figures to file
-#' @param show_nri_only Logical to print and save only the RI/NRI detection graph; default FALSE
-#' @param filename String for naming figures, default = NULL
-#' @param verbose Logical for running function quiet
-#' @param ... Optional plot arguments passed to \code{mbqn.boxplot}
+# #' @param low_thr Numerical value for the lower threshold for NRI frequency, default = 0.5
+#' @param feature_index an integer that indicates the index of a feature of interest that is plotted in the boxplot; default NULL
+#' @param show_fig a logical flag indicating whether results should be displayed; default = TRUE.
+#' @param save_fig a logical indicating to save figures to pdf
+#' @param show_nri_only a logical to display and save only the RI/NRI detection graph to pdf; default FALSE
+#' @param filename a string for naming figures, default = NULL
+# #' @param verbose Logical for running function quiet
+#' @param ... Optional plot arguments passed to \code{mbqnBoxplot}
+#' @inheritParams mbqnGetNRIfeatures
 #' @inheritParams mbqn
 #' @inheritParams mbqnBoxplot
 #' @importFrom grDevices dev.copy2pdf dev.off dev.size pdf
+#' @importFrom stats median
 #' @details Rank data and check if lower and upper intensity tails are
 #' dominated by few features. Apply quantile
 #' normalization without and with mean-balancing and check the standard
 #' deviation of normalized features located in the tails.
-#' @return List with the components:
+#' @return A list with elements:
 #' \item{\code{p}}{a matrix of the rank invariance frequencies and the sample coverage over all RI/NRI features}
 #' \item{\code{max_p}}{value of the maximum rank invariance frequency in percent}
 #' \item{\code{ip}}{index of the feature with maximum rank invariance frequency}
 #' \item{\code{nri}}{a table of the rank invariance frequencies in percent of NRI/RI features}
 #' \item{\code{var0_feature}}{index of features with zero sample variance after QN.}
-#' @concept quantile, quantile normalization, rank invariance
+# #' @concept quantile, quantile normalization, rank invariance
 #' @family mbqn
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. Bioinf. Appl. Note., 2018
 #' @examples ## Check data matrix for RI and NRI features
@@ -32,10 +34,10 @@
 #' mbqnCheckSaturation(X, mean, low_thr = 0.5, save_fig = FALSE)
 #' @description Check data matrix for intensity features in rows which dominate the upper tail, i.e. for
 #' features that have constant or nearly constant rank across samples.
-#' @author A. Schad, \email{ariane.schad@zbsa.de}
+#' @author Ariane Schad
 # 2017
 #' @export mbqnCheckSaturation
-mbqnCheckSaturation <- function(dat, FUN = NULL,
+mbqnCheckSaturation <- function(x, FUN = NULL,
                                 low_thr = 0.5,
                                 feature_index = NULL,
                                 show_fig = TRUE,
@@ -44,13 +46,13 @@ mbqnCheckSaturation <- function(dat, FUN = NULL,
                                 filename = NULL,verbose = TRUE,...){
 
 
-  res  <- mbqnGetNRIfeatures(dat, FUN = FUN,
+  res  <- mbqnGetNRIfeatures(x, FUN = FUN,
                              low_thr = low_thr,
                              verbose = verbose)
 
   # quantile normalisation and its standard deviation
-  qn.dat <- mbqn(x = dat,FUN = NULL, verbose = FALSE)
-  mbqn.dat <- mbqnNRI(x = dat, FUN = median, low_thr = low_thr, verbose = FALSE)
+  qn.dat <- mbqn(x = x,FUN = NULL, verbose = FALSE)
+  mbqn.dat <- mbqnNRI(x = x, FUN = median, low_thr = low_thr, verbose = FALSE)
 
   ####### Graphical output #########
 
@@ -146,8 +148,12 @@ mbqnCheckSaturation <- function(dat, FUN = NULL,
         low <- floor(min(range(mbqn.dat,na.rm = TRUE)))
         up <- ceiling(max(range(mbqn.dat,na.rm = TRUE)))
 
+        df <- t(rbind(qn.dat[res$ip,],mbqn.dat[res$ip,]))
+        colnames(df) <- c(paste0("QN",res$ip),paste0("MBQN",res$ip))
+        df <- as.data.frame(df)
+
         mbqnBoxplot(qn.dat,
-                    vals = data.frame(QN.feature = qn.dat[res$ip,], MBQN.feature = mbqn.dat[res$ip,]),
+                    vals = df,
                     ylim = c(low,up),
                     ylab = "normalized intensity",
                     main = "QN data with unbalanced \n and balanced maximum RI/NRI feature",
@@ -170,8 +176,12 @@ mbqnCheckSaturation <- function(dat, FUN = NULL,
         low <- floor(min(range(mbqn.dat,na.rm = TRUE)))
         up <- ceiling(max(range(mbqn.dat,na.rm = TRUE)))
 
+        df <- t(rbind(qn.dat[res$ip,],mbqn.dat[res$ip,]))
+        colnames(df) <- c(paste0("QN",res$ip),paste0("MBQN",res$ip))
+        df <- as.data.frame(df)
+
         mbqnBoxplot(mbqn.dat,
-                    vals = data.frame(QN.feature = qn.dat[res$ip,], MBQN.feature = mbqn.dat[res$ip,]),
+                    vals = df,
                     ylim = c(low,up),
                     ylab = "normalized intensity",
                     main = "MBQN data with unbalanced \n and balanced maximum RI/NRI feature",
