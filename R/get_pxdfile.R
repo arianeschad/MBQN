@@ -1,11 +1,11 @@
 #' Download data from PRIDE
 #'
 #' @description Auxiliary function which downloads selected data, like protein group intensities, from PRIDE \[1\].
-#' @param pxd_id character specifying the PRIDE identifier.
-#' @param source.path character specifying the path where to store and search for the
-#' "proteinGroups.txt"-file; default = NULL uses current working directory.
+#' @param pxd_id the PRIDE identifier.
+#' @param source.path pathname where to store and search for the
+#' data file, e.g. "proteinGroups.txt"-file; default = NULL uses current working directory.
 #' @param file.pattern character specifying the kind of dataset for download, e.g.
-#' "proteinGroups.txt" or "peptides.txt".
+#' "proteinGroups" or "peptides".
 #' @importFrom filesstrings file.move
 #' @importFrom utils untar unzip
 #' @details This function requires the R package rpx \[2\].

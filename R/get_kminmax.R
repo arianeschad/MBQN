@@ -36,6 +36,6 @@ get_kminmax <- function(x,k,flag = "max"){
   ik <- ik[1:k,]
   minmax <- minmax[1:k,]
 
-  ## return results --
+  ## return results
   return(list(ik = ik, minmax = minmax))
 }

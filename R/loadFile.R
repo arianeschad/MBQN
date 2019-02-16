@@ -20,9 +20,8 @@
 #' 2016 Jan 1;44(D1): D447-D456. PubMed PMID:26527722.\cr
 #' \[2\] See "SafeQuant" by Erik Ahrne (2016). SafeQuant: A Toolbox for the Analysis of Proteomics Data. R package version 2.3.1.,
 #' https://CRAN.R-project.org/package=SafeQuant.\cr
-#' @examples ## Load LFQ intensities of proteomics data PXD001584 downloaded
-#' available at PRIDE:
-#'\dontrun{
+#' @examples ## Load LFQ intensities of proteomics data of PXD001584:
+#' \dontrun{
 #' loadFile(pxd_id = "PXD001584")
 #'}
 #' @author Ariane Schad

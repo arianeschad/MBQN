@@ -12,7 +12,7 @@
 #' i.e. normal QN is used.
 #' @param na.rm logical indicating to omit NAs in the
 #' computation of feature mean.
-#' @param method character specifying method for computation of quantile normalization;
+#' @param method character specifying function for computation of quantile normalization;
 #' "limma" (default) for \code{normalizeQuantiles()} from the limma package or
 #'"preprocessCore" for \code{normalize.quantiles()} from the preprocessCore package.
 #' @param verbose logical indicating to print messages.
@@ -21,7 +21,7 @@
 #' See \[4\].
 #' @return Normalized matrix
 #' @importFrom limma normalizeQuantiles
-#' @seealso [mbqnNRI()], [mbqnGetNRIfeatures()]
+#' @seealso [mbqnNRI()], [mbqnGetNRIfeatures()].
 #' @references
 #' Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray data. Methods 31, 265–273. \cr
 #' Ritchie, M.E., Phipson, B., Wu, D., Hu, Y., Law, C.W., Shi, W., and Smyth,

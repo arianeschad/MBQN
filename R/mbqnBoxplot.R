@@ -13,7 +13,7 @@
 #' @details This function calls \code{graphics::boxplot}.
 #' Groups are represent by matrix columns. Selected rows/features or user-defined
 #' arrays are plot on top of the box plot. Missing values are ignored.
-#' @return Figure
+#' @return Figure.
 #' @references Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 #' @examples ## Create boxplot of quantile normalized data matrix and plot
 #' ## feature from median balanced quantile normalization on top of it.

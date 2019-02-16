@@ -10,14 +10,6 @@
 #' @importFrom grDevices dev.copy2pdf dev.off
 #' @importFrom stats median
 #' @return Figures saved as pdf-files.
-# #' @details Collecting information on the experiments and downloading datasets requires the package rpx by Laurent Gatto (2017),
-# #' version 1.10.2 from https://github.com/lgatto/rpx.\cr
-# # "rpx: R Interface to the ProteomeXchange Repository".
-# #' The function used to read the proteinGroups.txt files acquires source code
-# #' of SafeQuant::parseMaxQuantProteinGroupTxt, \cr
-# #' See "SafeQuant" by Erik Ahrne (2016). SafeQuant: A Toolbox for the Analysis
-# #' of Proteomics Data. R package version 2.3.1.
-# #' version 2.3.1, https://CRAN.R-project.org/package=SafeQuant.\cr\cr
 #' @details To run this function, download the proteinGroups.txt file
 #' of the selected example manually in advance or use the automatic dowload
 #' provided by the function. \cr\cr
@@ -60,12 +52,6 @@
 #' @export mbqnExample
 mbqnExample <- function(which.example = NULL, source.path = NULL){
 
-  #if(is.null(which.example)) stop("Error: Select an example between 1-4")
-
-  # ###################################################################################
-  # # Download proteinGroups.txt file if not already present
-  #
-  # if(is.null(source.path)) {source.path = file.path(getwd(),"examples")}
 
   # PXD repositories
   ids <- c("PXD001584","PXD005138","PXD005861","PXD006617")
@@ -74,7 +60,8 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
 
   pxd_id <- ids[which.example]
 
-  out <- loadFile(pxd_id, source.path = source.path, which.file= "proteinGroups.txt")
+  # Load file
+  out <- loadFile(pxd_id, source.path = source.path, file.pattern = "proteinGroups.txt")
   featureAnnotations <- out$featureAnnotations
   mtx <- out$mtx
   low_thr <- 0.5

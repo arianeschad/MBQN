@@ -18,9 +18,9 @@
 #' values are set to NA according to the missing value pattern present in real protein LFQ
 #' intensities. For model \code{"omics.dep"}, a single differentially epxressed
 #' RI feature is stacked on top of the matrix from model \code{"omics"}.
-#' @return \code{matrix} of size nrow x ncol
+#' @return \code{matrix} of size nrow x ncol.
 #' @family data
-#' @seealso [MBQN::example_NApattern()] for description of missing value pattern
+#' @seealso [MBQN::example_NApattern()] for description of missing value pattern.
 #' @importFrom utils read.csv untar unzip
 #' @importFrom stats rnorm
 #' @importFrom graphics image layout points rect

@@ -10,8 +10,7 @@
 #' are normalized with the mean/median balanced quantile normalization. Remaining rows are quantile normalized
 #' without mean balancing.
 #' @return Normalized \code{matrix}.
-# #' @family mbqn
-#' @seealso [mbqn()], [mbqnGetNRIfeatures()]
+#' @seealso [mbqn()], [mbqnGetNRIfeatures()].
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 #' @examples ## Quantile normalize a data matrix where
 #' ## nearly rank invariant (NRI) features are balanced

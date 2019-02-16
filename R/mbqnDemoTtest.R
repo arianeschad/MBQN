@@ -7,8 +7,8 @@
 #' The feature is obtained from a simulated dataset where each sample is distorted in mean and scale.
 # #' Shift and scale the sample mean and standard deviation of a simulated matrix of structured, random
 # #' values with missing values. The distortions for center and scale relative to mean and standard deviation of each sample
-# #' are drawn from a Gaussian distribution \eqn{|N(0,\sigma^2)|} with \eqn{\sigma_mean=}\code{max_mean} and
-# #' \eqn{\sigma_scale}=\code{max_scale}, respectively.
+# #' are drawn from a Gaussian distribution \eqn{|N(0,\sigma^2)|} with \eqn{\sigma_mean=}\code{s.mean} and
+# #' \eqn{\sigma_scale}=\code{s.scale}, respectively.
 #' @return Multiple figures of boxplots of intensity distribution for different normalization and
 #' of the RI expression profile before and after normalization, t-test results, and a list with:
 #' \item{\code{x.mod}}{distorted matrix}
@@ -17,8 +17,7 @@
 #' \item{\code{ttest.undistorted}}{output from t-test for the undistorted RI feature}
 #' \item{\code{ttest.distorted}}{output from t-test for the distorted RI feature}
 #' \item{\code{ttest.mbqndistorted}}{output from t-test for the distorted RI feature after mean balanced quantile normalization.}
-#' @seealso [mbqnSimuData()] for data generation
-#' @seealso [mbqnSimuDistortion()] for distortion of data
+#' @seealso [mbqnSimuData()] for data generation and [mbqnSimuDistortion()] for distortion of data.
 #' @importFrom utils read.csv untar unzip
 #' @importFrom stats rnorm t.test
 #' @importFrom graphics image layout points rect matplot
@@ -34,11 +33,11 @@ mbqnDemoTtest <- function(show.fig = FALSE){
 
   #if(!is.null(seed)) set.seed(seed)
 
-  #mx.offset <- abs(rnorm(ncol))*max_mean+1
-  #mx.scale <- abs(rnorm(ncol))*max_scale+1
+  #mx.offset <- abs(rnorm(ncol))*s.mean+1
+  #mx.scale <- abs(rnorm(ncol))*s.scale+1
 
   mtx <- mbqnSimuData("omics.dep", show.fig = FALSE)
-  mtx.mod <- mbqnSimuDistortion(mtx, max_mean = 0.05, max_scale = 0.01, seed = 1234)
+  mtx.mod <- mbqnSimuDistortion(mtx, s.mean = 0.05, s.scale = 0.01, seed = 1234)
   bla <- mtx.mod
   mtx.mod <- mtx.mod$x.mod
 

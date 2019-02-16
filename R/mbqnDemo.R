@@ -9,7 +9,7 @@
 #' @importFrom grDevices dev.off
 #' @importFrom graphics plot.new frame
 #' @return Various graphics illustrating the effect of normalization on
-#' rank mixing and rank invariant intensity features
+#' rank mixing and rank invariant intensity features.
 #' @family example
 #' @examples
 #' mbqnDemo()
