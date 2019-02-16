@@ -1,21 +1,17 @@
-#' Selective mean-balanced quantile normalization for (nearly) rank invariant features
+#' Selective mean-balanced quantile normalization
 #'
-#' @description Quantile normalization of a data matrix where selected rows or rank invariant (RI)/
-#' nearly rank invariant (NRI) rows/features are normalized by
+#' @description Quantile normalization of a data matrix where rank invariant (RI)/
+#' nearly rank invariant (NRI) rows/features or other user-selected rows are normalized by
 #' the mean/median balanced quantile normalization.
-# Quantile normalization of a data matrix where selected rows or rows with a rank
-# invariance frequency above a threshold (=NRI features) are normalized with
-# the mean balanced quantile normalization.
 #' @inheritParams mbqn
-#' @param index A single index or a vector of indices of selected rows.
-#' @param low_thr Value between \[0 1\] as lower threshold that specifies the critical
-#' rank invariance frequency, with default set to 0.5.
-#' @details Specified rows and/or rows with a rank invariance frequency between samples above \code{threshold}
+#' @inheritParams mbqnGetNRIfeatures
+#' @param index an integer or a vector integers specifying the indices of selected rows.
+#' @details Selected rows and/or rows with rank invariance frequency \code{>=threshold}
 #' are normalized with the mean/median balanced quantile normalization. Remaining rows are quantile normalized
-#' without balancing of means.
+#' without mean balancing.
 #' @return Normalized \code{matrix}.
-#' @concept quantile, quantile normalization, rank invariance
-#' @family mbqn
+# #' @family mbqn
+#' @seealso [mbqn()], [mbqnGetNRIfeatures()]
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 #' @examples ## Quantile normalize a data matrix where
 #' ## nearly rank invariant (NRI) features are balanced

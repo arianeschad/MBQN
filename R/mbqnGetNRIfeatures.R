@@ -1,31 +1,35 @@
 #' Identify rank invariant (RI) and nearly rank invariant (NRI) features
 #'
-#' @param dat a data matrix. Rows represent features, e.g. protein abundances; columns represent samples
-# #' @param FUN median, mean, or another function used to balance features across colums. If left empty, quantile normalization
-#' is applied without balancing the data
-#' @inheritParams mbqnNRI
+#' @description Compute the rank frequency of each feature of a matrix and
+#' identify NRI/RI features.
+#' @param x a data matrix. Rows represent features, e.g. protein abundances;
+#' columns represent samples.
+#' @param low_thr a value between \[0 1\]. Features with RI frequency >=\code{low_thr}
+#' are considered as NRI/RI; default 0.5.
+#' @inheritParams mbqn
 #' @importFrom stats median sd
-#' @description Compute the rank frequency of each feature of a matrix and identify NRI/RI features.
-# #' @return A list of identified RI and NRI features, rank frequencies, and rank variation. p = p, max_p = max_p, ip = ip, nri = nri, var0_feature = ind_var0
 #' @return A list with elements:
-#' \item{\code{p}}{a matrix of the rank invariance frequencies and the sample coverage over all RI/NRI features}
-#' \item{\code{max_p}}{value of the maximum rank invariance frequency in percent}
-#' \item{\code{ip}}{index of the feature with maximum rank invariance frequency}
-#' \item{\code{nri}}{a table of the rank invariance frequencies in percent of NRI/RI features}
-#' \item{\code{var0_feature}}{index of features with zero sample variance after QN.}
-# #' @keywords quantile normalization, proteomics
-# #' @concept quantile, quantile normalization, rank invariance
+#' \item{\code{p}}{a matrix with the rank invariance frequencies \code{ri.freq} and
+#' the sample coverage \code{sample.coverage} for all detected RI/NRI features}
+#' \item{\code{max_p}}{maximum rank invariance frequency in percent}
+#' \item{\code{ip}}{index of feature with maximum rank invariance frequency}
+#' \item{\code{nri}}{table of the rank invariance frequencies in percent for each
+#' NRI/RI feature}
+#' \item{\code{var0_feature}}{indices of features with zero sample variance after QN}
+#' \item{\code{low_thr}}{threshold used for RI/NRI detection from RI frequency.}
 #' @family mbqn
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+#' @references Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile
+#' normalization. In prep. 2019
 # @examples ## Check data matrix for RI and NRI features
-# X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
-# mbqn.check_saturation(X, mean, low_thr = 0.5, save_fig = FALSE)
-#' @details Quantile normalize a data matrix, sort ranks, and count the maximum times features share
-#' the same ranks across all columns. A user-defined threhold is used to define nearly rank invariant features.
+# x <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
+# mbqnGetNRIfeatures(x, mean)
+#' @details Quantile normalize the data matrix and sort ranks. Determine the maximum
+#' frequency of equal rank across all columns for each feature. Features with maximum frequency
+#' above the user-defined threhold are declared as nearly rank invariant.
 #' @author Ariane Schad
 #' @export mbqnGetNRIfeatures
 #  Created: Nov 2018
-mbqnGetNRIfeatures <- function(dat, FUN = NULL,
+mbqnGetNRIfeatures <- function(x, FUN = NULL,
                                low_thr = 0.5,
                                method = NULL,
                                verbose = TRUE){
@@ -34,23 +38,24 @@ mbqnGetNRIfeatures <- function(dat, FUN = NULL,
   if(is.null(FUN)) FUN <- median
   if(is.character(FUN)) FUN <- match.fun(FUN)
 
-  N <- dim(dat)[1] #number of rows
-  M <- dim(dat)[2] #number of cols
+  N <- dim(x)[1] #number of rows
+  M <- dim(x)[2] #number of cols
 
   # quantile normalisation and its standard deviation
-  qn.dat <- mbqn(x = dat,FUN = NULL, method = method, verbose = verbose)
-  s.qn <- apply(qn.dat, 1, sd, na.rm=TRUE)
+  qn.x <- mbqn(x = x,FUN = NULL, method = method, verbose = verbose)
+  s.qn <- apply(qn.x, 1, sd, na.rm=TRUE)
 
   ## Rank frequencies for each feature after QN (top-down)
   # & assign NAs to 0 rank
 
-  out <- MBQN::get_kminmax(X = qn.dat,k = N, flag = "max")
+  out <- MBQN::get_kminmax(x = qn.x, k = N, flag = "max")
 
   tdummy = lapply(
     1:N,
     function(i)
     {
-      table(which(out$ik==i,arr.ind =TRUE)[,1]*(!is.na(dat[i,])),useNA = 'ifany')
+      table(which(out$ik==i, arr.ind =TRUE)[,1]*(!is.na(x[i,])),
+            useNA = 'ifany')
     }
   )
 
@@ -77,7 +82,7 @@ mbqnGetNRIfeatures <- function(dat, FUN = NULL,
   max_pi_vals[which(sapply(max_pi_vals,length)<1)] <- 0
 
   # how often are data present for these features
-  not_nas <- apply(qn.dat,1,function(x) length(which(!is.na(x))))/M
+  not_nas <- apply(qn.x,1,function(x) length(which(!is.na(x))))/M
 
   p <- max_pi_vals[which(max_pi_vals>=low_thr)]
   p <- unlist(p)
@@ -95,16 +100,16 @@ mbqnGetNRIfeatures <- function(dat, FUN = NULL,
     max_p <- max(p)*100
     ip <- as.integer(names(which(p*100==max_p)))
 
-    freq_ismissing = sum(is.na(qn.dat[ip,]))/dim(qn.dat)[2] # cnt how often protein is missing
+    # cnt how often protein is missing
+    freq_ismissing = sum(is.na(qn.x[ip,]))/dim(qn.x)[2]
 
     if(verbose) print(paste('Maximum frequency of RI/NRI feature(s): ',max_p,"%"))
 
-    #########################################################################################
-
+    # in percent
     nri <- p*100
 
     p <- rbind(p,not_nas[as.numeric(names(p))])
-    rownames(p) <- c("occupation.freq", "sample.coverage")
+    rownames(p) <- c("RI.freq", "sample.coverage")
 
     # which features have zero variation after QN
     ind_var0 <- which(s.qn==0)
@@ -117,5 +122,6 @@ mbqnGetNRIfeatures <- function(dat, FUN = NULL,
   }
   ind_var0 <- which(s.qn==0)
 
-  return(list(p = p, max_p = max_p, ip = ip, nri = nri, var0_feature = ind_var0))
+  return(list(p = p, max_p = max_p, ip = ip, nri = nri,
+              var0_feature = ind_var0, low_thr = low_thr))
 }
