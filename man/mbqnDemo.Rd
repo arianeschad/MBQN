@@ -2,21 +2,22 @@
 % Please edit documentation in R/mbqnDemo.R
 \name{mbqnDemo}
 \alias{mbqnDemo}
-\title{Demonstration of mean/median-balanced quantile normalization}
+\title{Demonstrate mean/median-balanced quantile normalization}
 \usage{
-mbqnDemo(dat = NULL)
+mbqnDemo(x = NULL)
 }
 \arguments{
-\item{dat}{a matrix where rows represent features, e.g. of protein
-abundances/intensities, and columns represent samples.
-Default \code{NULL} - a simple matrix is generated.}
+\item{x}{a matrix where rows represent features, e.g. of protein
+abundances/intensities, and columns represent samples. Default
+\code{NULL} - a simple matrix is generated.}
 }
 \value{
 Various graphics illustrating the effect of normalization on
 rank mixing and rank invariant intensity features
 }
 \description{
-Visualize the intensity distribution of unnormalized, quantile and mean/median-balanced quantile normalized data
+Visualize the intensity distribution of unnormalized,
+quantile and mean/median-balanced quantile normalized data.
 }
 \details{
 Normalize matrix and return boxplots of quantile normalized and mean balanced normalized
@@ -24,19 +25,17 @@ data.
 }
 \examples{
 mbqnDemo()
-dat <- mbqnSimuData()
-mbqnDemo(dat)
+x <- mbqnSimuData()
+mbqnDemo(x)
 }
 \references{
 Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 }
 \seealso{
-Other data: \code{\link{example_NApattern}},
-  \code{\link{mbqnBoxplot}}, \code{\link{mbqnExample}},
-  \code{\link{mbqnSimuData}},
-  \code{\link{mbqnSimuDistortion}}
+Other example: \code{\link{loadFile}},
+  \code{\link{mbqnBoxplot}}, \code{\link{mbqnExample}}
 }
 \author{
 Ariane Schad
 }
-\concept{data}
+\concept{example}

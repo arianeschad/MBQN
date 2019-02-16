@@ -2,59 +2,70 @@
 % Please edit documentation in R/mbqnExample.R
 \name{mbqnExample}
 \alias{mbqnExample}
-\title{Example illustrating the analysis of PRIDE data with the MBQN package}
+\title{Example illustrating normalization of LFQ protein itensities with MBQN}
 \usage{
-mbqnExample(which.example = 1, source.path = NULL)
+mbqnExample(which.example = NULL, source.path = NULL)
 }
 \arguments{
-\item{which.example}{Numerical values between 1-4, default = 1,
-to select between 4 dataset.}
+\item{which.example}{numerical value between 1-4 to select one of four datasets.}
 
-\item{source.path}{Character with path where to store and search for proteinGroups.txt
-file; default = NULL uses "installationpath/MBQN/examples".}
+\item{source.path}{character specifying the path where to store and search for the
+"proteinGroups.txt"-file; default = NULL uses current working directory.}
+}
+\value{
+Figures saved as pdf-files.
 }
 \description{
-This function runs an example to illustrate the check of LFQ intensities
-of proteins for rank invariant (RI) and nearly rank invariant (NRI) features
-and the normalization of the data. It downloads a selected dataset from PRIDE
-or it uses the dataset in filepath. The example needs the R package "rpx" to
-download data from PRIDE.
+This function illustrates the check for rank invariant (RI)
+and nearly rank invariant (NRI) features and the normalization of LFQ intensities
+of proteins for selected datasets deposited to PRIDE [1].
 }
 \details{
-Collecting information on the experiments requires the package rpx by Laurent Gatto (2017),
-version 1.10.2 from https://github.com/lgatto/rpx.\cr
-The function used to read the proteinGroups.txt files uses source code
-of SafeQuant::parseMaxQuantProteinGroupTxt, \cr
-version 2.3.1, https://CRAN.R-project.org/package=SafeQuant.\cr\cr
-Experiments on PRIDE that are supported by this Example:\cr
-1 PXD001584 - contains one RI feature (default) (file size 10.8 MB) [1]\cr
-2 PXD005138 - contains one RI feature (file size 7440.6 MB) [2]\cr
-3 PXD005861 - contains one RI feature (file size 334.7 MB) [3]\cr
-4 PXD006617 - contains one RI feature (file size 290.8 MB) [4]\cr\cr
-See the Reference for further details on these examples.
+To run this function, download the proteinGroups.txt file
+of the selected example manually in advance or use the automatic dowload
+provided by the function. \cr\cr
+Datasets available from PRIDE supported by this function:\cr
+1 PXD001584 - contains one RI feature (default) (file size 10.8 MB) c\cr
+2 PXD005138 - contains one RI feature (file size 7440.6 MB) [3]\cr
+3 PXD005861 - contains one RI feature (file size 334.7 MB) [4]\cr
+4 PXD006617 - contains one RI feature (file size 290.8 MB) [5]\cr\cr
+Check the reference for further details on the examples.
+These examples are also listed in [6].
 }
 \examples{
-## Check LFQ intensities of proteomics data PXD001584 downloaded
-## from PRIDE for RI and NRI features
+## Check LFQ intensities of the protein dataset in
+## PXD001584 for RI and NRI features
 \dontrun{
 mbqnExample(which.example = 3)
 }
 }
 \references{
-[1] Ramond E, et al. Importance of host cell arginine uptake in Francisella phagosomal escape and ribosomal protein amounts. Mol Cell Proteomics. 2015 14(4):870-881\cr
-[2] Beaumont V, et al. Phosphodiesterase 10A Inhibition Improves Cortico-Basal Ganglia Function in Huntington's Disease Models. Neuron. 2016 92(6):1220-1237\cr
-[3] Turetschek R, Desalegn G, Epple T, Kaul HP, Wienkoop S. Key metabolic traits of Pisum sativum maintain cell vitality during Didymella pinodes infection: cultivar resistance and the microsymbionts' influence. J Proteomics. 2017 Mar 4. pii: S1874-3919(17)30075-1\cr
-[4] Ranjbar Sistani N, Kaul HP, Desalegn G, Wienkoop S. Rhizobium Impacts on Seed Productivity, Quality, and Protection of Pisum sativum upon Disease Stress Caused by Didymella pinodes: Phenotypic, Proteomic, and Metabolomic Traits. Front Plant Sci. 2017 8:1961\cr
-[5] Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019\cr
+[1] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I, Mayer G,
+Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
+2016 update of the PRIDE database and related tools. Nucleic Acids Res.
+2016 Jan 1;44(D1): D447-D456. PubMed PMID:26527722.
+[2] Ramond E, et al. Importance of host cell arginine uptake in Francisella
+phagosomal escape and ribosomal protein amounts. Mol Cell Proteomics. 2015 14(4):870-881\cr
+[3] Beaumont V, et al. Phosphodiesterase 10A Inhibition Improves Cortico-Basal
+Ganglia Function in Huntington's Disease Models. Neuron. 2016 92(6):1220-1237\cr
+[4] Turetschek R, Desalegn G, Epple T, Kaul HP, Wienkoop S. Key metabolic
+traits of Pisum sativum maintain cell vitality during Didymella pinodes infection:
+cultivar resistance and the microsymbionts' influence. J Proteomics.
+2017 Mar 4. pii: S1874-3919(17)30075-1\cr
+[5] Ranjbar Sistani N, Kaul HP, Desalegn G, Wienkoop S. Rhizobium Impacts
+on Seed Productivity, Quality, and Protection of Pisum sativum upon Disease
+Stress Caused by Didymella pinodes: Phenotypic, Proteomic, and Metabolomic
+Traits. Front Plant Sci. 2017 8:1961\cr
+[6] Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile
+normalization. In prep. 2019\cr
 }
 \seealso{
-Other data: \code{\link{example_NApattern}},
-  \code{\link{mbqnBoxplot}}, \code{\link{mbqnDemo}},
-  \code{\link{mbqnSimuData}},
-  \code{\link{mbqnSimuDistortion}}
+\code{\link[=get_pxdfile]{get_pxdfile()}} for download dataset from PRIDE and \code{\link[=loadFile]{loadFile()}} for reading LFQ intensities from file.
+
+Other example: \code{\link{loadFile}},
+  \code{\link{mbqnBoxplot}}, \code{\link{mbqnDemo}}
 }
 \author{
 Ariane Schad
 }
-\concept{data}
-\concept{quantile, quantile normalization, rank invariance}
+\concept{example}

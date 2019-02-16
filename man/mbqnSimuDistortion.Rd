@@ -2,40 +2,37 @@
 % Please edit documentation in R/mbqnSimuDistortion.R
 \name{mbqnSimuDistortion}
 \alias{mbqnSimuDistortion}
-\title{Simulate an omics-like intensity matrix with mean and scale distorted samples}
+\title{Perturbation of sample mean and scale}
 \usage{
-mbqnSimuDistortion(ncol = 18, max_mean = 0.05, max_scale = 0.01,
-  seed = 1234, flag.fig = FALSE)
+mbqnSimuDistortion(x, max_mean = 0.05, max_scale = 0.01, seed = 1234)
 }
 \arguments{
-\item{ncol}{number of columns of data matrix}
+\item{x}{a matrix or data frame.}
 
-\item{max_mean}{Absolute maximum shift of mean from 0 to max_mean}
+\item{max_mean}{absolute maximum shift of mean from 0 to max_mean.}
 
-\item{max_scale}{Realtive change in scale, i.e. 0.01 corresponds to 1\%}
+\item{max_scale}{realtive change in scale, i.e. 0.01 corresponds to 1\%.}
 
-\item{seed}{Seed for random number generator. Default \code{seed <- 1234}}
-
-\item{flag.fig}{Logical that indicates whether results are plot to pdf, default FALSE}
+\item{seed}{seed for random number generator. Default \code{seed <- 1234}.}
 }
 \value{
-\code{list} of distorted matrix of size nrow x ncol, arrays of mean and scale distortions, and figures in pdfs
+\code{list} with:
+\item{\code{x.mod}}{perturbed matrix}
+\item{\code{mx.offset}}{numeric array of shifts of the sample means}
+\item{\code{mx.scale}}{numeric array of relative scales of the sample standard deviations.}
 }
 \description{
-Illustrate the influence of normalization on expression analysis.
-Distort columnwise mean and scale of a simulated, omics-like matrix with a single differentially
-expressed NRI feature. Apply a two-sided t-test before and after application of different normalizations.
+This function adds a random perturbation of mean and scale to each column of a matrix.
 }
 \details{
-Shift and scale the sample mean and standard deviation of a simulated matrix of structured, random
-values with missing values. The distortions for center and scale relative to mean and standard deviation of each sample
+Shift and scale the sample mean and standard deviation of a matrix. The perturbation of center and scale relative to mean and standard deviation of each sample
 are drawn from a Gaussian distribution \eqn{|N(0,\sigma^2)|} with \eqn{\sigma_mean=}\code{max_mean} and
-\eqn{\sigma_scale}=\code{max_scale}, respectively. A single, rank invariant (RI) feature with differential expression is stacked to the matrix before mean and scale distortion. A two-sided t-test
-is applied to the RI feature before and after normalization with QN and MBQN.
+\eqn{\sigma_scale}=\code{max_scale}, respectively.
 }
 \examples{
 \dontrun{
-MBQN:::mbqnSimuDistortion(ncol = 18)
+x <- mbqnSimuData("omics.dep")
+df <- mbqnSimuDistortion(x)
 }
 }
 \references{
@@ -45,10 +42,9 @@ Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalizatio
 \code{\link[=mbqnSimuData]{mbqnSimuData()}} for data generation
 
 Other data: \code{\link{example_NApattern}},
-  \code{\link{mbqnBoxplot}}, \code{\link{mbqnDemo}},
-  \code{\link{mbqnExample}}, \code{\link{mbqnSimuData}}
+  \code{\link{mbqnSimuData}}
 }
 \author{
-A. Schad, \email{ariane.schad@zbsa.de}
+Ariane Schad
 }
 \concept{data}

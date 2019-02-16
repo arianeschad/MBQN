@@ -44,18 +44,18 @@ The MBQN package uses `normalizeQuantiles()` from the package `limma`\[2\], avai
 
 Optionally, `normalize.quantiles()` from the package `preprocessCore`\[3\], available from <https://github.com/bmbolstad/preprocessCore>, can be used for quantile normalization. <br/>
 
-The optional example function `mbqnExample()` in MBQN needs to collect data from PRIDE experiments, which requires the R package `rpx` \[4\]. <br/>
+The optional example function `mbqnExample()` in MBQN uses data from the PRIDE repository and requires the R package `rpx` \[4\] to download the data. <br/>
 
 To install these packages in R run: <br/>
 
 ``` r
-BiocManager::install(pkgs = c("preprocessCore","limma","rpx"))
+BiocManager::install(pkgs = c("preprocessCore","limma"))
 ```
 
 Additional packages needed to run MBQN examples: <br/>
 
 ``` r
-install.packages(pkgs = c("filesstrings"), dependencies = TRUE)
+install.packages(pkgs = c("filesstrings","rpx"), dependencies = TRUE)
 ```
 
 After installation, check the `mbqnDemo` and the `mbqnExample` for full working examples with further documentation.
@@ -96,4 +96,4 @@ Figures created with MBQN are saved as pdf in the current working directory.
 References
 ----------
 
-\[1\] A. Schad and C. Kreutz, MBQN: R package for mean balanced quantile normalization. In prep. 2019 <br/> \[2\] Ritchie, M.E., Phipson, B., Wu, D., Hu, Y., Law, C.W., Shi, W., and Smyth, G.K. (2015). limma powers differential expression analyses for RNA-sequencing and microarray studies. Nucleic Acids Research 43(7), e47. <br/> \[3\] Ben Bolstad (2018). preprocessCore: A collection of pre-processing functions. R package version 1.44.0. <https://github.com/bmbolstad/preprocessCore> <br/> \[3\] Laurent Gatto (2019). rpx: R Interface to the ProteomeXchange Repository. R package version 1.18.1. <https://github.com/lgatto/rpx>
+\[1\] A. Schad and C. Kreutz, MBQN: R package for mean balanced quantile normalization. In prep. 2019 <br/> \[2\] Ritchie, M.E., Phipson, B., Wu, D., Hu, Y., Law, C.W., Shi, W., and Smyth, G.K. (2015). limma powers differential expression analyses for RNA-sequencing and microarray studies. Nucleic Acids Research 43(7), e47. <br/> \[3\] Ben Bolstad (2018). preprocessCore: A collection of pre-processing functions. R package version 1.44.0. <https://github.com/bmbolstad/preprocessCore> <br/> \[4\] Laurent Gatto (2019). rpx: R Interface to the ProteomeXchange Repository. R package version 1.18.1. <https://github.com/lgatto/rpx>

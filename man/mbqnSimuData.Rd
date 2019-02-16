@@ -4,55 +4,59 @@
 \alias{mbqnSimuData}
 \title{Generate a random/structured data matrix}
 \usage{
-mbqnSimuData(model = "rand", nrow = NULL, ncol = NULL, seed = 1234)
+mbqnSimuData(model = "rand", nrow = NULL, ncol = NULL, seed = 1234,
+  show.fig = FALSE)
 }
 \arguments{
-\item{model}{Two different type of matrix models are available: "rand" generates a random matrix
-of size nrow x ncol, "omics" generates a Gaussian random matrix which mimics intensity profiles and
-missing values as present in a real data set.}
+\item{model}{character indicating one of the three different type of models: \code{"rand"}(default) a Gaussian random matrix
+of size nrow x ncol (default 1000 x 10), \code{"omics"} a Gaussian random matrix of size 1264 x 18 that mimics intensity profiles and
+missing values as present in real data, and \code{"omics.dep"} is the same as \code{"omics"} but with
+an additional single, differentially expressed RI feature.}
 
-\item{nrow}{number of rows of data matrix.}
+\item{nrow}{number of rows of data matrix (only for \code{model = "rand"}).}
 
-\item{ncol}{number of columns of data matrix.}
+\item{ncol}{number of columns of data matrix (only for \code{model = "rand"}).}
 
-\item{seed}{Seed for random number generator. Default \code{seed <- 1234}.}
+\item{seed}{seed for random number generator.}
+
+\item{show.fig}{logical inidicating whether data properties are plot to figure (only for \code{model = "omics"} and \code{model = "omics.dep"}).}
 }
 \value{
 \code{matrix} of size nrow x ncol
 }
 \description{
 Generate a random data matrix with or without proteomics, log-transformed feature
-intensity-like properties
+intensity-like properties.
 }
 \details{
-For model "rand" the matrix entries are drawn from a standard normal
-distribution \eqn{N(0,1)}. For model "omics" the matrix entries of each row
+For model \code{"rand"}, each matrix element is drawn from a standard normal
+distribution \eqn{N(0,1)}. For model \code{"omics"}, the matrix elements of each row
 are drawn from a Gaussian distribution \eqn{N(\mu_i,\sigma_i^2)} where the
 mean and standard deviation itself are drawn Gaussian distributions, i.e.
 \eqn{\sigma_i~N(0,0.0625)} and \eqn{\mu_i~N(28,4)}. About 35\% of the matrix
-values are set to NA according to the missing value pattern present in the protein LFQ
-intensities of PXD001584 [1].
+values are set to NA according to the missing value pattern present in real protein LFQ
+intensities. For model \code{"omics.dep"}, a single differentially epxressed
+RI feature is stacked on top of the matrix from model \code{"omics"}.
 }
 \examples{
 \dontrun{
-mbqnSimuData(model = "rand", 1000,10)
 mbqnSimuData(model = "rand")
+mbqnSimuData(model = "rand", 2000,6)
 mbqnSimuData(model = "omics")
+mbqnSimuData(model = "omics.dep")
 }
 }
 \references{
-[1] Ramond, E. et al. (2015) Importance of host cell arginine uptake in Francisella phagosomal
-escape and ribosomal protein amounts. Mol Cell Proteomics 14, 870-881.\cr
+Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization.
+In prep. 2019
 }
 \seealso{
 \code{\link[MBQN:example_NApattern]{MBQN::example_NApattern()}} for description of missing value pattern
 
 Other data: \code{\link{example_NApattern}},
-  \code{\link{mbqnBoxplot}}, \code{\link{mbqnDemo}},
-  \code{\link{mbqnExample}},
   \code{\link{mbqnSimuDistortion}}
 }
 \author{
-A. Schad, \email{ariane.schad@zbsa.de}
+Ariane Schad
 }
 \concept{data}

@@ -19,9 +19,7 @@ LFQ intensities of the proteinGroups.txt dataset from PXD001584 [1].
 [1] Ramond E, et al. Importance of host cell arginine uptake in Francisella phagosomal escape and ribosomal protein amounts. Mol Cell Proteomics. 2015 14(4):870-881\cr
 }
 \seealso{
-Other data: \code{\link{mbqnBoxplot}},
-  \code{\link{mbqnDemo}}, \code{\link{mbqnExample}},
-  \code{\link{mbqnSimuData}},
+Other data: \code{\link{mbqnSimuData}},
   \code{\link{mbqnSimuDistortion}}
 }
 \author{

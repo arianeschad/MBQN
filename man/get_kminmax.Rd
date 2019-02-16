@@ -2,41 +2,39 @@
 % Please edit documentation in R/get_kminmax.R
 \name{get_kminmax}
 \alias{get_kminmax}
-\title{Get indices and values of the k largest/smallest elements}
+\title{Get the k largest/smallest elements}
 \usage{
-get_kminmax(X, k, flag = "max")
+get_kminmax(x, k, flag = "max")
 }
 \arguments{
-\item{X}{a data matrix.}
+\item{x}{a data matrix or data frame.}
 
-\item{k}{integer specifying the number of selected extreme values. Must be less \code{<= nrows(X)}.}
+\item{k}{an integer specifying the number of extreme values. Must be \code{<= nrows(x)}.}
 
-\item{flag}{"min" or "max"(default)}
+\item{flag}{use "min" or "max" (default) to select smallest or largest elements.}
 }
 \value{
-\code{list} with indices \code{ik} of extreme values \code{minmax}.
+List with elements:
+\item{\code{ik}}{indices of ordered extreme values}
+\item{\code{minmax}}{ordered extreme values.}
 }
 \description{
-Extract the k largest or smallest values and their indices of each column of a matrix.
+Extract the k largest or smallest values and their indices for each column of a matrix.
 }
 \details{
-Order the values of each column of X and determine the
+Order the values of each column of \code{x} and determine the
 k smallest (\code{flag = "min"}) or largest (\code{flag = "max"}) values and their indices. NA's in the
 data are ignored.
 }
 \examples{
-X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create a data matrix
-get_kminmax(X, k = 5, "max") # get indices of the 5 largest values in each column
+\dontrun{
+x <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create a data matrix
+MBQN:::get_kminmax(x, k = 5, "max") # get indices of the 5 largest values in each column
+}
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
-}
-\seealso{
-Other mbqn: \code{\link{mbqnCheckSaturation}},
-  \code{\link{mbqnGetNRIfeatures}}, \code{\link{mbqnNRI}},
-  \code{\link{mbqn}}
+Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 }
 \author{
 Ariane Schad
 }
-\concept{mbqn}

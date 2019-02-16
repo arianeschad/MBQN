@@ -4,50 +4,53 @@
 \alias{mbqnGetNRIfeatures}
 \title{Identify rank invariant (RI) and nearly rank invariant (NRI) features}
 \usage{
-mbqnGetNRIfeatures(dat, FUN = NULL, low_thr = 0.5, method = NULL,
+mbqnGetNRIfeatures(x, FUN = NULL, low_thr = 0.5, method = NULL,
   verbose = TRUE)
 }
 \arguments{
-\item{dat}{a data matrix. Rows represent features, e.g. protein abundances; columns represent samples
-is applied without balancing the data}
+\item{x}{a data matrix. Rows represent features, e.g. protein abundances;
+columns represent samples.}
 
-\item{FUN}{a function like mean, median, a user defined function, or a numeric array
-of weights with
-\code{dim(user_array) = nrow(x)} to balance each intensity profile across samples.
-Functions can be parsed also as characters. If FUN = NULL, features are not balanced,
+\item{FUN}{a function like mean, median, a user defined function, or a numeric vector
+of weights with length \code{nrow(x)} to balance each feature across samples.
+Functions can be parsed also as characters. If FUN = NULL (default), features are not balanced,
 i.e. normal QN is used.}
 
-\item{low_thr}{Value between [0 1] as lower threshold that specifies the critical
-rank invariance frequency, with default set to 0.5.}
+\item{low_thr}{a value between [0 1]. Features with RI frequency >=\code{low_thr}
+are considered as NRI/RI; default 0.5.}
 
-\item{method}{packagename providing the function used to compute the standard quantile normalization;
-default NULL or "limma" - use \code{normalizeBetweenArrays()} from the limma package,
-if "preprocessCore" - \code{normalize.quantiles()} from the preprocessCore package is used.}
+\item{method}{character specifying method for computation of quantile normalization;
+"limma" (default) for \code{normalizeQuantiles()} from the limma package or
+"preprocessCore" for \code{normalize.quantiles()} from the preprocessCore package.}
 
-\item{verbose}{a logical indicating to run function quietly.}
+\item{verbose}{logical indicating to print messages.}
 }
 \value{
 A list with elements:
-\item{\code{p}}{a matrix of the rank invariance frequencies and the sample coverage over all RI/NRI features}
-\item{\code{max_p}}{value of the maximum rank invariance frequency in percent}
-\item{\code{ip}}{index of the feature with maximum rank invariance frequency}
-\item{\code{nri}}{a table of the rank invariance frequencies in percent of NRI/RI features}
-\item{\code{var0_feature}}{index of features with zero sample variance after QN.}
+\item{\code{p}}{a matrix with the rank invariance frequencies \code{ri.freq} and
+the sample coverage \code{sample.coverage} for all detected RI/NRI features}
+\item{\code{max_p}}{maximum rank invariance frequency in percent}
+\item{\code{ip}}{index of feature with maximum rank invariance frequency}
+\item{\code{nri}}{table of the rank invariance frequencies in percent for each
+NRI/RI feature}
+\item{\code{var0_feature}}{indices of features with zero sample variance after QN}
+\item{\code{low_thr}}{threshold used for RI/NRI detection from RI frequency.}
 }
 \description{
-Compute the rank frequency of each feature of a matrix and identify NRI/RI features.
+Compute the rank frequency of each feature of a matrix and
+identify NRI/RI features.
 }
 \details{
-Quantile normalize a data matrix, sort ranks, and count the maximum times features share
-the same ranks across all columns. A user-defined threhold is used to define nearly rank invariant features.
+Quantile normalize the data matrix and sort ranks. Determine the maximum
+frequency of equal rank across all columns for each feature. Features with maximum frequency
+above the user-defined threhold are declared as nearly rank invariant.
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile
+normalization. In prep. 2019
 }
 \seealso{
-Other mbqn: \code{\link{get_kminmax}},
-  \code{\link{mbqnCheckSaturation}}, \code{\link{mbqnNRI}},
-  \code{\link{mbqn}}
+Other mbqn: \code{\link{mbqnPlotRI}}
 }
 \author{
 Ariane Schad

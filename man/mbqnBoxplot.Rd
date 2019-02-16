@@ -2,36 +2,37 @@
 % Please edit documentation in R/mbqnBoxplot.R
 \name{mbqnBoxplot}
 \alias{mbqnBoxplot}
-\title{Combined boxplot and line plot}
+\title{Combined box plot and line plot}
 \usage{
-mbqnBoxplot(mtx, irow = NULL, vals = NULL, filename = NULL,
-  type = "l", add.leg = TRUE, ...)
+mbqnBoxplot(mtx, irow = NULL, vals = NULL, add.leg = TRUE,
+  filename = NULL, ...)
 }
 \arguments{
-\item{mtx}{a data matrix where rows represent features, e.g. protein abundance; columns represent groups, samples, e.g., replicates, experimental conditions.}
+\item{mtx}{a matrix or data frame.}
 
-\item{irow}{an integer for row index or array of row indices for highlighting}
+\item{irow}{index or vector of row indices of matrix features to plot on top of the boxplot.}
 
-\item{vals}{numeric, array, matrix, or data frame. Array, matrix rows or data frame fields of length
-\code{dim(mtx)[2]} are plot on top of the boxplot}
+\item{vals}{numeric, array, matrix, or data frame of features with length
+\code{ncol(mtx)} to plot on top of the boxplot.}
 
-\item{filename}{save plot as pdf with filename in working directory}
+\item{add.leg}{add legend to plot.}
 
-\item{type}{line style for plot of row intensities}
+\item{filename}{save figure as pdf with filename in working directory.}
 
-\item{add.leg}{add legend to plot; default TRUE}
-
-\item{...}{additional arguments passed to plot, e.g. xlab, ylab, main, ylim, las}
+\item{...}{additional arguments passed to the plot functions, e.g. xlab, ylab, main, ylim, type, las, and
+to \code{dev.copy2pdf()}, e.g. width, height, paper format(default "a4r") of pdf.}
 }
 \value{
 Figure
 }
 \description{
-Create a boxplot of a data matrix with groups. Plot selected features and/or additional user-defined data on top of it.
+Create a box-and-whisker plot of a data matrix and
+plot selected features and/or additional user-defined data on top of it.
 }
 \details{
-This function calls the \code{graphics::boxplot} function. Each box represents a group/column of the data matrix. Selected rows/features or user-defined arrays are plot as lines or points
-on top of the boxes. Missing values are ignored.
+This function calls \code{graphics::boxplot}.
+Groups are represent by matrix columns. Selected rows/features or user-defined
+arrays are plot on top of the box plot. Missing values are ignored.
 }
 \examples{
 ## Create boxplot of quantile normalized data matrix and plot
@@ -41,23 +42,17 @@ X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create data matrix
 qn.dat <- mbqn(x=X,FUN = NULL ,na.rm = TRUE) # Quantile normalization
 mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile normalization
 ## Create boxplot and save output to file:
-mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b",filename = "fig_boxplot_qn.data.pdf")
+mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b", filename = "fig_box_qn.pdf")
 }
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 }
 \seealso{
-Other data: \code{\link{example_NApattern}},
-  \code{\link{mbqnDemo}}, \code{\link{mbqnExample}},
-  \code{\link{mbqnSimuData}},
-  \code{\link{mbqnSimuDistortion}}
+Other example: \code{\link{loadFile}},
+  \code{\link{mbqnDemo}}, \code{\link{mbqnExample}}
 }
 \author{
 Ariane Schad
 }
-\concept{data}
-\concept{quantile, quantile normalization, rank invariance}
-\keyword{normalization,}
-\keyword{proteomics}
-\keyword{quantile}
+\concept{example}
