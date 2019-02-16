@@ -8,6 +8,7 @@
 ^examples/examples_old\.R$
 ^R/mbqn\.boxplot_dev\.R$
 ^R/mbqn\.simu\.distortion\.R$
+^R/fig_label\.R$
 #^R/mbqn\.demo\.R$
 ^R/mbqn\.simu.\data1.\R$
 ^.*\.zip$

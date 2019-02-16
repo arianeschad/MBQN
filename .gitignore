@@ -10,6 +10,7 @@ R/mbqn.check_saturation_v0.R
 R/mbqn.check_saturation_v2.R
 R/mbqn.boxplot_dev.R
 R/mbqn.simu.data1.R
+R/fig_label.R
 temp/
 *.zip
 temp/*.zip
