@@ -1,21 +1,20 @@
-#' Combined boxplot and line plot
+#' Combined box plot and line plot
 #'
-#' @param mtx a data matrix where rows represent features, e.g. protein abundance; columns represent groups, samples, e.g., replicates, experimental conditions.
-#' @param irow an integer for row index or array of row indices for highlighting
-#' @param vals numeric, array, matrix, or data frame. Array, matrix rows or data frame fields of length
-#' \code{dim(mtx)[2]} are plot on top of the boxplot
-# #' @param xlab xaxis-label
-# #' @param ylab yaxis-label
-# #' @param main figure title
-#' @param filename save plot as pdf with filename in working directory
-#' @param type line style for plot of row intensities
-#' @param add.leg add legend to plot; default TRUE
-#' @param ... additional arguments passed to plot, e.g. xlab, ylab, main, ylim, las
-#' @details This function calls the \code{graphics::boxplot} function. Each box represents a group/column of the data matrix. Selected rows/features or user-defined arrays are plot as lines or points
-#' on top of the boxes. Missing values are ignored.
+#' @description Create a box-and-whisker plot of a data matrix and
+#' plot selected features and/or additional user-defined data on top of it.
+#' @param mtx a matrix or data frame.
+#' @param irow index or vector of row indices of matrix features to plot on top of the boxplot.
+#' @param vals numeric, array, matrix, or data frame of features with length
+#' \code{ncol(mtx)} to plot on top of the boxplot.
+#' @param add.leg add legend to plot.
+#' @param filename save figure as pdf with filename in working directory.
+#' @param ... additional arguments passed to the plot functions, e.g. xlab, ylab, main, ylim, type, las, and
+#' to \code{dev.copy2pdf()}, e.g. width, height, paper format(default "a4r") of pdf.
+#' @details This function calls \code{graphics::boxplot}.
+#' Groups are represent by matrix columns. Selected rows/features or user-defined
+#' arrays are plot on top of the box plot. Missing values are ignored.
 #' @return Figure
-#' @keywords quantile normalization, proteomics
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+#' @references Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 #' @examples ## Create boxplot of quantile normalized data matrix and plot
 #' ## feature from median balanced quantile normalization on top of it.
 #' \dontrun{
@@ -23,17 +22,15 @@
 #' qn.dat <- mbqn(x=X,FUN = NULL ,na.rm = TRUE) # Quantile normalization
 #' mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile normalization
 #' ## Create boxplot and save output to file:
-#' mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b",filename = "fig_boxplot_qn.data.pdf")
+#' mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b", filename = "fig_box_qn.pdf")
 #' }
-#' @description Create a boxplot of a data matrix with groups. Plot selected features and/or additional user-defined data on top of it.
-#' @importFrom grDevices dev.copy2pdf pdf
-#' @importFrom graphics abline axis boxplot frame grconvertX grconvertY legend lines matlines par plot plot.new strheight strwidth text
-#' @concept quantile, quantile normalization, rank invariance
-#' @family data
+#' @importFrom grDevices dev.copy2pdf
+#' @importFrom graphics axis boxplot grconvertX legend lines matlines par
+#' @family example
 #' @author Ariane Schad
 #  August 2017
 #' @export mbqnBoxplot
-mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL,filename = NULL, type = "l", add.leg = TRUE,...){
+mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename = NULL, ...){
 
   if(!(is.matrix(mtx)|| is.data.frame(mtx))) {stop("Argument mtx must be a matrix or data.frame!")}
 
@@ -41,21 +38,23 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL,filename = NULL, type = "l
   xlab <- ifelse(is.null(opt.args$xlab), "sample", opt.args$xlab)
   ylab <- ifelse(is.null(opt.args$ylab), "intensity", opt.args$ylab)
   main <- ifelse(is.null(opt.args$main), "Boxplot",opt.args$main)
+  type <- ifelse(is.null(opt.args$type), "l", opt.args$type)
   cex.leg <- ifelse(is.null(opt.args$cex), 0.8, opt.args$cex)
+  cex <- ifelse(is.null(opt.args$cex), 0.8, opt.args$cex)
   pt.cex <- ifelse(is.null(opt.args$pt.cex), 0.8, opt.args$pt.cex)
   cex.axis <- ifelse(is.null(opt.args$cex.axis), 0.8, opt.args$cex.axis)
   y.intersp <- ifelse(is.null(opt.args$y.intersp), 1, opt.args$y.intersp)
 
-  if(!is.null(filename)){
-    pdf(paste0(filename,".pdf"), width=10,height=6,paper="a4r")
-  }
+  fig.paper <- ifelse(is.null(opt.args$paper), "a4r", opt.args$paper)
+  fig.width <- ifelse(is.null(opt.args$width), 10, opt.args$width)
+  fig.height <- ifelse(is.null(opt.args$height), 5, opt.args$height)
 
   # y-axis range
   if(is.null(opt.args$ylim)){
     ylim <- range(mtx,na.rm = TRUE)
     if(!is.null(vals)){
-      ymax <- max(ceiling(c(ylim,range(vals, na.rm = T))))
-      ymin <- min(floor(c(ylim,range(vals, na.rm = T))))
+      ymax <- max(ceiling(c(ylim,range(vals, na.rm = TRUE))))
+      ymin <- min(floor(c(ylim,range(vals, na.rm = TRUE))))
     }else{
       ymax <- max(ceiling(ylim))
       ymin <- min(floor(ylim))
@@ -63,7 +62,8 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL,filename = NULL, type = "l
     ymax <- ymax + 0.2*ymax
     ylim = c(ymin,ymax)
   }else{
-    ylim <- opt.args$ylim}
+    ylim <- opt.args$ylim
+    }
 
   #if(add.leg){
   # par(mar=c(par('mar')[1:3], 0)) # removes extraneous right inner margin space
@@ -74,13 +74,12 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL,filename = NULL, type = "l
   lty <- 1
   las <- ifelse(length(opt.args$las)!=0, opt.args$las,0)
 
-
   if(length(irow)==1){
-    leg_text <- c(leg_text,paste("protein",irow))
+    leg_text <- c(leg_text,paste("id",irow))
     lcol <- c("gold",2)
     lty <- c(lty,1)
   }else if(length(irow) >1){
-    leg_text <- c(leg_text,paste("protein",irow))
+    leg_text <- c(leg_text,paste("id",irow))
     lcol <- c("gold",rep(2,length(irow)))
     lty <- c(lty,1:length(irow))
   }
@@ -105,42 +104,74 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL,filename = NULL, type = "l
     leg_text <- c(leg_text,leg.txt)
   }
 
+  #par(oma = c(0,0,0,0))
   if(add.leg){
     l <- legend(0, 0, bty='n', leg_text,
-                plot=FALSE, pch=c(1, 2), lty=c(1, 2))
+                plot=FALSE, pch=c(1, 2), lty=c(1, 2), cex = cex.leg, pt.cex = pt.cex,
+                y.intersp= y.intersp)
     # calculate right margin width in ndc
     w <- max(0.05,grconvertX(l$rect$w, to='ndc') - grconvertX(0, to='ndc'))
     par(omd=c(0, 1-w, 0, 1))
   }
+
+  #opt.args <- list(opt.args,
+  #                 xlim = c(0,dim(mtx)[2]+.5),
+  #                 ylim = ylim)
+  # remove empty elements
+  #opt.args <- opt.args[lapply(opt.args, length)>0]
+
+  opt.args <- opt.args
+  if(!is.null(opt.args$ylim)) opt.args <- .optargsReplace(..., replace = list(ylim = ylim))
+  if(!is.null(opt.args$width) || !is.null(opt.args$height) ) opt.args <- .optargsRemove(..., remove = c("width","height"))
+
   if(is.null(irow)){
-    boxplot(mtx,col=c("gold"),
-            ylab = ylab, xlab = xlab,
-            main = main, xlim = c(0,dim(mtx)[2]+.5),
-            cex = 0.8,
-            ylim = ylim,
-            las = las,...)
-  }else if(length(irow)==1){
-    boxplot(mtx,col=(c("gold")),notch=F,
-            xlab = xlab, ylab = ylab,
-            main = main,
-            ylim = ylim,
-            las = las,...)
-    lines(mtx[irow,],type = type, pch = 1,col=c(2),...)
-  }else if(length(irow) >1){
-    boxplot(mtx,col=(c("gold")),notch=F, plot = TRUE,
-            xlab = xlab, ylab = ylab,
-            main = main, ylim = ylim,
-            las = las,...)
-    matlines(t(mtx[irow,]),col=c(2),type = type, pch = 1,...)
+    do.call(boxplot, c(list(x = mtx,use.cols = TRUE, col=c("gold"),
+                       ylab = ylab,
+                       xlab = xlab,
+                       main = main,
+                       cex = cex,
+                       xlim = c(0,dim(mtx)[2]+.5),
+                       #ylim = ylim,
+                       las = las),opt.args))
+     }else if(length(irow)==1){
+    do.call(boxplot, c(list(x = mtx,use.cols = TRUE, col=c("gold"),
+                          ylab = ylab,
+                          xlab = xlab,
+                          notch=F,
+                          main = main,
+                          cex = cex,
+                          xlim = c(0,dim(mtx)[2]+.5),
+                          #ylim = ylim,
+                          las = las),opt.args))
+
+       do.call(lines, c(list(x=mtx[irow,], pch = 1,col=c(2)),opt.args))
+  }else if(length(irow)>1){
+    do.call(boxplot, c(list(x = mtx, use.cols = TRUE,
+                          col=(c("gold")),
+                          notch=F, plot = TRUE,
+                          xlab = xlab,
+                          ylab = ylab,
+                          main = main,
+                          #ylim = ylim,
+                          las = las),opt.args))
+     do.call(matlines, c(list(y=t(mtx[irow,]),col=c(2), pch = 1),opt.args))
+
   }
 
   if(!is.null(vals)){
     if(class(vals)=="array" || class(vals)=="numeric"){
-      lines(vals,type=type, pch = 1,col=4,ylim = ylim,xlab = xlab, ylab = ylab,...)
+      #lines(vals, pch = 1,col=4,ylim = ylim,xlab = xlab, ylab = ylab,...)
+      do.call(lines, c(list(x = vals, pch = 1,col=4,ylim = ylim,xlab = xlab, ylab = ylab),opt.args))
     }else if(class(vals)=="matrix"){
-      matlines(t(vals),type=type, pch = 1,lty = rep(1:2, dim(vals)[2]), col=rep((1:dim(vals)[2])+3,each = 2),...)
-    }else{
-      matlines(vals,type=type, pch = 1,lty = rep(1:2, dim(vals)[2]), col=rep((1:dim(vals)[2])+3,each = 2),...)
+      #matlines(t(vals), pch = 1,lty = rep(1:2, dim(vals)[2]), col=rep((1:dim(vals)[2])+3,each = 2),...)
+      do.call(matlines, c(list(y = t(vals), pch = 1,lty = rep(1:2, dim(vals)[2]), col=rep((1:dim(vals)[2])+3,each = 2)),opt.args))
+    }else{ # data.frame
+      #matlines(vals, pch = 1,lty = rep(1:2, dim(vals)[2]), col=rep((1:dim(vals)[2])+3,each = 2),...)
+      do.call(matlines,
+              c(list(y = vals,
+                     pch = 1,
+                     lty = rep(1:2, dim(vals)[2]),
+                     col=rep((1:dim(vals)[2])+3,each = 2)),opt.args))
     }
   }
 
@@ -185,7 +216,8 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL,filename = NULL, type = "l
   }
 
   if(!is.null(filename)){
-     print(paste("Save figure to",filename))
+      dev.copy2pdf(file=file.path(getwd(),filename), width=fig.width, height=fig.height, paper=fig.paper, out.type = "pdf")
+      print(paste("Save figure to",filename))
   }
 }
 

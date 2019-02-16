@@ -1,29 +1,35 @@
-#' Mean-balanced quantile normalization
+#' Mean/Median-balanced quantile normalization
 #'
-#' @param x a data matrix, where rows represent intensity features, e.g.
-#' of protein abundance, and columns represent samples, e.g. replicates, treatments, or conditions.
-#' @param FUN a function like mean, median, a user defined function, or a numeric array
-#' of weights with
-#' \code{dim(user_array) = nrow(x)} to balance each intensity profile across samples.
-#' Functions can be parsed also as characters. If FUN = NULL, features are not balanced,
+#' @description Modified quantile-normalization (QN) of a matrix, e.g.,
+#' intensity values from omics data or other data sorted in columns. The modification prevents systematic flattening of features (rows)
+#' which are rank invariant (RI) or nearly rank invariant (NRI) across columns, for example features that populate mainly the tails of the intensity distribution
+#' or features that separate in intensity.
+#' @param x a data matrix, where rows represent features, e.g.
+#' of protein abundance, and columns represent groups or samples, e.g. replicates, treatments, or conditions.
+#' @param FUN a function like mean, median, a user defined function, or a numeric vector
+#' of weights with length \code{nrow(x)} to balance each feature across samples.
+#' Functions can be parsed also as characters. If FUN = NULL (default), features are not balanced,
 #' i.e. normal QN is used.
-#' @param na.rm a logical value indicating whether NA values should be omitted in the
-#' computation of average feature expression.
-#' @param method packagename providing the function used to compute the standard quantile normalization;
-#' default NULL or "limma" - use \code{normalizeBetweenArrays()} from the limma package,
-#' if "preprocessCore" - \code{normalize.quantiles()} from the preprocessCore package is used.
-#' @param verbose a logical indicating to run function quietly.
-#' @details Normalize a data matrix based on a mean-balanced quantile normalization.
-#' Each row of the data matrix is balanced by FUN, e.g. the median, before normalization.
-#' After normalization, row means are added to the normalized matrix.
-#' By default, this function uses \code{limma::normalizeQuantiles()}.
-# # \code{limma::normalizeBetweenArrays()}
-#' available from http://bioconductor.org/biocLite.R.
+#' @param na.rm logical indicating to omit NAs in the
+#' computation of feature mean.
+#' @param method character specifying method for computation of quantile normalization;
+#' "limma" (default) for \code{normalizeQuantiles()} from the limma package or
+#'"preprocessCore" for \code{normalize.quantiles()} from the preprocessCore package.
+#' @param verbose logical indicating to print messages.
+#' @details Balance each matrix row by substracting its feature mean computed with
+#' FUN, e.g. the median; apply quantile-normalization and add the feature means to the normalized matrix.
+#' See \[4\].
 #' @return Normalized matrix
 #' @importFrom limma normalizeQuantiles
-# #' @concept quantile, quantile normalization, rank invariance
-#' @family mbqn
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep., 2019
+#' @seealso [mbqnNRI()], [mbqnGetNRIfeatures()]
+#' @references
+#' Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray data. Methods 31, 265–273. \cr
+#' Ritchie, M.E., Phipson, B., Wu, D., Hu, Y., Law, C.W., Shi, W., and Smyth,
+#' G.K. (2015). limma powers differential expression analyses for RNA-sequencing
+#' and microarray studies. Nucleic Acids Research 43(7), e47.\cr
+#' Bolstad B. M. (2016). preprocessCore: A collection of pre-processing functions. R package version 1.36.0.
+#' https://github.com/bmbolstad/preprocessCore \cr
+#' \[4\] Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile normalization. In prep., 2019
 #' @examples
 #'\dontrun{
 #' ## Compute mean and median balanced quantile normalization
@@ -40,20 +46,24 @@
 # #' ## Use limma package to compute quantile normalization
 # #' mbqn(X, median, method = "preprocessCore")
 #' }
-#' @description Modified quantile-normalization of a matrix, representing for example
-#' omics or other data sorted in a matrix. Prevents systematic flattening of feature variation across columns
-#' for features overrepresented in the tails of the intensity distribution
-#' across columns, i.e. rank invariant (RI) or nearly rank invariant (NRI) features.
 #' @author Ariane Schad
 #' @export mbqn
 # Created: July 2017
 
-mbqn <- function(x, FUN = NULL, na.rm = TRUE, method = NULL, verbose = TRUE){
+mbqn <- function(x, FUN = NULL, na.rm = TRUE, method = "limma", verbose = FALSE){
 
+  if(is.null(method)) method <- "limma"
   # Check if package limma is installed to run this function
   if (!requireNamespace("limma", quietly = TRUE)) {
     stop("Package \"pkg\" needed for this function to work. Please install it.",
          call. = FALSE)
+  }
+
+  if (method == "preprocessCore"){
+    # Check if package preprocessCore is installed  to run this function
+    if (!requireNamespace("preprocessCore", quietly = TRUE)) {
+      stop("Package \"pkg\" is required for this function to work. Please install it.",
+           call. = FALSE)}
   }
 
   if (!is.matrix(x)) {
@@ -79,11 +89,7 @@ mbqn <- function(x, FUN = NULL, na.rm = TRUE, method = NULL, verbose = TRUE){
       dummy <- normalizeQuantiles(x-mx)
       rownames(dummy) <- NULL
     } else if (method == "preprocessCore"){
-      # Check if package preprocessCore is installed  to run this function
-      if (!requireNamespace("preprocessCore", quietly = TRUE)) {
-        stop("Package \"pkg\" needed for this function to work. Please install it.",
-             call. = FALSE)}
-      dummy <- preprocessCore::normalize.quantiles(x-mx)
+     dummy <- preprocessCore::normalize.quantiles(x-mx)
     }
     qn_x <- dummy + mx
 
@@ -94,10 +100,6 @@ mbqn <- function(x, FUN = NULL, na.rm = TRUE, method = NULL, verbose = TRUE){
       qn_x <- normalizeQuantiles(x)
       rownames(qn_x) <- NULL
     }else if (method == "preprocessCore"){
-      # Check if package preprocessCore is installed  to run this function
-      if (!requireNamespace("preprocessCore", quietly = TRUE)) {
-        stop("Package \"pkg\" needed for this function to work. Please install it.",
-             call. = FALSE)}
       qn_x <- preprocessCore::normalize.quantiles(x)
     }
   }
