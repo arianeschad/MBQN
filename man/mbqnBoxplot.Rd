@@ -23,7 +23,7 @@ mbqnBoxplot(mtx, irow = NULL, vals = NULL, add.leg = TRUE,
 to \code{dev.copy2pdf()}, e.g. width, height, paper format(default "a4r") of pdf.}
 }
 \value{
-Figure
+Figure.
 }
 \description{
 Create a box-and-whisker plot of a data matrix and

@@ -60,7 +60,7 @@ mbqnPlotAll(X, mean, low_thr = 0.5, save_fig = FALSE)
 Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 }
 \seealso{
-\code{\link[=mbqnPlotRI]{mbqnPlotRI()}} and \code{\link[=mbqnBoxplot]{mbqnBoxplot()}} for the generation of figures, and \code{\link[=mbqn]{mbqn()}} for normalization
+\code{\link[=mbqnPlotRI]{mbqnPlotRI()}} and \code{\link[=mbqnBoxplot]{mbqnBoxplot()}} for the generation of figures, and \code{\link[=mbqn]{mbqn()}} for normalization.
 }
 \author{
 Ariane Schad

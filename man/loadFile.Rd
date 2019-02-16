@@ -7,13 +7,13 @@
 loadFile(pxd_id, source.path = NULL, file.pattern = "proteinGroups")
 }
 \arguments{
-\item{pxd_id}{character specifying the PRIDE identifier.}
+\item{pxd_id}{the PRIDE identifier.}
 
-\item{source.path}{character specifying the path where to store and search for the
-"proteinGroups.txt"-file; default = NULL uses current working directory.}
+\item{source.path}{pathname where to store and search for the
+data file, e.g. "proteinGroups.txt"-file; default = NULL uses current working directory.}
 
 \item{file.pattern}{character specifying the kind of dataset for download, e.g.
-"proteinGroups.txt" or "peptides.txt".}
+"proteinGroups" or "peptides".}
 }
 \value{
 List with
@@ -32,8 +32,7 @@ empty protein features. Apply log2 transform to intensities. This function acqui
 of SafeQuant::parseMaxQuantProteinGroupTxt [2].
 }
 \examples{
-## Load LFQ intensities of proteomics data PXD001584 downloaded
-available at PRIDE:
+## Load LFQ intensities of proteomics data of PXD001584:
 \dontrun{
 loadFile(pxd_id = "PXD001584")
 }

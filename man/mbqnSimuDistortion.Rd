@@ -4,30 +4,30 @@
 \alias{mbqnSimuDistortion}
 \title{Perturbation of sample mean and scale}
 \usage{
-mbqnSimuDistortion(x, max_mean = 0.05, max_scale = 0.01, seed = 1234)
+mbqnSimuDistortion(x, s.mean = 0.05, s.scale = 0.01, seed = 1234)
 }
 \arguments{
 \item{x}{a matrix or data frame.}
 
-\item{max_mean}{absolute maximum shift of mean from 0 to max_mean.}
+\item{s.mean}{scatter of relative change of mean.}
 
-\item{max_scale}{realtive change in scale, i.e. 0.01 corresponds to 1\%.}
+\item{s.scale}{scatter of realtive change in scale, i.e. 0.01 corresponds to 1\%.}
 
-\item{seed}{seed for random number generator. Default \code{seed <- 1234}.}
+\item{seed}{seed for random number generator.}
 }
 \value{
-\code{list} with:
+List with:
 \item{\code{x.mod}}{perturbed matrix}
 \item{\code{mx.offset}}{numeric array of shifts of the sample means}
 \item{\code{mx.scale}}{numeric array of relative scales of the sample standard deviations.}
 }
 \description{
-This function adds a random perturbation of mean and scale to each column of a matrix.
+\code{mbqnSimuDistortion} adds a random perturbation of mean and scale to each column of a matrix.
 }
 \details{
 Shift and scale the sample mean and standard deviation of a matrix. The perturbation of center and scale relative to mean and standard deviation of each sample
-are drawn from a Gaussian distribution \eqn{|N(0,\sigma^2)|} with \eqn{\sigma_mean=}\code{max_mean} and
-\eqn{\sigma_scale}=\code{max_scale}, respectively.
+are drawn from a Gaussian distribution \eqn{|N(0,\sigma^2)|} with \eqn{\sigma_mean=}\code{s.mean} and
+\eqn{\sigma_scale}=\code{s.scale}, respectively.
 }
 \examples{
 \dontrun{
@@ -39,7 +39,7 @@ df <- mbqnSimuDistortion(x)
 Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
 }
 \seealso{
-\code{\link[=mbqnSimuData]{mbqnSimuData()}} for data generation
+\code{\link[=mbqnSimuData]{mbqnSimuData()}} for data generation.
 
 Other data: \code{\link{example_NApattern}},
   \code{\link{mbqnSimuData}}

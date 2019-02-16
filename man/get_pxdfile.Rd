@@ -7,13 +7,13 @@
 get_pxdfile(pxd_id, source.path = NULL, file.pattern = "proteinGroups")
 }
 \arguments{
-\item{pxd_id}{character specifying the PRIDE identifier.}
+\item{pxd_id}{the PRIDE identifier.}
 
-\item{source.path}{character specifying the path where to store and search for the
-"proteinGroups.txt"-file; default = NULL uses current working directory.}
+\item{source.path}{pathname where to store and search for the
+data file, e.g. "proteinGroups.txt"-file; default = NULL uses current working directory.}
 
 \item{file.pattern}{character specifying the kind of dataset for download, e.g.
-"proteinGroups.txt" or "peptides.txt".}
+"proteinGroups" or "peptides".}
 }
 \description{
 Auxiliary function which downloads selected data, like protein group intensities, from PRIDE [1].

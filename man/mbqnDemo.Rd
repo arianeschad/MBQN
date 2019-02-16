@@ -13,7 +13,7 @@ abundances/intensities, and columns represent samples. Default
 }
 \value{
 Various graphics illustrating the effect of normalization on
-rank mixing and rank invariant intensity features
+rank mixing and rank invariant intensity features.
 }
 \description{
 Visualize the intensity distribution of unnormalized,

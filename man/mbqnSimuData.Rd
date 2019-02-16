@@ -22,7 +22,7 @@ an additional single, differentially expressed RI feature.}
 \item{show.fig}{logical inidicating whether data properties are plot to figure (only for \code{model = "omics"} and \code{model = "omics.dep"}).}
 }
 \value{
-\code{matrix} of size nrow x ncol
+\code{matrix} of size nrow x ncol.
 }
 \description{
 Generate a random data matrix with or without proteomics, log-transformed feature
@@ -51,7 +51,7 @@ Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalizatio
 In prep. 2019
 }
 \seealso{
-\code{\link[MBQN:example_NApattern]{MBQN::example_NApattern()}} for description of missing value pattern
+\code{\link[MBQN:example_NApattern]{MBQN::example_NApattern()}} for description of missing value pattern.
 
 Other data: \code{\link{example_NApattern}},
   \code{\link{mbqnSimuDistortion}}

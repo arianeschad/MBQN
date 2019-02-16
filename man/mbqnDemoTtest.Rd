@@ -37,9 +37,7 @@ Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalizatio
 In prep. 2019
 }
 \seealso{
-\code{\link[=mbqnSimuData]{mbqnSimuData()}} for data generation
-
-\code{\link[=mbqnSimuDistortion]{mbqnSimuDistortion()}} for distortion of data
+\code{\link[=mbqnSimuData]{mbqnSimuData()}} for data generation and \code{\link[=mbqnSimuDistortion]{mbqnSimuDistortion()}} for distortion of data.
 }
 \author{
 Ariane Schad

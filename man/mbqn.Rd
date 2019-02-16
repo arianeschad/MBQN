@@ -19,7 +19,7 @@ i.e. normal QN is used.}
 \item{na.rm}{logical indicating to omit NAs in the
 computation of feature mean.}
 
-\item{method}{character specifying method for computation of quantile normalization;
+\item{method}{character specifying function for computation of quantile normalization;
 "limma" (default) for \code{normalizeQuantiles()} from the limma package or
 "preprocessCore" for \code{normalize.quantiles()} from the preprocessCore package.}
 
@@ -63,7 +63,7 @@ https://github.com/bmbolstad/preprocessCore \cr
 [4] Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile normalization. In prep., 2019
 }
 \seealso{
-\code{\link[=mbqnNRI]{mbqnNRI()}}, \code{\link[=mbqnGetNRIfeatures]{mbqnGetNRIfeatures()}}
+\code{\link[=mbqnNRI]{mbqnNRI()}}, \code{\link[=mbqnGetNRIfeatures]{mbqnGetNRIfeatures()}}.
 }
 \author{
 Ariane Schad
