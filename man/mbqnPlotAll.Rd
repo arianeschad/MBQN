@@ -12,9 +12,9 @@ mbqnPlotAll(x, FUN = NULL, low_thr = 0.5, show_fig = TRUE,
 \item{x}{a data matrix. Rows represent features, e.g. protein abundances;
 columns represent samples.}
 
-\item{FUN}{a function like mean, median, a user defined function, or a numeric vector
+\item{FUN}{a function like mean, median (default), a user defined function, or a numeric vector
 of weights with length \code{nrow(x)} to balance each feature across samples.
-Functions can be parsed also as characters. If FUN = NULL (default), features are not balanced,
+Functions can be parsed also as characters. If FUN = NULL, features are not balanced,
 i.e. normal QN is used.}
 
 \item{low_thr}{a value between [0 1]. Features with RI frequency >=\code{low_thr}
@@ -57,7 +57,7 @@ X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
 mbqnPlotAll(X, mean, low_thr = 0.5, save_fig = FALSE)
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 }
 \seealso{
 \code{\link[=mbqnPlotRI]{mbqnPlotRI()}} and \code{\link[=mbqnBoxplot]{mbqnBoxplot()}} for the generation of figures, and \code{\link[=mbqn]{mbqn()}} for normalization.

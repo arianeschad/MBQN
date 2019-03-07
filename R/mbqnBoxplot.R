@@ -14,7 +14,7 @@
 #' Groups are represent by matrix columns. Selected rows/features or user-defined
 #' arrays are plot on top of the box plot. Missing values are ignored.
 #' @return Figure.
-#' @references Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+#' @references Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 #' @examples ## Create boxplot of quantile normalized data matrix and plot
 #' ## feature from median balanced quantile normalization on top of it.
 #' \dontrun{
@@ -25,7 +25,7 @@
 #' mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b", filename = "fig_box_qn.pdf")
 #' }
 #' @importFrom grDevices dev.copy2pdf
-#' @importFrom graphics axis boxplot grconvertX legend lines matlines par
+#' @importFrom graphics axis boxplot grconvertX legend lines matlines par strwidth
 #' @family example
 #' @author Ariane Schad
 #  August 2017
@@ -87,7 +87,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
   if(!is.null(vals)){
 
     if(class(vals)=="numeric" || class(vals) == "array"){
-      lcol <- c(lcol,4)
+      lcol <- c(lcol,3)
       lty <- c(lty,1)
       leg.txt <- "feature"
     }
@@ -98,31 +98,40 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
       }else{
         leg.txt <- paste("feature",c(1:dim(vals)[1]))
       }
-      lcol <- c(lcol,rep((1:dim(vals)[2])+3,each = 2)[1:min(dim(vals))])# seq(4,8)[1:min(dim(vals))])
-      lty <- c(lty, rep(1:2, dim(vals)[2])[1:min(dim(vals))]) #c(lty,1:length(irow)) #rep(1,min(dim(vals)))) #seq(1:5)[1:min(dim(vals))])
+      lcol <- c(lcol,rep((1:dim(vals)[2])+2,each = 6)[1:min(dim(vals))])# seq(4,8)[1:min(dim(vals))])
+      lty <- c(lty, rep(1:6, dim(vals)[2])[1:min(dim(vals))]) #c(lty,1:length(irow)) #rep(1,min(dim(vals)))) #seq(1:5)[1:min(dim(vals))])
     }
     leg_text <- c(leg_text,leg.txt)
   }
 
   #par(oma = c(0,0,0,0))
+
+  dy <- 0
+  if(!is.null(colnames(mtx))) dy <- strwidth(colnames(mtx)[1],
+                                             units = "figure",
+                                             cex = cex)
+
   if(add.leg){
+    #axis(side = 2, at = 1:18,labels = colnames(mtx), las =2)
     l <- legend(0, 0, bty='n', leg_text,
                 plot=FALSE, pch=c(1, 2), lty=c(1, 2), cex = cex.leg, pt.cex = pt.cex,
                 y.intersp= y.intersp)
     # calculate right margin width in ndc
     w <- max(0.05,grconvertX(l$rect$w, to='ndc') - grconvertX(0, to='ndc'))
-    par(omd=c(0, 1-w, 0, 1))
+    par(omd=c(0, 1-w*.9, dy*3/4, 1))
   }
+
+  # calculate lower margin width in ndc
 
   #opt.args <- list(opt.args,
   #                 xlim = c(0,dim(mtx)[2]+.5),
   #                 ylim = ylim)
   # remove empty elements
   #opt.args <- opt.args[lapply(opt.args, length)>0]
+  #opt.args <- opt.args
 
-  opt.args <- opt.args
   if(!is.null(opt.args$ylim)) opt.args <- .optargsReplace(..., replace = list(ylim = ylim))
-  if(!is.null(opt.args$width) || !is.null(opt.args$height) ) opt.args <- .optargsRemove(..., remove = c("width","height"))
+  if(!is.null(opt.args$width) || !is.null(opt.args$height) || !is.null(opt.args$y.intersp)) opt.args <- .optargsRemove(..., remove = c("width","height","y.intersp"))
 
   if(is.null(irow)){
     do.call(boxplot, c(list(x = mtx,use.cols = TRUE, col=c("gold"),
@@ -152,6 +161,8 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
                           xlab = xlab,
                           ylab = ylab,
                           main = main,
+                          cex = cex,
+                          xlim = c(0,dim(mtx)[2]+.5),
                           #ylim = ylim,
                           las = las),opt.args))
      do.call(matlines, c(list(y=t(mtx[irow,]),col=c(2), pch = 1),opt.args))
@@ -161,17 +172,21 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
   if(!is.null(vals)){
     if(class(vals)=="array" || class(vals)=="numeric"){
       #lines(vals, pch = 1,col=4,ylim = ylim,xlab = xlab, ylab = ylab,...)
-      do.call(lines, c(list(x = vals, pch = 1,col=4,ylim = ylim,xlab = xlab, ylab = ylab),opt.args))
+      do.call(lines, c(list(x = vals, pch = 1,col=3,ylim = ylim,xlab = xlab, ylab = ylab),opt.args))
     }else if(class(vals)=="matrix"){
       #matlines(t(vals), pch = 1,lty = rep(1:2, dim(vals)[2]), col=rep((1:dim(vals)[2])+3,each = 2),...)
-      do.call(matlines, c(list(y = t(vals), pch = 1,lty = rep(1:2, dim(vals)[2]), col=rep((1:dim(vals)[2])+3,each = 2)),opt.args))
+      do.call(matlines, c(list(y = t(vals), pch = 1,
+                               lty = rep(1:6, dim(vals)[2]),
+                               col=rep((1:dim(vals)[2])+2,each = 6)),
+                          opt.args))
     }else{ # data.frame
       #matlines(vals, pch = 1,lty = rep(1:2, dim(vals)[2]), col=rep((1:dim(vals)[2])+3,each = 2),...)
       do.call(matlines,
               c(list(y = vals,
                      pch = 1,
-                     lty = rep(1:2, dim(vals)[2]),
-                     col=rep((1:dim(vals)[2])+3,each = 2)),opt.args))
+                     lty = rep(1:6, dim(vals)[2]),
+                     col=rep((1:dim(vals)[2])+2,each = 6)),
+                opt.args))
     }
   }
 

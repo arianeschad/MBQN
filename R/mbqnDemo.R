@@ -17,7 +17,7 @@
 #' mbqnDemo(x)
 #' @details Normalize matrix and return boxplots of quantile normalized and mean balanced normalized
 #' data.
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 #' @author Ariane Schad
 # Aug. 2017
 #' @export mbqnDemo
@@ -41,7 +41,7 @@ mbqnDemo <- function(x = NULL){
 
   # perform qn, median balanced qn, and qn with median balanced nri feature
   qn_x <- mbqn(x,FUN=NULL, verbose = FALSE)
-  mbqn_x <- mbqn(x,FUN = median, verbose = FALSE)
+  mbqn_x <- mbqn(x,FUN = "median", verbose = FALSE)
   qn_nri_x <- mbqnNRI(x,FUN = "median", low_thr = 0.5, verbose = FALSE)
 
   # check saturation i.e. for rank invariance

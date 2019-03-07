@@ -13,8 +13,7 @@
 #' \item{\code{mx.offset}}{numeric array of shifts of the sample means}
 #' \item{\code{mx.scale}}{numeric array of relative scales of the sample standard deviations.}
 #' @seealso [mbqnSimuData()] for data generation.
-#' @family data
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 #' @examples
 #'\dontrun{
 #' x <- mbqnSimuData("omics.dep")

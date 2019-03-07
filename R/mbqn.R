@@ -6,9 +6,9 @@
 #' or features that separate in intensity.
 #' @param x a data matrix, where rows represent features, e.g.
 #' of protein abundance, and columns represent groups or samples, e.g. replicates, treatments, or conditions.
-#' @param FUN a function like mean, median, a user defined function, or a numeric vector
+#' @param FUN a function like mean, median (default), a user defined function, or a numeric vector
 #' of weights with length \code{nrow(x)} to balance each feature across samples.
-#' Functions can be parsed also as characters. If FUN = NULL (default), features are not balanced,
+#' Functions can be parsed also as characters. If FUN = NULL, features are not balanced,
 #' i.e. normal QN is used.
 #' @param na.rm logical indicating to omit NAs in the
 #' computation of feature mean.
@@ -16,20 +16,21 @@
 #' "limma" (default) for \code{normalizeQuantiles()} from the limma package or
 #'"preprocessCore" for \code{normalize.quantiles()} from the preprocessCore package.
 #' @param verbose logical indicating to print messages.
-#' @details Balance each matrix row by substracting its feature mean computed with
+#' @details Balance each matrix row by substracting its feature offset computed with
 #' FUN, e.g. the median; apply quantile-normalization and add the feature means to the normalized matrix.
-#' See \[4\].
+#' For further details see \[4\]. For quantile normalization with the "limma" package see \[1,2\]
+#' and for the preProcessCore package see \[3\].
 #' @return Normalized matrix
 #' @importFrom limma normalizeQuantiles
 #' @seealso [mbqnNRI()], [mbqnGetNRIfeatures()].
 #' @references
-#' Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray data. Methods 31, 265–273. \cr
+#' \[1\] Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray data. Methods 31, 265–273. \cr
 #' Ritchie, M.E., Phipson, B., Wu, D., Hu, Y., Law, C.W., Shi, W., and Smyth,
-#' G.K. (2015). limma powers differential expression analyses for RNA-sequencing
+#' \[2\] G.K. (2015). limma powers differential expression analyses for RNA-sequencing
 #' and microarray studies. Nucleic Acids Research 43(7), e47.\cr
-#' Bolstad B. M. (2016). preprocessCore: A collection of pre-processing functions. R package version 1.36.0.
+#' \[3\] Bolstad B. M. (2016). preprocessCore: A collection of pre-processing functions. R package version 1.36.0.
 #' https://github.com/bmbolstad/preprocessCore \cr
-#' \[4\] Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile normalization. In prep., 2019
+#' \[4\] Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep., 2019
 #' @examples
 #'\dontrun{
 #' ## Compute mean and median balanced quantile normalization
@@ -50,7 +51,7 @@
 #' @export mbqn
 # Created: July 2017
 
-mbqn <- function(x, FUN = NULL, na.rm = TRUE, method = "limma", verbose = FALSE){
+mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma", verbose = FALSE){
 
   if(is.null(method)) method <- "limma"
   # Check if package limma is installed to run this function

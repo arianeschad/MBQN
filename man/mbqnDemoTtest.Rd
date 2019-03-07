@@ -33,7 +33,7 @@ mbqnDemoTtest(show.fig = TRUE)
 }
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization.
+Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization.
 In prep. 2019
 }
 \seealso{

@@ -36,15 +36,11 @@ df <- mbqnSimuDistortion(x)
 }
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 }
 \seealso{
 \code{\link[=mbqnSimuData]{mbqnSimuData()}} for data generation.
-
-Other data: \code{\link{example_NApattern}},
-  \code{\link{mbqnSimuData}}
 }
 \author{
 Ariane Schad
 }
-\concept{data}

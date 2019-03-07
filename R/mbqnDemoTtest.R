@@ -21,7 +21,7 @@
 #' @importFrom utils read.csv untar unzip
 #' @importFrom stats rnorm t.test
 #' @importFrom graphics image layout points rect matplot
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization.
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization.
 #' In prep. 2019
 #' @examples
 #'\dontrun{
@@ -31,18 +31,12 @@
 #' @export mbqnDemoTtest
 mbqnDemoTtest <- function(show.fig = FALSE){
 
-  #if(!is.null(seed)) set.seed(seed)
-
-  #mx.offset <- abs(rnorm(ncol))*s.mean+1
-  #mx.scale <- abs(rnorm(ncol))*s.scale+1
-
   mtx <- mbqnSimuData("omics.dep", show.fig = FALSE)
   mtx.mod <- mbqnSimuDistortion(mtx, s.mean = 0.05, s.scale = 0.01, seed = 1234)
   bla <- mtx.mod
   mtx.mod <- mtx.mod$x.mod
 
-  #res <- mbqnCheckSaturation(mtx.mod,FUN= "mean", low_thr = 0.5, verbose = F, show_nri_only = T, y.intersep = 0.8, save_fig = T)
-  res <- mbqnGetNRIfeatures(mtx.mod,FUN= "mean", low_thr = 0.5, verbose = F)
+  res <- mbqnGetNRIfeatures(mtx.mod, low_thr = 0.5, verbose = F)
 
   # undistorted feature
   feature1 <- mtx[1,]
@@ -55,7 +49,7 @@ mbqnDemoTtest <- function(show.fig = FALSE){
   mbqn.mtx = mbqn(mtx.mod, FUN = "mean",verbose = F)
   mbqn.feature1 = mbqn(mtx.mod, FUN = "mean",verbose = F)[1,]
 
-  # apply t-test
+  # Apply t-test:
   # undistorted feature
   ttest.res0 <- t.test(feature1[1:9], feature1[10:18],var.equal =TRUE)#$p.value
   # distorted feature

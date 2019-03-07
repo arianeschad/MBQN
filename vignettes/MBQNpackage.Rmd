@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Mean/Median-balanced quantile normalization for processing omics data
 
 ## Description
-This package supplies a modified quantile normalization for preprocessing omics or other matrix-like organized data with intensity values biased by global shifts of mean and scatter of columns. The modification balances the mean intensity of features which are rank invariant (RI) or nearly rank invariant (NRI), e.g. features that have always largest intensity across samples/columns, before quantile normalization in order to reduce systematics in downstream analysis. 
+This package supplies a modified quantile normalization for preprocessing omics or other matrix-like organized data with intensity values distorted by global shifts of mean and scatter of columns. The modification balances the mean intensity of features which are rank invariant (RI) or nearly rank invariant (NRI), e.g. features that have always largest intensity across samples/columns or separate from each other across columns, before quantile normalization in order to reduce systematics in downstream analysis. 
 
 ## Installation
 To install this package from Github, you need R version >= 3.3.3.

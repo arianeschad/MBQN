@@ -19,15 +19,12 @@
 #' intensities. For model \code{"omics.dep"}, a single differentially epxressed
 #' RI feature is stacked on top of the matrix from model \code{"omics"}.
 #' @return \code{matrix} of size nrow x ncol.
-#' @family data
-#' @seealso [MBQN::example_NApattern()] for description of missing value pattern.
+#' @seealso [example_NApattern()] for description of missing value pattern.
 #' @importFrom utils read.csv untar unzip
 #' @importFrom stats rnorm
 #' @importFrom graphics image layout points rect
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization.
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization.
 #' In prep. 2019
-# #' [1] Ramond, E. et al. (2015) Importance of host cell arginine uptake in Francisella phagosomal
-# #' escape and ribosomal protein amounts. Mol Cell Proteomics 14, 870-881.\cr
 #' @examples
 #' \dontrun{
 #' mbqnSimuData(model = "rand")

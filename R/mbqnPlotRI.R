@@ -12,13 +12,12 @@
 #' For each detected NRI/RI feature, plot the feature index against the RI frequencies
 #' together with the RI frequency detection threshold and print the sample coverage.
 #' @return Figure, optionally saved in file Fig_nri_check_" \code{filename} ".pdf.
-#' @family mbqn
-#' @seealso [mbqnGetNRIfeatures()] for detection of NRI/RI features
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+#' @seealso [mbqnGetNRIfeatures()] for detection of NRI/RI features.
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 #' @examples ## Check data matrix for RI and NRI features
 #' \dontrun{
 #' x <- mbqnSimuData("omics.dep")
-#' RI <- mbqnGetNRIfeatures(x, mean, low_thr = 0.5, verbose = FALSE)
+#' RI <- mbqnGetNRIfeatures(x, low_thr = 0.5, verbose = FALSE)
 #' mbqnPlotRI(RI)
 #' }
 #' @author Ariane Schad
@@ -50,7 +49,7 @@ mbqnPlotRI <- function(obj , save_fig = FALSE, filename = NULL,
 
     if(is.null(filename)) {
       fig1.name <- "Figure_nri_check.pdf"
-    }else{fig1.name <- paste0("Fig_nri_check_", filename ,".pdf")}
+    }else{fig1.name <- paste0("fig_nri_check_", filename ,".pdf")}
 
     ylim <- c(min(as.numeric(names(obj$nri)))-1,max(as.numeric(names(obj$nri)))+2)
 

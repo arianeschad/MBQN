@@ -40,7 +40,7 @@
 #' on Seed Productivity, Quality, and Protection of Pisum sativum upon Disease
 #' Stress Caused by Didymella pinodes: Phenotypic, Proteomic, and Metabolomic
 #' Traits. Front Plant Sci. 2017 8:1961\cr
-#' \[6\] Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile
+#' \[6\] Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile
 #' normalization. In prep. 2019\cr
 #' @examples ## Check LFQ intensities of the protein dataset in
 #' ## PXD001584 for RI and NRI features
@@ -64,15 +64,23 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
   out <- loadFile(pxd_id, source.path = source.path, file.pattern = "proteinGroups.txt")
   featureAnnotations <- out$featureAnnotations
   mtx <- out$mtx
+
+  # filter for potential contaminants and identified only by site features
+  mtx <- mtx[-out$ixs,]
+  featureAnnotations <- featureAnnotations[-out$ixs,]
+
   low_thr <- 0.5
+  ylim <- NULL
+  ix <- c(1:ncol(mtx))
+
   if(pxd_id == "PXD001584") {
     ix <- c(1:9, 19:27)
     mtx <- mtx[,ix]
-    ylim <- c(22.5,36)
+    ylim.qn <- ylim <- c(22.5,36)
   }
 
   if(pxd_id == "PXD006617") {
-    ylim <- c(16.5,36)
+    ylim.qn <- ylim <- c(16.5,36)
     low_thr <- 0.5
   }
 
@@ -81,22 +89,23 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
   res <- mbqnPlotAll(mtx,
                      FUN = median,
                      low_thr = low_thr,
-                     las = 2, type = "l",
+                     las = 2,
+                     type = "l",
                      feature_index = NULL,
                      show_fig = TRUE,
                      filename = pxd_id,
-                     show_nri_only = TRUE, save_fig = TRUE,
+                     show_nri_only = TRUE,
+                     save_fig = TRUE,
                      axis.cex = 0.5,
                      y.intersp= 0.5)
 
   dev.off()
-  mb <- mbqn(as.matrix(mtx),FUN = median, na.rm = TRUE, verbose = TRUE)
 
   # get protein name of strongest nri/ri feature
   nri_max <- as.numeric(names(which.max(res$nri)))
-  featureAnnotations$proteinDescription[nri_max]
-  featureAnnotations$proteinName[nri_max]
-  featureAnnotations$nbPeptides[nri_max]
+  #featureAnnotations$proteinDescription[nri_max]
+  #featureAnnotations$proteinName[nri_max]
+  #featureAnnotations$nbPeptides[nri_max]
 
   df <- lapply(c(1:dim(featureAnnotations)[2]),function(j) featureAnnotations[[j]][[nri_max]])
   names(df)<- names(featureAnnotations)
@@ -105,18 +114,23 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
   df$proteinName <-  paste(strtrim(df$proteinName,80),"...")
   df$proteinDescription <- paste(strtrim(df$proteinDescription,80),"...")
 
+  colnames(mtx) <- gsub("LFQ intensity","",colnames(mtx))
+  mbqn.mtx <- mbqn(mtx,FUN = median)
+  qn.mtx <- mbqn(mtx,FUN = NULL)
+
   # Boxplot of QN intensity features, highlight RI/NRI Features
   save.fig <- TRUE
   fig1.name <- paste0("fig_qnLFQ_", pxd_id,".pdf")
 
-  mbqn.mtx <- mbqn(mtx,FUN = median)
-  qn.mtx <- mbqn(mtx,FUN = NULL)
-  if(length(ylim)==0) ylim <- c(floor(min(range(mbqn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE))))
-  colnames(qn.mtx) <- colnames(mbqn.mtx) <- ix
+
+  if(length(ylim)==0) {
+    ylim <- c(floor(min(range(mbqn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE))))
+    ylim.qn <- c(floor(min(range(qn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE))))
+  }
+  #colnames(qn.mtx) <- colnames(mbqn.mtx) <- ix
 
   plot.new()
   frame()
-  colnames(qn.mtx ) <- colnames(mtx)
   mbqnBoxplot(mtx = qn.mtx,main = paste("QN"),
               ylab = "LFQ intensity",
               ylim = ylim, xlab = "",las =2,
@@ -126,22 +140,27 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
     print(paste("Save figure to ",fig1.name))
   }
 
-  if(which.example==1){
+  #if(which.example==1){
     fig3.name <- paste0("fig_mbqn_vs_qn_", pxd_id,".pdf")
     plot.new()
     frame()
 
-    colnames(mbqn.mtx ) <- colnames(mtx)
+    # select a qn feature:
+    is.full.feature <- which((apply(is.na(mtx),1,sum))==0)[1]
+    df <- data.frame(QN.feature = qn.mtx[is.full.feature,])
+    names(df) <- paste("QN feature", is.full.feature)
+   # colnames(mbqn.mtx ) <- colnames(mtx)
     mbqnBoxplot(mtx = mbqn.mtx,main = "MBQN with QN-feature",
-                irow = c(as.numeric(names(res$nri)),144),
+                irow = c(as.numeric(names(res$nri)),is.full.feature),
                 xlab= "", las =2,
-                vals = data.frame(QN.feature.114 = qn.mtx[144,]),
+                ylab = "LFQ intensity",
+                vals = df,
                 ylim = ylim, y.intersp = 0.5)
     if(save.fig){
       dev.copy2pdf(file=file.path(getwd(),fig3.name),width=10,height=6,paper="a4r", out.type = "pdf")
       print(paste("Save figure to ",fig3.name))
     }
-  }
+  #}
 
   # QN of data and balance only NRI/RI features
   fig4.name <- paste0("fig_qn_balance_nri_only_", pxd_id,".pdf")
@@ -150,19 +169,22 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
   frame()
   par(mfrow = c(1,1))
 
-  colnames(mtx) <- gsub("LFQ intensity","",colnames(mtx))
 
-  df <- as.data.frame(qn.mtx[as.numeric(names(res$nri)),])
+  df <- data.frame(qn.mtx[as.numeric(names(res$nri)),])
+  if(ncol(df)==1) df <- t(df)
   rownames(df) <- paste("QN feature",names(res$nri))
-  df2 <- as.data.frame(mtx[as.numeric(names(res$nri)),])
-  rownames(df2) <- paste("data",names(res$nri))
+  df2 <- data.frame(mtx[as.numeric(names(res$nri)),])
+  if(ncol(df2)==1) df2 <- t(df2)
+  rownames(df2) <- paste("unnormal. feature",names(res$nri))
   colnames(df) <- colnames(df2)
   df <- rbind(df,df2)
   df <- as.data.frame(t(df))
 
-  mbqnBoxplot(mbqnNRI(mtx,FUN = median,low_thr = 0.5, verbose = FALSE),
+  mtx.nri <- mbqnNRI(mtx,FUN = median,low_thr = 0.5, verbose = FALSE)
+  mbqnBoxplot(mtx = mtx.nri,
               irow = as.numeric(names(res$nri)),
-              ylim = ylim, xlab= "", las=2,
+              ylim = ylim.qn, xlab= "", las=2,
+              ylab = "LFQ intensity",
               vals = df,lwd = 1.,
               main = "QN with RI/NRI balanced",
               cex.axis = 1, cex.lab = .9, cex = .9, y.intersp = 0.5)

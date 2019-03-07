@@ -26,7 +26,7 @@
 #' \item{\code{nri}}{table of the rank invariance frequencies in percent for each NRI/RI feature}
 #' \item{\code{var0_feature}}{indices of features with zero sample variance after QN.}
 #' @seealso [mbqnPlotRI()] and [mbqnBoxplot()] for the generation of figures, and [mbqn()] for normalization.
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 #' @examples ## Check data matrix for RI and NRI features
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
 #' mbqnPlotAll(X, mean, low_thr = 0.5, save_fig = FALSE)
@@ -42,7 +42,7 @@ mbqnPlotAll <- function(x, FUN = NULL,
 
   opt.args <- list(...)
 
-  res  <- mbqnGetNRIfeatures(x, FUN = FUN,
+  res  <- mbqnGetNRIfeatures(x,
                              low_thr = low_thr,
                              verbose = verbose)
 

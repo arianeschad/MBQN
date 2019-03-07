@@ -29,11 +29,11 @@ x <- mbqnSimuData()
 mbqnDemo(x)
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 }
 \seealso{
-Other example: \code{\link{loadFile}},
-  \code{\link{mbqnBoxplot}}, \code{\link{mbqnExample}}
+Other example: \code{\link{mbqnBoxplot}},
+  \code{\link{mbqnExample}}
 }
 \author{
 Ariane Schad

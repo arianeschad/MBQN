@@ -16,33 +16,36 @@
 #' \item{\code{nri}}{table of the rank invariance frequencies in percent for each
 #' NRI/RI feature}
 #' \item{\code{var0_feature}}{indices of features with zero sample variance after QN}
-#' \item{\code{low_thr}}{threshold used for RI/NRI detection from RI frequency.}
-#' @family mbqn
-#' @references Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile
+#' \item{\code{low_thr}}{threshold used for NRI/RI detection from RI frequency.}
+#' @seealso [mbqnPlotRI()] for visualization of detected NRI/RI features.
+#' @references Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile
 #' normalization. In prep. 2019
-# @examples ## Check data matrix for RI and NRI features
-# x <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
-# mbqnGetNRIfeatures(x, mean)
+#' @examples ## Check data matrix for RI and NRI features
+#' \dontrun{
+#' x <- mbqnSimuData("omics.dep")
+#' RI <- mbqnGetNRIfeatures(x, low_thr = 0.5, verbose = FALSE)
+#' mbqnPlotRI(RI)
+#' }
 #' @details Quantile normalize the data matrix and sort ranks. Determine the maximum
 #' frequency of equal rank across all columns for each feature. Features with maximum frequency
 #' above the user-defined threhold are declared as nearly rank invariant.
 #' @author Ariane Schad
 #' @export mbqnGetNRIfeatures
 #  Created: Nov 2018
-mbqnGetNRIfeatures <- function(x, FUN = NULL,
+mbqnGetNRIfeatures <- function(x,
                                low_thr = 0.5,
                                method = NULL,
                                verbose = TRUE){
 
   # if FUN is not specified, use median!
-  if(is.null(FUN)) FUN <- median
-  if(is.character(FUN)) FUN <- match.fun(FUN)
+  #if(is.null(FUN)) FUN <- median
+  #if(is.character(FUN)) FUN <- match.fun(FUN)
 
   N <- dim(x)[1] #number of rows
   M <- dim(x)[2] #number of cols
 
-  # quantile normalisation and its standard deviation
-  qn.x <- mbqn(x = x,FUN = NULL, method = method, verbose = verbose)
+  # classical quantile normalisation and its standard deviation
+  qn.x <- mbqn(x = x, FUN = NULL, method = method, verbose = FALSE)
   s.qn <- apply(qn.x, 1, sd, na.rm=TRUE)
 
   ## Rank frequencies for each feature after QN (top-down)

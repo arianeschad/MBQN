@@ -56,14 +56,14 @@ cultivar resistance and the microsymbionts' influence. J Proteomics.
 on Seed Productivity, Quality, and Protection of Pisum sativum upon Disease
 Stress Caused by Didymella pinodes: Phenotypic, Proteomic, and Metabolomic
 Traits. Front Plant Sci. 2017 8:1961\cr
-[6] Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile
+[6] Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile
 normalization. In prep. 2019\cr
 }
 \seealso{
 \code{\link[=get_pxdfile]{get_pxdfile()}} for download dataset from PRIDE and \code{\link[=loadFile]{loadFile()}} for reading LFQ intensities from file.
 
-Other example: \code{\link{loadFile}},
-  \code{\link{mbqnBoxplot}}, \code{\link{mbqnDemo}}
+Other example: \code{\link{mbqnBoxplot}},
+  \code{\link{mbqnDemo}}
 }
 \author{
 Ariane Schad

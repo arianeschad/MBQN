@@ -4,17 +4,11 @@
 \alias{mbqnGetNRIfeatures}
 \title{Identify rank invariant (RI) and nearly rank invariant (NRI) features}
 \usage{
-mbqnGetNRIfeatures(x, FUN = NULL, low_thr = 0.5, method = NULL,
-  verbose = TRUE)
+mbqnGetNRIfeatures(x, low_thr = 0.5, method = NULL, verbose = TRUE)
 }
 \arguments{
 \item{x}{a data matrix. Rows represent features, e.g. protein abundances;
 columns represent samples.}
-
-\item{FUN}{a function like mean, median, a user defined function, or a numeric vector
-of weights with length \code{nrow(x)} to balance each feature across samples.
-Functions can be parsed also as characters. If FUN = NULL (default), features are not balanced,
-i.e. normal QN is used.}
 
 \item{low_thr}{a value between [0 1]. Features with RI frequency >=\code{low_thr}
 are considered as NRI/RI; default 0.5.}
@@ -34,7 +28,7 @@ the sample coverage \code{sample.coverage} for all detected RI/NRI features}
 \item{\code{nri}}{table of the rank invariance frequencies in percent for each
 NRI/RI feature}
 \item{\code{var0_feature}}{indices of features with zero sample variance after QN}
-\item{\code{low_thr}}{threshold used for RI/NRI detection from RI frequency.}
+\item{\code{low_thr}}{threshold used for NRI/RI detection from RI frequency.}
 }
 \description{
 Compute the rank frequency of each feature of a matrix and
@@ -45,14 +39,21 @@ Quantile normalize the data matrix and sort ranks. Determine the maximum
 frequency of equal rank across all columns for each feature. Features with maximum frequency
 above the user-defined threhold are declared as nearly rank invariant.
 }
+\examples{
+## Check data matrix for RI and NRI features
+\dontrun{
+x <- mbqnSimuData("omics.dep")
+RI <- mbqnGetNRIfeatures(x, low_thr = 0.5, verbose = FALSE)
+mbqnPlotRI(RI)
+}
+}
 \references{
-Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile
+Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile
 normalization. In prep. 2019
 }
 \seealso{
-Other mbqn: \code{\link{mbqnPlotRI}}
+\code{\link[=mbqnPlotRI]{mbqnPlotRI()}} for visualization of detected NRI/RI features.
 }
 \author{
 Ariane Schad
 }
-\concept{mbqn}

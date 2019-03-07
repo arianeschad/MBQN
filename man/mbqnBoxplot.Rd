@@ -46,11 +46,11 @@ mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b", filename = "fig_bo
 }
 }
 \references{
-Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 }
 \seealso{
-Other example: \code{\link{loadFile}},
-  \code{\link{mbqnDemo}}, \code{\link{mbqnExample}}
+Other example: \code{\link{mbqnDemo}},
+  \code{\link{mbqnExample}}
 }
 \author{
 Ariane Schad

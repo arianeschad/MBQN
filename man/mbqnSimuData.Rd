@@ -47,16 +47,12 @@ mbqnSimuData(model = "omics.dep")
 }
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization.
+Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization.
 In prep. 2019
 }
 \seealso{
-\code{\link[MBQN:example_NApattern]{MBQN::example_NApattern()}} for description of missing value pattern.
-
-Other data: \code{\link{example_NApattern}},
-  \code{\link{mbqnSimuDistortion}}
+\code{\link[=example_NApattern]{example_NApattern()}} for description of missing value pattern.
 }
 \author{
 Ariane Schad
 }
-\concept{data}

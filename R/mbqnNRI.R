@@ -11,7 +11,7 @@
 #' without mean balancing.
 #' @return Normalized \code{matrix}.
 #' @seealso [mbqn()], [mbqnGetNRIfeatures()].
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+#' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 #' @examples ## Quantile normalize a data matrix where
 #' ## nearly rank invariant (NRI) features are balanced
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
@@ -21,13 +21,13 @@
 #' @export mbqnNRI
 # Created: Nov 2018
 
-mbqnNRI <- function(x, FUN = NULL, na.rm = TRUE, method = NULL, low_thr = 0.5 ,index = NULL, verbose = TRUE){
+mbqnNRI <- function(x, FUN = "median", na.rm = TRUE, method = NULL, low_thr = 0.5 ,index = NULL, verbose = TRUE){
 
   if(is.null(index)){
     if (!is.numeric(low_thr) || low_thr >1)
     { stop("Wrong data format, low_thr must be a value within [0 1]!")}
 
-    res  <- mbqnGetNRIfeatures(x, FUN = FUN,
+    res  <- mbqnGetNRIfeatures(x,
                                method = method,
                                low_thr = low_thr,
                                verbose = verbose)

@@ -34,19 +34,16 @@ together with the RI frequency detection threshold and print the sample coverage
 ## Check data matrix for RI and NRI features
 \dontrun{
 x <- mbqnSimuData("omics.dep")
-RI <- mbqnGetNRIfeatures(x, mean, low_thr = 0.5, verbose = FALSE)
+RI <- mbqnGetNRIfeatures(x, low_thr = 0.5, verbose = FALSE)
 mbqnPlotRI(RI)
 }
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 }
 \seealso{
-\code{\link[=mbqnGetNRIfeatures]{mbqnGetNRIfeatures()}} for detection of NRI/RI features
-
-Other mbqn: \code{\link{mbqnGetNRIfeatures}}
+\code{\link[=mbqnGetNRIfeatures]{mbqnGetNRIfeatures()}} for detection of NRI/RI features.
 }
 \author{
 Ariane Schad
 }
-\concept{mbqn}

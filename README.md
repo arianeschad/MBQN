@@ -73,20 +73,21 @@ Example 1: Generate a simple matrix, apply median-balanced quantile normalizatio
 ``` r
 ## basic example
 mtx <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)
-mtx.norm <- MBQN::mbqn(x = mtx, FUN = median) # mbqn of full matrix
-mtx.nri.norm <- MBQN::mbqnNRI(x = mtx, FUN = median, low_thr = 0.6) # qn of matrix - apply median balancing to NRI features with rank invariance frequency >0.6
-MBQN::mbqnBoxplot(mtx.norm, irow = 1)
-MBQN::mbqnCheckSaturation(mtx,FUN = median,low_thr = 0.1, filename = "simple_mtx",feature_index = 1)
+mtx.norm <- mbqn(x = mtx, FUN = median) # mbqn of full matrix
+mtx.nri.norm <- mbqnNRI(x = mtx, FUN = median, low_thr = 0.6) # qn of matrix - apply median balancing to NRI features with rank invariance frequency >0.6
+mbqnBoxplot(mtx.norm, irow = 1)
+mbqnPlotAll(mtx,FUN = median,low_thr = 0.1, filename = "simple_mtx")
+mbqnPlotRI(mtx)
 ```
 
-Example 2: This example will download data with LFQ intensities from the PRIDE repository, normalize the data, identifies RI/NRI features, and give graphical output. One can choose between four data sets. By default data files are stored in the current working directory currentdir/examples/PXDxxx.
+Example 2: Download data with LFQ intensities from the PRIDE repository, normalize the data, identify RI/NRI features, and give graphical output. One can choose between four data sets. By default data files are stored in the current working directory currentdir/PXDxxx.
 
 ``` r
 ## Normalize LFQ intensity data from the PRIDE repository
 mbqnExample(which.example = 3)
 ```
 
-In order to run `mbqnExample()`, the respective proteinGroups.txt file must be first downloaded from the PRIDE repository to the folder currentdir/examples/PXDxxxx/ in advance or you can directly download the data by running the code included in `mbqnExample()`.
+In order to run `mbqnExample()`, the respective proteinGroups.txt file must be downloaded from the PRIDE repository to the folder currentdir/PXDxxxx/ in advance or you can directly download the data by running the code included in `mbqnExample()`.
 
 Figures
 -------

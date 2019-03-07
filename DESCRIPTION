@@ -1,6 +1,6 @@
 Package: MBQN
 Version: 0.99.0
-Title: Mean/Median balanced quantile normalization
+Title: Mean/Median-balanced quantile normalization
 Author: Ariane Schad [aut,cre] 
 Maintainer: Ariane Schad <ariane.schad@zbsa.de>
 Description: Modified quantile normalization for omics or other matrix-like data distorted in location and scale.

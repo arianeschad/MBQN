@@ -4,7 +4,8 @@
 \alias{loadFile}
 \title{Load and preprocess LFQ intensities}
 \usage{
-loadFile(pxd_id, source.path = NULL, file.pattern = "proteinGroups")
+loadFile(pxd_id, source.path = NULL,
+  file.pattern = "proteinGroups.txt")
 }
 \arguments{
 \item{pxd_id}{the PRIDE identifier.}
@@ -21,6 +22,7 @@ List with
 \item{\code{pxdid}}{PRIDE identifier}
 \item{\code{featureAnnotations}}{dataframe collecting feature annotations, e.g. protein name,
 "Potential contaminant", etc..}
+\item{\code{ixs}}{row indices of potential contaminant features, or features identified only by site, reverse.}
 }
 \description{
 Auxilary function used to load and preprocess LFQ
@@ -42,14 +44,13 @@ loadFile(pxd_id = "PXD001584")
 Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
 2016 update of the PRIDE database and related tools. Nucleic Acids Res.
 2016 Jan 1;44(D1): D447-D456. PubMed PMID:26527722.\cr
-[2] See "SafeQuant" by Erik Ahrne (2016). SafeQuant: A Toolbox for the Analysis of Proteomics Data. R package version 2.3.1.,
+[2] See "SafeQuant" by Erik Ahrne (2016). SafeQuant: A Toolbox for the Analysis
+of Proteomics Data. R package version 2.3.1.,
 https://CRAN.R-project.org/package=SafeQuant.\cr
 }
 \seealso{
-Other example: \code{\link{mbqnBoxplot}},
-  \code{\link{mbqnDemo}}, \code{\link{mbqnExample}}
+\code{\link[=get_pxdfile]{get_pxdfile()}} for downloading data from PRIDE.
 }
 \author{
 Ariane Schad
 }
-\concept{example}

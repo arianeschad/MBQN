@@ -33,7 +33,8 @@ MBQN:::get_kminmax(x, k = 5, "max") # get indices of the 5 largest values in eac
 }
 }
 \references{
-Schad, A. and Kreutz, C., MBQN: R package for mean balanced quantile normalization. In prep. 2019
+Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile
+normalization. In prep. 2019
 }
 \author{
 Ariane Schad
