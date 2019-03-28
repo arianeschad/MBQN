@@ -1,13 +1,13 @@
-#' Selective mean-balanced quantile normalization
+#' Selective mean/median-balanced quantile normalization
 #'
 #' @description Quantile normalization of a data matrix where rank invariant (RI)/
 #' nearly rank invariant (NRI) rows/features or other user-selected rows are normalized by
-#' the mean/median balanced quantile normalization.
+#' the mean/median-balanced quantile normalization.
 #' @inheritParams mbqn
 #' @inheritParams mbqnGetNRIfeatures
 #' @param index an integer or a vector integers specifying the indices of selected rows.
 #' @details Selected rows and/or rows with rank invariance frequency \code{>=threshold}
-#' are normalized with the mean/median balanced quantile normalization. Remaining rows are quantile normalized
+#' are normalized with the mean/median-balanced quantile normalization. Remaining rows are quantile normalized
 #' without mean balancing.
 #' @return Normalized \code{matrix}.
 #' @seealso [mbqn()], [mbqnGetNRIfeatures()].

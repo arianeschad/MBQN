@@ -2,7 +2,7 @@
 % Please edit documentation in R/mbqnNRI.R
 \name{mbqnNRI}
 \alias{mbqnNRI}
-\title{Selective mean-balanced quantile normalization}
+\title{Selective mean/median-balanced quantile normalization}
 \usage{
 mbqnNRI(x, FUN = "median", na.rm = TRUE, method = NULL,
   low_thr = 0.5, index = NULL, verbose = TRUE)
@@ -36,11 +36,11 @@ Normalized \code{matrix}.
 \description{
 Quantile normalization of a data matrix where rank invariant (RI)/
 nearly rank invariant (NRI) rows/features or other user-selected rows are normalized by
-the mean/median balanced quantile normalization.
+the mean/median-balanced quantile normalization.
 }
 \details{
 Selected rows and/or rows with rank invariance frequency \code{>=threshold}
-are normalized with the mean/median balanced quantile normalization. Remaining rows are quantile normalized
+are normalized with the mean/median-balanced quantile normalization. Remaining rows are quantile normalized
 without mean balancing.
 }
 \examples{
