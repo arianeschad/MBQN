@@ -32,12 +32,12 @@ BiocManager::install("MBQN")
 For installation from Github run in R: 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("arianeschad/mbqn")
+devtools::install_github("arianeschad/MBQN")
 ```
 or
 ```{r installation, eval = FALSE}
 # install.packages("githubinstall")
-githubinstall::githubinstall("mbqn")
+githubinstall::githubinstall("MBQN")
 ```
 
 ## Dependencies
@@ -85,9 +85,9 @@ mbqnPlotRI(ri.obj)
 ```
 <br />
 Apply quantile normalization with and without balancing the RI feature and compare the intensity features: 
-```{r figure3, fig.height = 5, fig.width = 6, fig.align = 'center', fig.cap = "Fig. 3 Quantile normalized intensities with balanced and unbalanced normalized RI feature. Classical quantile normalization suppresses any intensity variation of the RI feature, while the MBQN preserves its variation while reducing systematic batch effects!"}
+```{r figure3, fig.height = 5, fig.width = 6, fig.align = 'center', fig.cap = "Fig. 3 Quantile normalized intensities with balanced and unbalanced normalized RI feature. Classical quantile normalization suppresses any intensity variation of the RI feature, while MBQN preserves its variation while reducing systematic batch effects!"}
 plot.new()
-mtx.norm <- mbqnNRI(x = mtx, FUN = median, verbose = FALSE) # MBQN
+mtx.norm <- mbqnNRI(x = mtx, FUN = median, verbose = FALSE) # mbqn
 mtx.qn <- mbqnNRI(x = mtx, FUN = NULL, verbose = FALSE) # QN
 mbqnBoxplot(mtx.norm, irow = ri.obj$ip, vals = data.frame(QN = mtx.qn[ri.obj$ip,]), main = "normalized")
 ```
