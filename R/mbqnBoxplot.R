@@ -20,8 +20,9 @@
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create data matrix
 #' qn.dat <- mbqn(x=X,FUN = NULL ,na.rm = TRUE) # Quantile normalization
 #' mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile normalization
-#' ## Create boxplot and save output to file:
-#' mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b", filename = "fig_box_qn.pdf")
+#' ## Create boxplot:
+#' plot.new()
+#' mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b", filename = NULL)
 #' @importFrom grDevices dev.copy2pdf
 #' @importFrom graphics axis boxplot grconvertX legend lines matlines par strwidth
 #' @family example
@@ -96,13 +97,12 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
       }else{
         leg.txt <- paste("feature",c(1:dim(vals)[1]))
       }
-      lcol <- c(lcol,rep((1:dim(vals)[2])+2,each = 6)[1:min(dim(vals))])# seq(4,8)[1:min(dim(vals))])
-      lty <- c(lty, rep(1:6, dim(vals)[2])[1:min(dim(vals))]) #c(lty,1:length(irow)) #rep(1,min(dim(vals)))) #seq(1:5)[1:min(dim(vals))])
+      lcol <- c(lcol,rep((1:dim(vals)[2])+2,each = 6)[1:min(dim(vals))])
+      lty <- c(lty, rep(1:6, dim(vals)[2])[1:min(dim(vals))])
     }
     leg_text <- c(leg_text,leg.txt)
   }
 
-  #par(oma = c(0,0,0,0))
 
   dy <- 0
   if(!is.null(colnames(mtx))) dy <- strwidth(colnames(mtx)[1],
@@ -138,7 +138,6 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
                        main = main,
                        cex = cex,
                        xlim = c(0,dim(mtx)[2]+.5),
-                       #ylim = ylim,
                        las = las),opt.args))
      }else if(length(irow)==1){
     do.call(boxplot, c(list(x = mtx,use.cols = TRUE, col=c("gold"),
@@ -148,7 +147,6 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
                           main = main,
                           cex = cex,
                           xlim = c(0,dim(mtx)[2]+.5),
-                          #ylim = ylim,
                           las = las),opt.args))
 
        do.call(lines, c(list(x=mtx[irow,], pch = 1,col=c(2)),opt.args))
@@ -161,14 +159,13 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
                           main = main,
                           cex = cex,
                           xlim = c(0,dim(mtx)[2]+.5),
-                          #ylim = ylim,
                           las = las),opt.args))
      do.call(matlines, c(list(y=t(mtx[irow,]),col=c(2), pch = 1),opt.args))
 
   }
 
   if(!is.null(vals)){
-    if(is.array(vals) || is.numeric(vals)=="numeric"){
+    if(is.array(vals) || is.numeric(vals)){
       #lines(vals, pch = 1,col=4,ylim = ylim,xlab = xlab, ylab = ylab,...)
       do.call(lines, c(list(x = vals, pch = 1,col=3,ylim = ylim,xlab = xlab, ylab = ylab),opt.args))
     }else if(is.matrix(vals)){
