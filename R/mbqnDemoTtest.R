@@ -84,7 +84,7 @@ mbqnDemoTtest <- function(show.fig = FALSE){
             main = "Differentially expressed RI feature",
             ylim = c(34.48,34.85))
     legend(x=11,y= 34.86, legend = c("feature","distorted feature/25" ,"QN feature", " MBQN feature"),pch = 1,
-           col = c(1,2,3,4), lty= c(1,1,1,1), bty = "n", y.intersp = 1.8, x.intersp = 0.2)
+           col = c(1,2,3,4), lty= c(1,1,1,1), bty = "n", y.intersp = 1.5, x.intersp = 0.2)
     legend(x = .1, y = 34.6,
            legend = paste("p-value (t-test) =",round(ttest.res1$p.value,2), "\np-value (t-test, mbqn) =", round(ttest.res$p.value,4)),
            bty = "n", x.intersp = 0)
