@@ -1,13 +1,16 @@
 Package: MBQN
 Version: 0.99.0
 Title: Mean/Median-balanced quantile normalization
-Author: Ariane Schad [aut,cre] 
-Maintainer: Ariane Schad <ariane.schad@zbsa.de>
+Authors@R: c(person("Ariane", "Schad",
+  email = "ariane.schad@fdm.uni-freiburg.de",
+  role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1921-8902")),person("Clemens","Kreutz",
+  email = "clemens.kreutz@fdm.uni-freiburg.de",
+  role = c("ctb")))
 Description: Modified quantile normalization for omics or other matrix-like data distorted in location and scale.
 License: GPL-3 + file LICENSE
 Depends: R (>= 3.3)
-Imports: stats, graphics, rpx, grDevices, filesstrings, limma (>= 3.30.13), preprocessCore (>= 1.36.0)
-Suggests: knitr
+Imports: stats, graphics, grDevices, filesstrings, limma (>= 3.30.13), preprocessCore (>= 1.36.0)
+Suggests: knitr, rpx
 biocViews: Normalization, Preprocessing, Proteomics, Software
 Encoding: UTF-8
 LazyData: true
