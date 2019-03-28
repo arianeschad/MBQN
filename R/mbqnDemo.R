@@ -12,8 +12,10 @@
 #' rank mixing and rank invariant intensity features.
 #' @family example
 #' @examples
+#' # Simple example:
 #' mbqnDemo()
-#' x <- mbqnSimuData()
+#' # Example with a single RI feature:
+#' x <- mbqnSimuData(model = "omics.dep")
 #' mbqnDemo(x)
 #' @details Normalize matrix and return boxplots of quantile normalized and mean balanced normalized
 #' data.
@@ -47,7 +49,7 @@ mbqnDemo <- function(x = NULL){
   # check saturation i.e. for rank invariance
   res <- mbqnGetNRIfeatures(x,verbose = FALSE)
 
-  dev.off()
+  try(dev.off(), silent = TRUE)
   plot.new()
   frame()
   mtx <- matrix(c(2, 3, 3, 6,
