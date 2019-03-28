@@ -35,7 +35,7 @@ loadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.t
 
   file <- list.files(file.path(source.path,pxd_id), pattern = file.pattern,full.names = TRUE)
 
-  if(!file.exists(file)){
+  if(length(file)==0){ # !file.exist
     r.input <- readline(paste("File does not exist - start downloading file. This can take a few minutes!","\n",
                               "Do you want to continue? [y/n]", "\n"))
     stopifnot(r.input=="y")
@@ -43,7 +43,7 @@ loadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.t
     ifelse(!dir.exists(file.path(source.path,pxd_id)), dir.create(file.path(source.path,pxd_id),recursive = TRUE),'')
     # Download proteinGroups.txt file if not already present
     get_pxdfile(pxd_id = pxd_id, source.path = source.path, file.pattern = file.pattern)
-
+    file <- list.files(file.path(source.path,pxd_id), pattern = file.pattern,full.names = TRUE)
   } # fi file.exist
   ##################################################################################
   str <- unlist(strsplit(file,"/"))

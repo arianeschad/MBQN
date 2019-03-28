@@ -33,7 +33,7 @@ get_pxdfile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroup
 
   # Check if package preprocessCore is installed  to run this function
   if (!requireNamespace("rpx", quietly = TRUE)) {
-      stop("Package \"pkg\" is required for this function to work. Please install it.",
+      stop("Package \"pkg\" is required for this function to work. Please install it this package first!",
            call. = FALSE)}
 
   # General Informations on PXD File
