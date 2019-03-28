@@ -24,8 +24,10 @@ Normalize matrix and return boxplots of quantile normalized and mean balanced no
 data.
 }
 \examples{
+# Simple example:
 mbqnDemo()
-x <- mbqnSimuData()
+# Example with a single RI feature:
+x <- mbqnSimuData(model = "omics.dep")
 mbqnDemo(x)
 }
 \references{
