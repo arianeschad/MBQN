@@ -32,7 +32,6 @@
 #' https://github.com/bmbolstad/preprocessCore \cr
 #' \[4\] Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep., 2019
 #' @examples
-#'\dontrun{
 #' ## Compute mean and median balanced quantile normalization
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
 #' mbqn(X, mean) # Use arithmetic mean to center features
@@ -46,7 +45,6 @@
 # #'
 # #' ## Use limma package to compute quantile normalization
 # #' mbqn(X, median, method = "preprocessCore")
-#' }
 #' @author Ariane Schad
 #' @export mbqn
 # Created: July 2017
@@ -82,7 +80,7 @@ mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma", verbose = FA
       mx <- apply(x,1,FUN,na.rm=na.rm) # row mean
     }
     if(is.numeric(FUN)){mx <- FUN
-    if(sum(abs(FUN)==0,na.rm =T))  print("Array-elements are all zero. Comput QN without mean balancing.")
+    if(sum(abs(FUN)==0,na.rm =TRUE))  print("Array-elements are all zero. Comput QN without mean balancing.")
     }
 
     # balanced quantile normalisation

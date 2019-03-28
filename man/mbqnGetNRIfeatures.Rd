@@ -41,11 +41,9 @@ above the user-defined threhold are declared as nearly rank invariant.
 }
 \examples{
 ## Check data matrix for RI and NRI features
-\dontrun{
 x <- mbqnSimuData("omics.dep")
 RI <- mbqnGetNRIfeatures(x, low_thr = 0.5, verbose = FALSE)
 mbqnPlotRI(RI)
-}
 }
 \references{
 Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile

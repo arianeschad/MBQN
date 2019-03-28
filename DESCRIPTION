@@ -5,7 +5,7 @@ Authors@R: c(person("Ariane", "Schad",
   email = "ariane.schad@fdm.uni-freiburg.de",
   role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1921-8902")),person("Clemens","Kreutz",
   email = "clemens.kreutz@fdm.uni-freiburg.de",
-  role = c("ctb")))
+  role = c("aut","ctb")))
 Description: Modified quantile normalization for omics or other matrix-like data distorted in location and scale.
 License: GPL-3 + file LICENSE
 Depends: R (>= 3.3)

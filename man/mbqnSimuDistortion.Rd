@@ -30,10 +30,8 @@ are drawn from a Gaussian distribution \eqn{|N(0,\sigma^2)|} with \eqn{\sigma_me
 \eqn{\sigma_scale}=\code{s.scale}, respectively.
 }
 \examples{
-\dontrun{
 x <- mbqnSimuData("omics.dep")
 df <- mbqnSimuDistortion(x)
-}
 }
 \references{
 Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019

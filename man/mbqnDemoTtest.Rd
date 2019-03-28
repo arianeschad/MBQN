@@ -29,6 +29,7 @@ The feature is obtained from a simulated dataset where each sample is distorted 
 }
 \examples{
 \dontrun{
+plot.new()
 mbqnDemoTtest(show.fig = TRUE)
 }
 }

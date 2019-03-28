@@ -15,10 +15,8 @@
 #' @seealso [mbqnSimuData()] for data generation.
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 #' @examples
-#'\dontrun{
 #' x <- mbqnSimuData("omics.dep")
 #' df <- mbqnSimuDistortion(x)
-#' }
 #' @author Ariane Schad
 #' @export mbqnSimuDistortion
 mbqnSimuDistortion <- function(x, s.mean = 0.05, s.scale = 0.01, seed = 1234){
@@ -30,7 +28,7 @@ mbqnSimuDistortion <- function(x, s.mean = 0.05, s.scale = 0.01, seed = 1234){
   mx.scale <- abs(rnorm(ncol))*s.scale+1
 
   # distort matrix
-  mx <- apply(x,2,mean,na.rm =T)
+  mx <- apply(x,2,mean,na.rm =TRUE)
   x.scaled <- sapply(1:ncol, function(i) (x[,i]-mx[i])*mx.scale[i])
   x.mod <- sapply(1:ncol, function(i) (x.scaled[,i]+(mx*mx.offset)[i]))
 

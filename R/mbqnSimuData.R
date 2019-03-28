@@ -26,12 +26,10 @@
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization.
 #' In prep. 2019
 #' @examples
-#' \dontrun{
 #' mbqnSimuData(model = "rand")
 #' mbqnSimuData(model = "rand", 2000,6)
 #' mbqnSimuData(model = "omics")
 #' mbqnSimuData(model = "omics.dep")
-#' }
 #' @author Ariane Schad
 #' @export mbqnSimuData
 mbqnSimuData <- function(model = "rand", nrow = NULL, ncol = NULL,seed = 1234, show.fig = FALSE){
@@ -58,7 +56,7 @@ mbqnSimuData <- function(model = "rand", nrow = NULL, ncol = NULL,seed = 1234, s
     mtx[mtx==0] <- NA
 
     dat <- replicate(dim(mtx)[2], rnorm(dim(mtx)[1])*0.25)+rnorm(dim(mtx)[1])*2+28
-    s.dat <-sort(apply(dat, 1,mean, na.rm =T), index.return = TRUE , decreasing = TRUE)
+    s.dat <-sort(apply(dat, 1,mean, na.rm =TRUE), index.return = TRUE , decreasing = TRUE)
     dat <- dat[s.dat$ix,]
     dat[is.na(mtx)] <- NA
 
@@ -69,7 +67,7 @@ mbqnSimuData <- function(model = "rand", nrow = NULL, ncol = NULL,seed = 1234, s
       image(t(dat), xlab = "sample", main = "simulated", axes= FALSE)
       axis(1, at = seq(1, ncol(dat), by = 1)/ncol(dat), labels = c(1:ncol(dat)))
 
-      plot(apply(dat,1,mean,na.rm =T),apply(is.na(dat),1,mean,na.rm =T),
+      plot(apply(dat,1,mean,na.rm =TRUE),apply(is.na(dat),1,mean,na.rm =TRUE),
            col =1,
            xlab = "mean feature intensity", ylab = "MV frequency")
       legend("topright",legend = c("simulated"),  pch = 1, col = c(1), bty ="n", y.intersp = 1.5)

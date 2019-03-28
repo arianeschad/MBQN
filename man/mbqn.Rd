@@ -41,7 +41,6 @@ For further details see [4]. For quantile normalization with the "limma" package
 and for the preProcessCore package see [3].
 }
 \examples{
-\dontrun{
 ## Compute mean and median balanced quantile normalization
 X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
 mbqn(X, mean) # Use arithmetic mean to center features
@@ -52,7 +51,6 @@ mbqn(X, "median")
 wt <- c(1,3,1)/5 # Weights for each sample
 user_array <- apply(X,1,weighted.mean, wt ,na.rm =TRUE)
 mbqn(X, user_array)
-}
 }
 \references{
 [1] Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray data. Methods 31, 265–273. \cr

@@ -110,7 +110,7 @@ mbqnPlotAll <- function(x, FUN = NULL,
       opt.args.var[which(lapply(opt.args.var, length)<1)] <- NULL
       do.call(mbqnBoxplot, c(list(mtx = mbqn.dat,
                                   vals = df2,
-                                  add.leg = T,
+                                  add.leg = TRUE,
                                   main = "MBQN data with RI/NRI feature"),
                              opt.args.var))
 
@@ -120,7 +120,7 @@ mbqnPlotAll <- function(x, FUN = NULL,
                                   vals = df,
                                   main = "QN data with RI/NRI feature",
                                   filename = fig2.name,
-                                  add.leg = F),opt.args.var))
+                                  add.leg = FALSE),opt.args.var))
 
 
       ###########################################################################################

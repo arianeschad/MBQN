@@ -75,7 +75,7 @@ loadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.t
 
 
   # check for potential contaminant and only identfied by side proteins
-  ixs <- which(dat[,grep(annotations[6],colnames(dat),value = T)]=="+")
+  ixs <- which(dat[,grep(annotations[6],colnames(dat),value = TRUE)]=="+")
   ixs <- c(ixs,which(dat$`Only identified by site`=="+"))
   ixs <- c(ixs, which(dat$Reverse=="+"))
   ixs <- unique(ixs)
@@ -86,7 +86,7 @@ loadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.t
       featureAnnotations[[fieldnames[i]]] <- ifelse(length(grep(fieldnames[i],
                                                                 c("isDecoy","isPotential.contaminant",
                                                                   "Only identified by site")))>0,
-                                                   dat[,grep(annotations[i],colnames(dat),value = T)]=="+",
+                                                   dat[,grep(annotations[i],colnames(dat),value = TRUE)]=="+",
                                                    dat[,annotations[i]])
        }
   }

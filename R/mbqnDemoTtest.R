@@ -25,6 +25,7 @@
 #' In prep. 2019
 #' @examples
 #'\dontrun{
+#' plot.new()
 #' mbqnDemoTtest(show.fig = TRUE)
 #' }
 #' @author Ariane Schad
@@ -36,18 +37,18 @@ mbqnDemoTtest <- function(show.fig = FALSE){
   bla <- mtx.mod
   mtx.mod <- mtx.mod$x.mod
 
-  res <- mbqnGetNRIfeatures(mtx.mod, low_thr = 0.5, verbose = F)
+  res <- mbqnGetNRIfeatures(mtx.mod, low_thr = 0.5, verbose = FALSE)
 
   # undistorted feature
   feature1 <- mtx[1,]
   # distorted feature
   feature1mod = mtx.mod[1,]
   # feature after normalization
-  qn.feature1 = mbqn(mtx.mod, verbose = F)[1,]
-  qn.mtx = mbqn(mtx.mod,verbose = F)
+  qn.feature1 = mbqn(mtx.mod, verbose = FALSE)[1,]
+  qn.mtx = mbqn(mtx.mod,verbose = FALSE)
 
-  mbqn.mtx = mbqn(mtx.mod, FUN = "mean",verbose = F)
-  mbqn.feature1 = mbqn(mtx.mod, FUN = "mean",verbose = F)[1,]
+  mbqn.mtx = mbqn(mtx.mod, FUN = "mean",verbose = FALSE)
+  mbqn.feature1 = mbqn(mtx.mod, FUN = "mean",verbose = FALSE)[1,]
 
   # Apply t-test:
   # undistorted feature

@@ -15,11 +15,9 @@
 #' @seealso [mbqnGetNRIfeatures()] for detection of NRI/RI features.
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 #' @examples ## Check data matrix for RI and NRI features
-#' \dontrun{
 #' x <- mbqnSimuData("omics.dep")
 #' RI <- mbqnGetNRIfeatures(x, low_thr = 0.5, verbose = FALSE)
 #' mbqnPlotRI(RI)
-#' }
 #' @author Ariane Schad
 # 2017
 #' @export mbqnPlotRI
@@ -96,7 +94,7 @@ mbqnPlotRI <- function(obj , save_fig = FALSE, filename = NULL,
     }
 
     legend(x = 10, y = ylim[2],
-           xpd = T,
+           xpd = TRUE,
            legend = legend.txt,
            col=c(1,4,2), lty=c(1,2,1), cex=cex.legend ,bty = "n", y.intersp = y.intersp)
     if(save_fig){

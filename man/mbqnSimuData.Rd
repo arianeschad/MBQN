@@ -39,12 +39,10 @@ intensities. For model \code{"omics.dep"}, a single differentially epxressed
 RI feature is stacked on top of the matrix from model \code{"omics"}.
 }
 \examples{
-\dontrun{
 mbqnSimuData(model = "rand")
 mbqnSimuData(model = "rand", 2000,6)
 mbqnSimuData(model = "omics")
 mbqnSimuData(model = "omics.dep")
-}
 }
 \references{
 Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization.

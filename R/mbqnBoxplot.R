@@ -17,13 +17,11 @@
 #' @references Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
 #' @examples ## Create boxplot of quantile normalized data matrix and plot
 #' ## feature from median balanced quantile normalization on top of it.
-#' \dontrun{
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create data matrix
 #' qn.dat <- mbqn(x=X,FUN = NULL ,na.rm = TRUE) # Quantile normalization
 #' mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile normalization
 #' ## Create boxplot and save output to file:
 #' mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b", filename = "fig_box_qn.pdf")
-#' }
 #' @importFrom grDevices dev.copy2pdf
 #' @importFrom graphics axis boxplot grconvertX legend lines matlines par strwidth
 #' @family example
@@ -86,13 +84,13 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
 
   if(!is.null(vals)){
 
-    if(class(vals)=="numeric" || class(vals) == "array"){
+    if(is.numeric(vals) || is.array(vals)){
       lcol <- c(lcol,3)
       lty <- c(lty,1)
       leg.txt <- "feature"
     }
 
-    if(class(vals) == "matrix" || class(vals) == "data.frame"){
+    if(is.matrix(vals) || is.data.frame(vals)){
       if(length(attributes(vals)$names)>=1){
         leg.txt <- as.array(names(vals))
       }else{
@@ -146,7 +144,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
     do.call(boxplot, c(list(x = mtx,use.cols = TRUE, col=c("gold"),
                           ylab = ylab,
                           xlab = xlab,
-                          notch=F,
+                          notch=FALSE,
                           main = main,
                           cex = cex,
                           xlim = c(0,dim(mtx)[2]+.5),
@@ -157,7 +155,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
   }else if(length(irow)>1){
     do.call(boxplot, c(list(x = mtx, use.cols = TRUE,
                           col=(c("gold")),
-                          notch=F, plot = TRUE,
+                          notch=FALSE, plot = TRUE,
                           xlab = xlab,
                           ylab = ylab,
                           main = main,
@@ -170,10 +168,10 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
   }
 
   if(!is.null(vals)){
-    if(class(vals)=="array" || class(vals)=="numeric"){
+    if(is.array(vals) || is.numeric(vals)=="numeric"){
       #lines(vals, pch = 1,col=4,ylim = ylim,xlab = xlab, ylab = ylab,...)
       do.call(lines, c(list(x = vals, pch = 1,col=3,ylim = ylim,xlab = xlab, ylab = ylab),opt.args))
-    }else if(class(vals)=="matrix"){
+    }else if(is.matrix(vals)){
       #matlines(t(vals), pch = 1,lty = rep(1:2, dim(vals)[2]), col=rep((1:dim(vals)[2])+3,each = 2),...)
       do.call(matlines, c(list(y = t(vals), pch = 1,
                                lty = rep(1:6, dim(vals)[2]),

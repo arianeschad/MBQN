@@ -37,13 +37,11 @@ arrays are plot on top of the box plot. Missing values are ignored.
 \examples{
 ## Create boxplot of quantile normalized data matrix and plot
 ## feature from median balanced quantile normalization on top of it.
-\dontrun{
 X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create data matrix
 qn.dat <- mbqn(x=X,FUN = NULL ,na.rm = TRUE) # Quantile normalization
 mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile normalization
 ## Create boxplot and save output to file:
 mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b", filename = "fig_box_qn.pdf")
-}
 }
 \references{
 Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
