@@ -27,6 +27,7 @@ data.
 # Simple example:
 mbqnDemo()
 # Example with a single RI feature:
+set.seed(1234)
 x <- mbqnSimuData(model = "omics.dep")
 mbqnDemo(x)
 }

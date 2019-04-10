@@ -10,35 +10,43 @@ mbqnDemoTtest(show.fig = FALSE)
 \item{show.fig}{Logical that indicates whether results are plot to pdf.}
 }
 \value{
-Multiple figures of boxplots of intensity distribution for different normalization and
-of the RI expression profile before and after normalization, t-test results, and a list with:
+Multiple figures of boxplots of intensity distribution for different
+normalization and of the RI expression profile before and after
+normalization, t-test results, and a list with:
 \item{\code{x.mod}}{distorted matrix}
 \item{\code{mx.offset}}{numeric array of shifts of the sample means}
-\item{\code{mx.scale}}{numeric array of relative scales of the sample standard deviations}
-\item{\code{ttest.undistorted}}{output from t-test for the undistorted RI feature}
-\item{\code{ttest.distorted}}{output from t-test for the distorted RI feature}
-\item{\code{ttest.mbqndistorted}}{output from t-test for the distorted RI feature after mean balanced quantile normalization.}
+\item{\code{mx.scale}}{numeric array of relative scales of the sample
+standard deviations}
+\item{\code{ttest.undistorted}}{output from t-test for the undistorted
+RI feature}
+\item{\code{ttest.distorted}}{output from t-test for the distorted
+RI feature}
+\item{\code{ttest.mbqndistorted}}{output from t-test for the distorted RI
+feature after mean balanced quantile normalization.}
 }
 \description{
 Apply a two-sided t-test before and after application
-of different normalizations to a simulated, differentially expressed and distorted RI feature.
+of different normalizations to a simulated, differentially expressed and
+distorted RI feature.
 }
 \details{
-Apply a two-sided t-test to an RI feature before and after normalization with MBQN.
-The feature is obtained from a simulated dataset where each sample is distorted in mean and scale.
+Apply a two-sided t-test to an RI feature before and after
+normalization with MBQN. The feature is obtained from a simulated dataset
+where each sample is distorted in mean and scale.
 }
 \examples{
 \dontrun{
-plot.new()
+set.seed(1234)
 mbqnDemoTtest(show.fig = TRUE)
 }
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization.
-In prep. 2019
+Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced
+quantile normalization. In prep. 2019.
 }
 \seealso{
-\code{\link[=mbqnSimuData]{mbqnSimuData()}} for data generation and \code{\link[=mbqnSimuDistortion]{mbqnSimuDistortion()}} for distortion of data.
+\code{\link[=mbqnSimuData]{mbqnSimuData()}} for data generation and \code{\link[=mbqnSimuDistortion]{mbqnSimuDistortion()}}
+for distortion of data.
 }
 \author{
 Ariane Schad

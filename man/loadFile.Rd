@@ -11,10 +11,11 @@ loadFile(pxd_id, source.path = NULL,
 \item{pxd_id}{the PRIDE identifier.}
 
 \item{source.path}{pathname where to store and search for the
-data file, e.g. "proteinGroups.txt"-file; default = NULL uses current working directory.}
+data file, e.g. "proteinGroups.txt"-file; default = NULL uses current working
+directory.}
 
-\item{file.pattern}{character specifying the kind of dataset for download, e.g.
-"proteinGroups" or "peptides".}
+\item{file.pattern}{character specifying the kind of dataset for download,
+e.g. "proteinGroups" or "peptides".}
 }
 \value{
 List with

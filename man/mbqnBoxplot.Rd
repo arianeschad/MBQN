@@ -19,8 +19,9 @@ mbqnBoxplot(mtx, irow = NULL, vals = NULL, add.leg = TRUE,
 
 \item{filename}{save figure as pdf with filename in working directory.}
 
-\item{...}{additional arguments passed to the plot functions, e.g. xlab, ylab, main, ylim, type, las, and
-to \code{dev.copy2pdf()}, e.g. width, height, paper format(default "a4r") of pdf.}
+\item{...}{additional arguments passed to the plot functions, e.g. xlab,
+ylab, main, ylim, type, las, and to \code{dev.copy2pdf()}, e.g. width,
+height, paper format(default "a4r") of pdf.}
 }
 \value{
 Figure.
@@ -45,7 +46,8 @@ plot.new()
 mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b", filename = NULL)
 }
 \references{
-Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
+Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced
+quantile normalization. In prep. 2019
 }
 \seealso{
 Other example: \code{\link{mbqnDemo}},

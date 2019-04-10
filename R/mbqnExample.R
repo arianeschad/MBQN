@@ -71,10 +71,10 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
 
   low_thr <- 0.5
   ylim <- NULL
-  ix <- c(1:ncol(mtx))
+  ix <- seq(1,ncol(mtx))
 
   if(pxd_id == "PXD001584") {
-    ix <- c(1:9, 19:27)
+    ix <- c(seq(1,9), seq(19,27))
     mtx <- mtx[,ix]
     ylim.qn <- ylim <- c(22.5,36)
   }
@@ -107,7 +107,7 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
   #featureAnnotations$proteinName[nri_max]
   #featureAnnotations$nbPeptides[nri_max]
 
-  df <- lapply(c(1:dim(featureAnnotations)[2]),function(j) featureAnnotations[[j]][[nri_max]])
+  df <- lapply(seq(1,dim(featureAnnotations)[2]),function(j) featureAnnotations[[j]][[nri_max]])
   names(df)<- names(featureAnnotations)
 
   # truncate long name strings

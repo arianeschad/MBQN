@@ -5,9 +5,11 @@
 #' result for different normalizations.
 #' @param show_fig logical indicating whether results are displayed in figures.
 #' @param save_fig logical indicating to save figures to pdf.
-#' @param show_nri_only logical indicating to display and save only the RI/NRI detection graph to pdf.
+#' @param show_nri_only logical indicating to display and save only the RI/NRI
+#' detection graph to pdf.
 #' @param filename a string for the .pdf-filenames.
-#' @param ... additional plot arguments passed to \code{mbqnBoxplot}, \code{mbqnPlotRI} and \code{dev.copy2pdf()}.
+#' @param ... additional plot arguments passed to \code{mbqnBoxplot},
+#' \code{mbqnPlotRI} and \code{dev.copy2pdf()}.
 #' @inheritParams mbqnGetNRIfeatures
 #' @inheritParams mbqn
 #' @inheritParams mbqnBoxplot
@@ -19,14 +21,20 @@
 #' dominated by few features. Apply quantile
 #' normalization without and with mean-balancing and check the standard
 #' deviation of normalized features located in the tails.
-#' @return A set of figures that display the detected RI/NRI features and a list with elements:
-#' \item{\code{p}}{a matrix with the rank invariance frequencies \code{ri.freq} and the sample coverage \code{sample.coverage} for all detected RI/NRI features}
+#' @return A set of figures that display the detected RI/NRI features and a
+#' list with elements:
+#' \item{\code{p}}{a matrix with the rank invariance frequencies \code{ri.freq}
+#' and the sample coverage \code{sample.coverage} for all detected RI/NRI features}
 #' \item{\code{max_p}}{maximum rank invariance frequency in percent}
 #' \item{\code{ip}}{index of feature with maximum rank invariance frequency}
-#' \item{\code{nri}}{table of the rank invariance frequencies in percent for each NRI/RI feature}
-#' \item{\code{var0_feature}}{indices of features with zero sample variance after QN.}
-#' @seealso [mbqnPlotRI()] and [mbqnBoxplot()] for the generation of figures, and [mbqn()] for normalization.
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
+#' \item{\code{nri}}{table of the rank invariance frequencies in percent for
+#' each NRI/RI feature}
+#' \item{\code{var0_feature}}{indices of features with zero sample variance
+#' after QN.}
+#' @seealso [mbqnPlotRI()] and [mbqnBoxplot()] for the generation of figures,
+#' and [mbqn()] for normalization.
+#' @references Schad, A. and Kreuz, C., MBQN: R package for
+#' mean/median-balanced quantile normalization. In prep. 2019
 #' @examples ## Check data matrix for RI and NRI features
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
 #' mbqnPlotAll(X, mean, low_thr = 0.5, save_fig = FALSE)
@@ -50,7 +58,8 @@ mbqnPlotAll <- function(x, FUN = NULL,
   mbqn.dat <- mbqn(x = x, FUN = median, verbose = FALSE)
   qn.dat <- mbqn(x = x, FUN = NULL, verbose = FALSE)
 
-  mbqn_ri.dat <- mbqnNRI(x = x, FUN = median, low_thr = low_thr, verbose = FALSE)
+  mbqn_ri.dat <- mbqnNRI(x = x, FUN = median, low_thr = low_thr,
+                         verbose = FALSE)
 
   ####### Graphical output #########
 
@@ -59,7 +68,8 @@ mbqnPlotAll <- function(x, FUN = NULL,
     current.dir = getwd()
 
     # Occupation or rank invariance frequencies and sample coverage of RI/NRI features
-    mbqnPlotRI(res, save_fig = save_fig, filename = filename,verbose = verbose, ...)
+    mbqnPlotRI(res, save_fig = save_fig, filename = filename,
+               verbose = verbose, ...)
 
     # boxplot of quantile normalized data and maximum RI/NRI feature after qn and mbqn
     if(!show_nri_only){
@@ -123,8 +133,7 @@ mbqnPlotAll <- function(x, FUN = NULL,
                                   add.leg = FALSE),opt.args.var))
 
 
-      ###########################################################################################
-
+      #########################################################################
       # boxplot of qn data and with balanced qn RI/NRI features
       #fig4.name <- NULL
       #if(save_fig){

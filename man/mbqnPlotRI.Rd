@@ -16,19 +16,23 @@ mbqnPlotRI(obj, save_fig = FALSE, filename = NULL, verbose = FALSE,
 
 \item{verbose}{logical indicating to run function quietly.}
 
-\item{...}{additional arguments (cex, cex.lab, cex.axis, cex.main) passed to the plot function,
-and (width, height, paper format(default "a4") of pdf) to \code{dev.copy2pdf()}.}
+\item{...}{additional arguments (cex, cex.lab, cex.axis, cex.main) passed to
+the plot function, and (width, height, paper format(default "a4") of pdf)
+to \code{dev.copy2pdf()}.}
 }
 \value{
-Figure, optionally saved in file Fig_nri_check_" \code{filename} ".pdf.
+Figure, optionally saved in file
+Fig_nri_check_" \code{filename} ".pdf.
 }
 \description{
-Plot rank invariance frequency and feature coverage of detected RI and NRI features
+Plot rank invariance frequency and feature coverage of detected
+RI and NRI features
 }
 \details{
-Graphical output of the NRI/RI identification results from \code{mbqnGetNRIfeatures()}.
-For each detected NRI/RI feature, plot the feature index against the RI frequencies
-together with the RI frequency detection threshold and print the sample coverage.
+Graphical output of the NRI/RI identification results from
+\code{mbqnGetNRIfeatures()}. For each detected NRI/RI feature, plot the
+feature index against the RI frequencies together with the RI frequency
+detection threshold and print the sample coverage.
 }
 \examples{
 ## Check data matrix for RI and NRI features
@@ -37,7 +41,8 @@ RI <- mbqnGetNRIfeatures(x, low_thr = 0.5, verbose = FALSE)
 mbqnPlotRI(RI)
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
+Schad, A. and Kreuz, C., MBQN: R package for
+mean/median-balanced quantile normalization. In prep. 2019
 }
 \seealso{
 \code{\link[=mbqnGetNRIfeatures]{mbqnGetNRIfeatures()}} for detection of NRI/RI features.

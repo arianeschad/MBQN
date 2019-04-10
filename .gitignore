@@ -6,6 +6,7 @@ doc
 .Ruserdata
 .DS_Store
 *.pdf
+*.html
 vignettes/*.html
 vignettes/*.R
 figures/

@@ -55,7 +55,7 @@ loadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.t
   # Select all columns with LFQ intensities
   mtx <- as.matrix(dat[, grepl("^LFQ", names(dat))])
   mtx[mtx == 0] <- NA
-  ix <- c(1:dim(mtx)[2])
+  ix <- seq_len(dim(mtx)[2])
   ylim <- NULL
 
   # check for proteins with NA intensity across all samples
@@ -81,7 +81,7 @@ loadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.t
   ixs <- unique(ixs)
 
 
-  for (i in c(1:length(fieldnames))){
+  for (i in seq(1,length(fieldnames))){
     if(length(grep(annotations[i],colnames(dat)))>0){
       featureAnnotations[[fieldnames[i]]] <- ifelse(length(grep(fieldnames[i],
                                                                 c("isDecoy","isPotential.contaminant",

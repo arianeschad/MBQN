@@ -4,7 +4,8 @@
 \name{example_NApattern}
 \alias{example_NApattern}
 \title{Missing value pattern dataset}
-\format{A matrix of zero and ones with 1264 rows and 18 columns; 0 means MV, 1 means no MV.}
+\format{A matrix of zero and ones with 1264 rows and 18 columns; 0 means MV,
+1 means no MV.}
 \source{
 \url{https://www.ebi.ac.uk/pride/archive/projects/PXD001584}
 }
@@ -17,8 +18,8 @@ LFQ intensities of the proteinGroups.txt dataset from PXD001584 [1].
 }
 \references{
 [1] Ramond E, et al. Importance of host cell arginine uptake
-in Francisella phagosomal escape and ribosomal protein amounts. Mol Cell Proteomics.
-2015 14(4):870-881\cr
+in Francisella phagosomal escape and ribosomal protein amounts.
+Mol Cell Proteomics. 2015 14(4):870-881\cr
 }
 \author{
 Ariane Schad

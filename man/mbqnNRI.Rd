@@ -23,8 +23,8 @@ computation of feature mean.}
 "limma" (default) for \code{normalizeQuantiles()} from the limma package or
 "preprocessCore" for \code{normalize.quantiles()} from the preprocessCore package.}
 
-\item{low_thr}{a value between [0 1]. Features with RI frequency >=\code{low_thr}
-are considered as NRI/RI; default 0.5.}
+\item{low_thr}{a value between [0 1]. Features with RI
+frequency >=\code{low_thr} are considered as NRI/RI; default 0.5.}
 
 \item{index}{an integer or a vector integers specifying the indices of selected rows.}
 

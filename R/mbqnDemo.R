@@ -15,6 +15,7 @@
 #' # Simple example:
 #' mbqnDemo()
 #' # Example with a single RI feature:
+#' set.seed(1234)
 #' x <- mbqnSimuData(model = "omics.dep")
 #' mbqnDemo(x)
 #' @details Normalize matrix and return boxplots of quantile normalized and mean balanced normalized

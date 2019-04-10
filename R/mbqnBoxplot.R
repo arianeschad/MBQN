@@ -8,13 +8,15 @@
 #' \code{ncol(mtx)} to plot on top of the boxplot.
 #' @param add.leg add legend to plot.
 #' @param filename save figure as pdf with filename in working directory.
-#' @param ... additional arguments passed to the plot functions, e.g. xlab, ylab, main, ylim, type, las, and
-#' to \code{dev.copy2pdf()}, e.g. width, height, paper format(default "a4r") of pdf.
+#' @param ... additional arguments passed to the plot functions, e.g. xlab,
+#' ylab, main, ylim, type, las, and to \code{dev.copy2pdf()}, e.g. width,
+#' height, paper format(default "a4r") of pdf.
 #' @details This function calls \code{graphics::boxplot}.
 #' Groups are represent by matrix columns. Selected rows/features or user-defined
 #' arrays are plot on top of the box plot. Missing values are ignored.
 #' @return Figure.
-#' @references Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
+#' @references Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced
+#' quantile normalization. In prep. 2019
 #' @examples ## Create boxplot of quantile normalized data matrix and plot
 #' ## feature from median balanced quantile normalization on top of it.
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create data matrix
@@ -65,7 +67,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
     }
 
   #if(add.leg){
-  # par(mar=c(par('mar')[1:3], 0)) # removes extraneous right inner margin space
+  # par(mar=c(par('mar')[seq(1,3)], 0)) # removes extraneous right inner margin space
   #}
 
   leg_text <- "data"
@@ -80,7 +82,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
   }else if(length(irow) >1){
     leg_text <- c(leg_text,paste("id",irow))
     lcol <- c("gold",rep(2,length(irow)))
-    lty <- c(lty,1:length(irow))
+    lty <- c(lty,seq(1,length(irow)))
   }
 
   if(!is.null(vals)){
@@ -95,10 +97,10 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
       if(length(attributes(vals)$names)>=1){
         leg.txt <- as.array(names(vals))
       }else{
-        leg.txt <- paste("feature",c(1:dim(vals)[1]))
+        leg.txt <- paste("feature",seq(1,dim(vals)[1]))
       }
-      lcol <- c(lcol,rep((1:dim(vals)[2])+2,each = 6)[1:min(dim(vals))])
-      lty <- c(lty, rep(1:6, dim(vals)[2])[1:min(dim(vals))])
+      lcol <- c(lcol,rep(seq(1,dim(vals)[2])+2,each = 6)[seq(1,min(dim(vals)))])
+      lty <- c(lty, rep(seq_len(6), dim(vals)[2])[seq(1,min(dim(vals)))])
     }
     leg_text <- c(leg_text,leg.txt)
   }
@@ -110,7 +112,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
                                              cex = cex)
 
   if(add.leg){
-    #axis(side = 2, at = 1:18,labels = colnames(mtx), las =2)
+    #axis(side = 2, at = seq(1,18),labels = colnames(mtx), las =2)
     l <- legend(0, 0, bty='n', leg_text,
                 plot=FALSE, pch=c(1, 2), lty=c(1, 2), cex = cex.leg, pt.cex = pt.cex,
                 y.intersp= y.intersp)
@@ -169,18 +171,18 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
       #lines(vals, pch = 1,col=4,ylim = ylim,xlab = xlab, ylab = ylab,...)
       do.call(lines, c(list(x = vals, pch = 1,col=3,ylim = ylim,xlab = xlab, ylab = ylab),opt.args))
     }else if(is.matrix(vals)){
-      #matlines(t(vals), pch = 1,lty = rep(1:2, dim(vals)[2]), col=rep((1:dim(vals)[2])+3,each = 2),...)
+      #matlines(t(vals), pch = 1,lty = rep(seq(1,2), dim(vals)[2]), col=rep(seq(1,dim(vals)[2])+3,each = 2),...)
       do.call(matlines, c(list(y = t(vals), pch = 1,
-                               lty = rep(1:6, dim(vals)[2]),
-                               col=rep((1:dim(vals)[2])+2,each = 6)),
+                               lty = rep(seq(1,6), dim(vals)[2]),
+                               col=rep(seq(1,dim(vals)[2])+2,each = 6)),
                           opt.args))
     }else{ # data.frame
-      #matlines(vals, pch = 1,lty = rep(1:2, dim(vals)[2]), col=rep((1:dim(vals)[2])+3,each = 2),...)
+      #matlines(vals, pch = 1,lty = rep(seq_len(2), dim(vals)[2]), col=rep(seq(1,dim(vals)[2])+3,each = 2),...)
       do.call(matlines,
               c(list(y = vals,
                      pch = 1,
-                     lty = rep(1:6, dim(vals)[2]),
-                     col=rep((1:dim(vals)[2])+2,each = 6)),
+                     lty = rep(seq(1,6), dim(vals)[2]),
+                     col=rep(seq(1,dim(vals)[2])+2,each = 6)),
                 opt.args))
     }
   }

@@ -10,13 +10,18 @@ get_pxdfile(pxd_id, source.path = NULL, file.pattern = "proteinGroups")
 \item{pxd_id}{the PRIDE identifier.}
 
 \item{source.path}{pathname where to store and search for the
-data file, e.g. "proteinGroups.txt"-file; default = NULL uses current working directory.}
+data file, e.g. "proteinGroups.txt"-file; default = NULL uses current working
+directory.}
 
-\item{file.pattern}{character specifying the kind of dataset for download, e.g.
-"proteinGroups" or "peptides".}
+\item{file.pattern}{character specifying the kind of dataset for download,
+e.g. "proteinGroups" or "peptides".}
+}
+\value{
+Datafile from PRIDE.
 }
 \description{
-Auxiliary function which downloads selected data, like protein group intensities, from PRIDE [1].
+Auxiliary function which downloads selected data, like protein
+group intensities, from PRIDE [1].
 }
 \details{
 This function requires the R package rpx [2].
@@ -28,12 +33,13 @@ get_pxdfile(pxd_id = "PXD001584")
 }
 }
 \references{
-[1] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I, Mayer G,
-Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
+[1] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I,
+Mayer G, Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
 2016 update of the PRIDE database and related tools. Nucleic Acids Res.
 2016 Jan 1;44(D1): D447-D456. PubMed PMID:26527722.\cr
-[2] See "rpx" by Laurent Gatto (2017). rpx: R Interface to the ProteomeXchange Repository.
-Package version 1.10.2, https://github.com/lgatto/rpx.
+[2] See "rpx" by Laurent Gatto (2017). rpx: R Interface to the
+ProteomeXchange Repository. Package version 1.10.2,
+https://github.com/lgatto/rpx.
 }
 \author{
 Ariane Schad
