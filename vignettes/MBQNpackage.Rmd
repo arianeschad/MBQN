@@ -1,6 +1,5 @@
 ---
 title: "MBQN vignette"
-#author: "Ariane Schad"
 #date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -14,10 +13,10 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The MBQN package supplies the mean/median-balanced quantile normalization for preprocessing omics or other matrix-like organized data with intensity values distorted by global shifts of mean and scatter of columns. The mean intensity of rank invariant (RI) or nearly rank invariant (NRI) features, e.g. features that have always largest intensity across samples/columns or are otherwise intensity-separated from the other features, is balanced before application of conventional quantile normalization in order to reduce systematics in downstream analysis. 
+The MBQN package supplies the mean/median-balanced quantile normalization for preprocessing omics or other matrix-like organized data with intensity values distorted by global shifts of mean and scatter of columns [1]. The mean intensity of rank invariant (RI) or nearly rank invariant (NRI) features, e.g. features that have always largest intensity across samples/columns or are otherwise intensity-separated from the other features, is balanced before application of conventional quantile normalization in order to reduce systematics in downstream analysis. 
 
 ## Installation
-To install this package from Github, type in R (version >="3.3.3"): 
+To install this package from Github, type in R (version >="3.5"): 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("arianeschad/mbqn")
@@ -28,7 +27,7 @@ or
 githubinstall::githubinstall("mbqn")
 ```
 
-To install this package from Bioconductor, type in R (version >="3.3.3"): 
+To install this package from Bioconductor, type in R (version >="3.5"): 
 ```{r bc-installation, eval = FALSE}
 # if (!requireNamespace("BiocManager", quietly = TRUE))
 #    install.packages("BiocManager")
@@ -36,37 +35,23 @@ BiocManager::install("mbqn")
 ```
 
 ## Dependencies
-The package depends on the `limma` package for computation of the conventional quantile normalization: <br/>
-```{r , eval = FALSE}
-BiocManager::install("limma")
-```
-Alternatively, `normalize.quantiles()` from the package preprocessCore by B. Bolstad (2016),  preprocessCore: A collection of pre-processing functions. R package version 1.36.0. available from https://github.com/bmbolstad/preprocessCore: <br/>
-```{r , eval = FALSE}
-BiocManager::install("preprocessCore")
-```
+The package depends on the `limma` package [2] for computation of the conventional quantile normalization, available at Bioconductor. 
+Alternatively, `normalize.quantiles()` from the package preprocessCore [3], available from https://github.com/bmbolstad/preprocessCore can be used.
 
+Collecting data from PRIDE experiments in `mbqnExample()` requires the R package rpx [4] available from https://github.com/lgatto/rpx or via Bioconductor.
 
-Collecting data from PRIDE experiments in `mbqnExample()` requires the R package rpx by L. Gatto (2017), version 1.10.2. available from https://github.com/lgatto/rpx or via Bioconductor: <br/>
-```{r , eval = FALSE}
-BiocManager::install("rpx")
-```
-
-Additional packages needed to run MBQN examples:  <br/>
-```{r , eval = FALSE}
-install.packages(pkgs = c("filesstrings"), dependencies = TRUE)
-```
+Additional packages needed to run MBQN examples, R package `filestrings`. 
 
 After installation, check the `?mbqnDemo` and the `?mbqnExample` help content for full working examples.
 
 ## Basic Usage
-The package provides two basic functions: `mbqn()` applies quantile normalization or mean-balanced quantile normalization to a matrix. `mbqnNRI()` applies quantile normalization and mean balanced quantile normalization only to selected nearly rank invariant and rank invariant features, specified by a threshold or manually. The input matrix may contain NAs. To run one of these functions you will need to provide an input matrix similar to the data matrix in `mbqnDemo` or `mbqnExample`. The argument `FUN` is used to select between classical quantile normalization (default), and mean or median balanced quantile normalization. The function `mbqnGetNRIfeatures()` and `mbqnPlotRI()` can be used to check a data matrix for rank or nearly rank invariant features. They provide a list of potential RI/NRI features together with their rank invariance frequency and a graphical output. 
+The package provides two basic functions: `mbqn()` applies quantile normalization or mean/median-balanced quantile normalization to a matrix. `mbqnNRI()` applies quantile normalization and mean/median-balanced quantile normalization only to selected nearly rank invariant and rank invariant features, specified by a threshold or manually. The input matrix may contain NAs. To run one of these functions you will need to provide an input matrix similar to the data matrix in `mbqnDemo` or `mbqnExample`. The argument `FUN` is used to select between classical quantile normalization (default), and mean or median balanced quantile normalization. The function `mbqnGetNRIfeatures()` and `mbqnPlotRI()` can be used to check a data matrix for rank or nearly rank invariant features. They provide a list of potential RI/NRI features together with their rank invariance frequency and a graphical output. 
 
 ## Examples
 Example 1: Generate a distorted omics-like matrix of log2-transformed intensities with missing values and a single rank invariant feature:
 ```{r example1, eval = TRUE}
 ## basic example
 library("MBQN")
-# mtx <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)
 mtx <- mbqnSimuData("omics.dep")
 mtx <- mbqnSimuDistortion(mtx)$x.mod
 ```
@@ -106,11 +91,7 @@ In order to run `mbqnExample()`, the respective proteinGroups.txt file must be f
 Figures created with MBQN are saved as pdf in the current working directory.
 
 ## Documentation
-To view the documentation for MBQN, type the following command in R:
-
-```{r , eval = FALSE}
-??MBQN
-```
+To view the documentation for MBQN, type the following command in R `??MBQN`.
 
 ## References
 [1] A. Schad and C. Kreutz, MBQN: an R/Bioconductor package for mean/ median-balanced quantile normalization. In prep. 2019 <br/>
