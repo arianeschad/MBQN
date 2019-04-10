@@ -20,7 +20,7 @@ This package contains a modified quantile normalization (QN) for preprocessing a
  
 
 ## Installation
-To install this package, you need R version >= 3.3.3.
+To install this package, you need R version >= 3.5.
 
 For installation from Bioconductor run in R:
 ```{r, eval = FALSE}
@@ -30,14 +30,14 @@ BiocManager::install("MBQN")
 ```
 
 For installation from Github run in R: 
-```{r gh-installation, eval = FALSE}
+```{r gh-installation}
 # install.packages("devtools")
-devtools::install_github("arianeschad/MBQN")
+# devtools::install_github("arianeschad/MBQN")
 ```
 or
-```{r installation, eval = FALSE}
+```{r installation}
 # install.packages("githubinstall")
-githubinstall::githubinstall("MBQN")
+# githubinstall::githubinstall("MBQN")
 ```
 
 ## Dependencies
@@ -46,13 +46,13 @@ The core of the MBQN package uses `normalizeQuantiles()` from the package `limma
 The example function `mbqnExample()` in MBQN uses data from the PRIDE repository. To run this function one needs the R package `rpx` [4] to download the data. <br/>
 
 To install these packages in R run: <br/>
-```{r , eval = FALSE}
-BiocManager::install(pkgs = c("preprocessCore","limma","rpx"))
+```{r dependencies1}
+# BiocManager::install(pkgs = c("preprocessCore","limma","rpx"))
 ```
 
 Additional packages needed to run MBQN examples:  <br/>
-```{r , eval = FALSE}
-install.packages(pkgs = c("filesstrings"), dependencies = TRUE)
+```{r dependencies2}
+# install.packages(pkgs = c("filesstrings"), dependencies = TRUE)
 ```
 
 After installation, check `mbqnDemo` and `mbqnExample` for full working examples with further documentation.
@@ -67,6 +67,7 @@ Example 1: Generate a distorted omics-like matrix of log2-transformed intensitie
 ## basic example
 library("MBQN")
 # mtx <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA),ncol=3)
+set.seed(1234)
 mtx <- mbqnSimuData("omics.dep")
 mtx <- mbqnSimuDistortion(mtx)$x.mod
 ```
