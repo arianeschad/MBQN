@@ -43,8 +43,8 @@ mbqnGetNRIfeatures <- function(x,
   #if(is.null(FUN)) FUN <- median
   #if(is.character(FUN)) FUN <- match.fun(FUN)
 
-  N <- dim(x)[1] #number of rows
-  M <- dim(x)[2] #number of cols
+  N <- nrow(x) #number of rows
+  M <- ncol(x) #number of cols
 
   # classical quantile normalisation and its standard deviation
   qn.x <- mbqn(x = x, FUN = NULL, method = method, verbose = FALSE)
@@ -53,7 +53,7 @@ mbqnGetNRIfeatures <- function(x,
   ## Rank frequencies for each feature after QN (top-down)
   # & assign NAs to 0 rank
 
-  out <- MBQN::get_kminmax(x = qn.x, k = N, flag = "max")
+  out <- getKminmax(x = qn.x, k = N, flag = "max")
 
   tdummy = lapply(
     seq_len(N),
@@ -107,9 +107,9 @@ mbqnGetNRIfeatures <- function(x,
     ip <- as.integer(names(which(p*100==max_p)))
 
     # cnt how often protein is missing
-    freq_ismissing = sum(is.na(qn.x[ip,]))/dim(qn.x)[2]
+    freq_ismissing = sum(is.na(qn.x[ip,]))/ncol(qn.x)
 
-    if(verbose) print(paste('Maximum frequency of RI/NRI feature(s): ',
+    if(verbose) message(paste('Maximum frequency of RI/NRI feature(s): ',
                             max_p,"%"))
 
     # in percent
@@ -121,7 +121,7 @@ mbqnGetNRIfeatures <- function(x,
     # which features have zero variation after QN
     ind_var0 <- which(s.qn==0)
     } else {
-    if(verbose) print(paste('No RI/NRI feature(s) found!'))
+    if(verbose) message(paste('No RI/NRI feature(s) found!'))
     max_p <- NULL
     ip <- NULL
     nri <- NULL

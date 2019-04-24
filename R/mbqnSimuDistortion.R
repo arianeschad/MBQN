@@ -27,20 +27,18 @@
 #' @export mbqnSimuDistortion
 mbqnSimuDistortion <- function(x, s.mean = 0.05, s.scale = 0.01){
 
-#  if(!is.null(seed)) set.seed(seed)
-
-  ncol <- dim(x)[2]
-  mx.offset <- abs(rnorm(ncol))*s.mean+1
-  mx.scale <- abs(rnorm(ncol))*s.scale+1
+  nc <- ncol(x)
+  mx.offset <- abs(rnorm(nc))*s.mean+1
+  mx.scale <- abs(rnorm(nc))*s.scale+1
 
   # distort matrix
   mx <- apply(x,2,mean,na.rm =TRUE)
-  # x.scaled <- sapply(seq(1,ncol), function(i) (x[,i]-mx[i])*mx.scale[i])
-  x.scaled <- vapply(seq(1,ncol), function(i) (x[,i]-mx[i])*mx.scale[i],
+  # x.scaled <- sapply(seq_len(nc), function(i) (x[,i]-mx[i])*mx.scale[i])
+  x.scaled <- vapply(seq_len(nc), function(i) (x[,i]-mx[i])*mx.scale[i],
                      FUN.VALUE = numeric(nrow(x)))
 
-  # x.mod <- sapply(seq(1,ncol), function(i) (x.scaled[,i]+(mx*mx.offset)[i]))
-  x.mod <- vapply(seq(1,ncol), function(i) (x.scaled[,i]+(mx*mx.offset)[i]),
+  # x.mod <- sapply(seq_len(nc), function(i) (x.scaled[,i]+(mx*mx.offset)[i]))
+  x.mod <- vapply(seq_len(nc), function(i) (x.scaled[,i]+(mx*mx.offset)[i]),
                   FUN.VALUE = numeric(nrow(x.scaled)))
 
   return(distort = list(x.mod = x.mod, mx.offset = mx.offset,

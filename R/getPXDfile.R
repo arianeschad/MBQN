@@ -8,7 +8,6 @@
 #' directory.
 #' @param file.pattern character specifying the kind of dataset for download,
 #' e.g. "proteinGroups" or "peptides".
-#' @importFrom filesstrings file.move
 #' @importFrom utils untar unzip
 #' @return Datafile from PRIDE.
 #' @details This function requires the R package rpx \[2\].
@@ -22,11 +21,11 @@
 #' https://github.com/lgatto/rpx.
 #' @examples ## Download protein LFQ intensities of PXD001584 from PRIDE
 #'\dontrun{
-#' get_pxdfile(pxd_id = "PXD001584")
+#' getPXDfile(pxd_id = "PXD001584")
 #'}
 #' @author Ariane Schad
 # 2018
-get_pxdfile <- function(pxd_id, source.path = NULL,
+getPXDfile <- function(pxd_id, source.path = NULL,
                         file.pattern = "proteinGroups"){
   px <- rpx::PXDataset(pxd_id)
 
@@ -56,7 +55,7 @@ get_pxdfile <- function(pxd_id, source.path = NULL,
       untar(fnm,
             files = files,
             exdir=file.path(source.path,pxd_id))
-      filesstrings::file.move(file.path(source.path,pxd_id, files),
+      file.rename(file.path(source.path,pxd_id, files),
                               file.path(source.path,pxd_id))
       unlink(list.dirs(file.path(source.path,pxd_id), recursive = FALSE),
              recursive = TRUE) # delete extra folder

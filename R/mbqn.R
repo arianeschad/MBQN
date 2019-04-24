@@ -80,7 +80,7 @@ mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma", verbose = FA
       mx <- apply(x,1,FUN,na.rm=na.rm) # row mean
     }
     if(is.numeric(FUN)){mx <- FUN
-    if(sum(abs(FUN)==0,na.rm =TRUE))  print("Array-elements are all zero. Comput QN without mean balancing.")
+    if(sum(abs(FUN)==0,na.rm =TRUE))  message("Array-elements are all zero. Comput QN without mean balancing.")
     }
 
     # balanced quantile normalisation
@@ -93,7 +93,7 @@ mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma", verbose = FA
     qn_x <- dummy + mx
 
   }else{
-    if(verbose) print("Comput QN without mean balancing.")
+    if(verbose) message("Comput QN without mean balancing.")
     # quantile normalisation
     if(is.null(method) || method == "limma") {
       qn_x <- normalizeQuantiles(x)

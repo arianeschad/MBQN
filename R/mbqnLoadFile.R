@@ -2,7 +2,7 @@
 #'
 #' @description Auxilary function used to load and preprocess LFQ
 #' intensities of selected dataset with a PRIDE \[1\] identifier.
-#' @inheritParams get_pxdfile
+#' @inheritParams getPXDfile
 #' @importFrom utils read.csv
 #' @details Load proteinGroup.txt file, select all samples with LFQ intensities, remove
 #' empty protein features. Apply log2 transform to intensities. This function acquires source code
@@ -13,7 +13,7 @@
 #' \item{\code{featureAnnotations}}{dataframe collecting feature annotations, e.g. protein name,
 #' "Potential contaminant", etc..}
 #' \item{\code{ixs}}{row indices of potential contaminant features, or features identified only by site, reverse.}
-#' @seealso [get_pxdfile()] for downloading data from PRIDE.
+#' @seealso [getPXDfile()] for downloading data from PRIDE.
 #' @references
 #' \[1\] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I, Mayer G,
 #' Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
@@ -24,26 +24,27 @@
 #' https://CRAN.R-project.org/package=SafeQuant.\cr
 #' @examples ## Load LFQ intensities of proteomics data of PXD001584:
 #' \dontrun{
-#' loadFile(pxd_id = "PXD001584")
+#' mbqnLoadFile(pxd_id = "PXD001584")
 #'}
 #' @author Ariane Schad
 # 2017
 
-loadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.txt"){
+mbqnLoadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.txt"){
 
   if(is.null(source.path)) {source.path = file.path(getwd())}
 
-  file <- list.files(file.path(source.path,pxd_id), pattern = file.pattern,full.names = TRUE)
+  fdir <- file.path(source.path,pxd_id)
+  file <- list.files(fdir, pattern = file.pattern,full.names = TRUE)
 
   if(length(file)==0){ # !file.exist
     r.input <- readline(paste("File does not exist - start downloading file. This can take a few minutes!","\n",
                               "Do you want to continue? [y/n]", "\n"))
     stopifnot(r.input=="y")
-    print("Proceed with download...")
-    ifelse(!dir.exists(file.path(source.path,pxd_id)), dir.create(file.path(source.path,pxd_id),recursive = TRUE),'')
+    message("Proceed with download...")
+    ifelse(!dir.exists(fdir), dir.create(fdir,recursive = TRUE),'')
     # Download proteinGroups.txt file if not already present
-    get_pxdfile(pxd_id = pxd_id, source.path = source.path, file.pattern = file.pattern)
-    file <- list.files(file.path(source.path,pxd_id), pattern = file.pattern,full.names = TRUE)
+    getPXDfile(pxd_id = pxd_id, source.path = source.path, file.pattern = file.pattern)
+    file <- list.files(fdir, pattern = file.pattern,full.names = TRUE)
   } # fi file.exist
   ##################################################################################
   str <- unlist(strsplit(file,"/"))
@@ -55,14 +56,14 @@ loadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.t
   # Select all columns with LFQ intensities
   mtx <- as.matrix(dat[, grepl("^LFQ", names(dat))])
   mtx[mtx == 0] <- NA
-  ix <- seq_len(dim(mtx)[2])
+  ix <- seq_len(ncol(mtx))
   ylim <- NULL
 
   # check for proteins with NA intensity across all samples
   allColNA <- as.vector(apply(mtx, 1, function(r) {
-    return(sum(!is.na(r)) == 0)
+    return(all(is.na(r)))
   }))
-  print(paste("Number of proteins with empty entries:", length(which(allColNA))))
+  message(paste("Number of proteins with empty entries:", length(which(allColNA))))
 
 
   # check if exist and append to featureAnnotations
@@ -76,12 +77,12 @@ loadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.t
 
   # check for potential contaminant and only identfied by side proteins
   ixs <- which(dat[,grep(annotations[6],colnames(dat),value = TRUE)]=="+")
-  ixs <- c(ixs,which(dat$`Only identified by site`=="+"))
-  ixs <- c(ixs, which(dat$Reverse=="+"))
+  ixs <- c(ixs,which(dat[["Only identified by site"]]=="+"))
+  ixs <- c(ixs, which(dat[["Reverse"]]=="+"))
   ixs <- unique(ixs)
 
 
-  for (i in seq(1,length(fieldnames))){
+  for (i in seq_len(length(fieldnames))){
     if(length(grep(annotations[i],colnames(dat)))>0){
       featureAnnotations[[fieldnames[i]]] <- ifelse(length(grep(fieldnames[i],
                                                                 c("isDecoy","isPotential.contaminant",

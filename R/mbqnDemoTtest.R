@@ -56,13 +56,13 @@ mbqnDemoTtest <- function(show.fig = FALSE){
 
   # Apply t-test:
   # undistorted feature
-  ttest.res0 <- t.test(feature1[seq_len(9)], feature1[seq(10,18)],
+  ttest.res0 <- t.test(feature1[seq_len(9)], feature1[c(10:18)],
                        var.equal =TRUE)
   # distorted feature
-  ttest.res1 <- t.test(feature1mod[seq_len(9)], feature1mod[seq(10,18)],
+  ttest.res1 <- t.test(feature1mod[seq_len(9)], feature1mod[c(10:18)],
                        var.equal =TRUE)
   # mbqn normalized distorted feature
-  ttest.res <- t.test(mbqn.feature1[seq_len(9)], mbqn.feature1[seq(10,18)],
+  ttest.res <- t.test(mbqn.feature1[seq_len(9)], mbqn.feature1[c(10:18)],
                       var.equal =TRUE)
 
   if(show.fig){
@@ -120,7 +120,7 @@ mbqnDemoTtest <- function(show.fig = FALSE){
   }
 
   if(ttest.res$p.value<0.05)
-    print("H0 (=equal mean) is rejected!")
+    message("H0 (=equal mean) is rejected!")
 
 
 

@@ -86,7 +86,7 @@ mbqnPlotAll <- function(x, FUN = NULL,
         if(is.null(filename)) {
           fig2.name <- "Fig_example_qn_mbqn.pdf"
         }else{fig2.name <- paste0("Fig_example_qn_mbqn_", filename ,".pdf")}
-        if(verbose) print(paste("Save figure to",fig2.name))
+        if(verbose) message(paste("Save figure to",fig2.name))
       }
 
       low2 <- floor(min(range(mbqn.dat,na.rm = TRUE)))
@@ -140,7 +140,7 @@ mbqnPlotAll <- function(x, FUN = NULL,
       #  if(is.null(filename)) {
       #    fig4.name <- "Figure_example_mbqn.pdf"
       #  }else{fig4.name <- paste0("Figure_example_mbqn_", filename ,".pdf")}
-      #if(verbose) print(paste("Save figure to ",fig4.name))
+      #if(verbose) message(paste("Save figure to ",fig4.name))
       #}
 
     }

@@ -10,7 +10,8 @@ mbqnBoxplot(mtx, irow = NULL, vals = NULL, add.leg = TRUE,
 \arguments{
 \item{mtx}{a matrix or data frame.}
 
-\item{irow}{index or vector of row indices of matrix features to plot on top of the boxplot.}
+\item{irow}{index or vector of row indices of matrix features to plot on top
+of the boxplot.}
 
 \item{vals}{numeric, array, matrix, or data frame of features with length
 \code{ncol(mtx)} to plot on top of the boxplot.}

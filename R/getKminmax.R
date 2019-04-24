@@ -19,11 +19,11 @@
 #' normalization. In prep. 2019
 #' @examples
 #' x <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create a data matrix
-#' MBQN:::get_kminmax(x, k = 5, "max") # get indices of the 5 largest values in each column
+#' MBQN:::getKminmax(x, k = 5, "max") # get indices of the 5 largest values in each column
 #' @author Ariane Schad
 #  Aug. 2017
-#' @export get_kminmax
-get_kminmax <- function(x,k,flag = "max"){
+#' @export getKminmax
+getKminmax <- function(x,k,flag = "max"){
 
   if(flag == "min"){
     decreasing <- FALSE

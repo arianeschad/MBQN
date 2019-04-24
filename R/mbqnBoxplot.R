@@ -3,7 +3,8 @@
 #' @description Create a box-and-whisker plot of a data matrix and
 #' plot selected features and/or additional user-defined data on top of it.
 #' @param mtx a matrix or data frame.
-#' @param irow index or vector of row indices of matrix features to plot on top of the boxplot.
+#' @param irow index or vector of row indices of matrix features to plot on top 
+#' of the boxplot.
 #' @param vals numeric, array, matrix, or data frame of features with length
 #' \code{ncol(mtx)} to plot on top of the boxplot.
 #' @param add.leg add legend to plot.
@@ -36,16 +37,16 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
   if(!(is.matrix(mtx)|| is.data.frame(mtx))) {stop("Argument mtx must be a matrix or data.frame!")}
 
   opt.args <- list(...)
+  type <- if(is.null(opt.args$type)) "l"
+  cex.axis <- if(is.null(opt.args$cex.axis)) 0.8
+  
   xlab <- ifelse(is.null(opt.args$xlab), "sample", opt.args$xlab)
   ylab <- ifelse(is.null(opt.args$ylab), "intensity", opt.args$ylab)
   main <- ifelse(is.null(opt.args$main), "Boxplot",opt.args$main)
-  type <- ifelse(is.null(opt.args$type), "l", opt.args$type)
   cex.leg <- ifelse(is.null(opt.args$cex), 0.8, opt.args$cex)
   cex <- ifelse(is.null(opt.args$cex), 0.8, opt.args$cex)
   pt.cex <- ifelse(is.null(opt.args$pt.cex), 0.8, opt.args$pt.cex)
-  cex.axis <- ifelse(is.null(opt.args$cex.axis), 0.8, opt.args$cex.axis)
   y.intersp <- ifelse(is.null(opt.args$y.intersp), 1, opt.args$y.intersp)
-
   fig.paper <- ifelse(is.null(opt.args$paper), "a4r", opt.args$paper)
   fig.width <- ifelse(is.null(opt.args$width), 10, opt.args$width)
   fig.height <- ifelse(is.null(opt.args$height), 5, opt.args$height)
@@ -67,13 +68,14 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
     }
 
   #if(add.leg){
-  # par(mar=c(par('mar')[seq(1,3)], 0)) # removes extraneous right inner margin space
+  # par(mar=c(par('mar')[seq_len(3)], 0)) # removes extraneous right inner margin space
   #}
 
   leg_text <- "data"
   lcol <- c("gold")
   lty <- 1
   las <- ifelse(length(opt.args$las)!=0, opt.args$las,0)
+  # las <- ifelse(is.null(opt.args$las)) 0
 
   if(length(irow)==1){
     leg_text <- c(leg_text,paste("id",irow))
@@ -82,7 +84,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
   }else if(length(irow) >1){
     leg_text <- c(leg_text,paste("id",irow))
     lcol <- c("gold",rep(2,length(irow)))
-    lty <- c(lty,seq(1,length(irow)))
+    lty <- c(lty,seq_len(length(irow)))
   }
 
   if(!is.null(vals)){
@@ -97,10 +99,10 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
       if(length(attributes(vals)$names)>=1){
         leg.txt <- as.array(names(vals))
       }else{
-        leg.txt <- paste("feature",seq(1,dim(vals)[1]))
+        leg.txt <- paste("feature",seq_len(nrow(vals)))
       }
-      lcol <- c(lcol,rep(seq(1,dim(vals)[2])+2,each = 6)[seq(1,min(dim(vals)))])
-      lty <- c(lty, rep(seq_len(6), dim(vals)[2])[seq(1,min(dim(vals)))])
+      lcol <- c(lcol,rep(seq_len(ncol(vals))+2,each = 6)[seq_len(min(dim(vals)))])
+      lty <- c(lty, rep(seq_len(6), ncol(vals))[seq_len(min(dim(vals)))])
     }
     leg_text <- c(leg_text,leg.txt)
   }
@@ -112,9 +114,10 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
                                              cex = cex)
 
   if(add.leg){
-    #axis(side = 2, at = seq(1,18),labels = colnames(mtx), las =2)
+    #axis(side = 2, at = seq_len(18),labels = colnames(mtx), las =2)
     l <- legend(0, 0, bty='n', leg_text,
-                plot=FALSE, pch=c(1, 2), lty=c(1, 2), cex = cex.leg, pt.cex = pt.cex,
+                plot=FALSE, pch=c(1, 2), lty=c(1, 2), cex = cex.leg, 
+                pt.cex = pt.cex,
                 y.intersp= y.intersp)
     # calculate right margin width in ndc
     w <- max(0.05,grconvertX(l$rect$w, to='ndc') - grconvertX(0, to='ndc'))
@@ -124,14 +127,21 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
   # calculate lower margin width in ndc
 
   #opt.args <- list(opt.args,
-  #                 xlim = c(0,dim(mtx)[2]+.5),
+  #                 xlim = c(0,ncol(mtx)+.5),
   #                 ylim = ylim)
   # remove empty elements
   #opt.args <- opt.args[lapply(opt.args, length)>0]
   #opt.args <- opt.args
 
-  if(!is.null(opt.args$ylim)) opt.args <- .optargsReplace(..., replace = list(ylim = ylim))
-  if(!is.null(opt.args$width) || !is.null(opt.args$height) || !is.null(opt.args$y.intersp)) opt.args <- .optargsRemove(..., remove = c("width","height","y.intersp"))
+  if(!is.null(opt.args$ylim)) {
+    opt.args <- .optargsReplace(..., replace = list(ylim = ylim))
+  }
+  
+  if(!is.null(opt.args$width) || 
+     !is.null(opt.args$height) || 
+     !is.null(opt.args$y.intersp)) {
+    opt.args <- .optargsRemove(..., remove = c("width","height","y.intersp"))
+    }
 
   if(is.null(irow)){
     do.call(boxplot, c(list(x = mtx,use.cols = TRUE, col=c("gold"),
@@ -139,7 +149,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
                        xlab = xlab,
                        main = main,
                        cex = cex,
-                       xlim = c(0,dim(mtx)[2]+.5),
+                       xlim = c(0,ncol(mtx)+.5),
                        las = las),opt.args))
      }else if(length(irow)==1){
     do.call(boxplot, c(list(x = mtx,use.cols = TRUE, col=c("gold"),
@@ -148,7 +158,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
                           notch=FALSE,
                           main = main,
                           cex = cex,
-                          xlim = c(0,dim(mtx)[2]+.5),
+                          xlim = c(0,ncol(mtx)+.5),
                           las = las),opt.args))
 
        do.call(lines, c(list(x=mtx[irow,], pch = 1,col=c(2)),opt.args))
@@ -160,7 +170,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
                           ylab = ylab,
                           main = main,
                           cex = cex,
-                          xlim = c(0,dim(mtx)[2]+.5),
+                          xlim = c(0,ncol(mtx)+.5),
                           las = las),opt.args))
      do.call(matlines, c(list(y=t(mtx[irow,]),col=c(2), pch = 1),opt.args))
 
@@ -168,21 +178,19 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
 
   if(!is.null(vals)){
     if(is.array(vals) || is.numeric(vals)){
-      #lines(vals, pch = 1,col=4,ylim = ylim,xlab = xlab, ylab = ylab,...)
-      do.call(lines, c(list(x = vals, pch = 1,col=3,ylim = ylim,xlab = xlab, ylab = ylab),opt.args))
+      do.call(lines, c(list(x = vals, pch = 1,col=3,ylim = ylim,xlab = xlab, 
+                            ylab = ylab),opt.args))
     }else if(is.matrix(vals)){
-      #matlines(t(vals), pch = 1,lty = rep(seq(1,2), dim(vals)[2]), col=rep(seq(1,dim(vals)[2])+3,each = 2),...)
       do.call(matlines, c(list(y = t(vals), pch = 1,
-                               lty = rep(seq(1,6), dim(vals)[2]),
-                               col=rep(seq(1,dim(vals)[2])+2,each = 6)),
+                               lty = rep(seq_len(6), ncol(vals)),
+                               col=rep(seq_len(ncol(vals))+2,each = 6)),
                           opt.args))
     }else{ # data.frame
-      #matlines(vals, pch = 1,lty = rep(seq_len(2), dim(vals)[2]), col=rep(seq(1,dim(vals)[2])+3,each = 2),...)
       do.call(matlines,
               c(list(y = vals,
                      pch = 1,
-                     lty = rep(seq(1,6), dim(vals)[2]),
-                     col=rep(seq(1,dim(vals)[2])+2,each = 6)),
+                     lty = rep(seq_len(6), ncol(vals)),
+                     col=rep(seq_len(ncol(vals))+2,each = 6)),
                 opt.args))
     }
   }
@@ -228,8 +236,9 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename 
   }
 
   if(!is.null(filename)){
-      dev.copy2pdf(file=file.path(getwd(),filename), width=fig.width, height=fig.height, paper=fig.paper, out.type = "pdf")
-      print(paste("Save figure to",filename))
+      dev.copy2pdf(file=file.path(getwd(),filename), width=fig.width, 
+                   height=fig.height, paper=fig.paper, out.type = "pdf")
+      message(paste("Save figure to",filename))
   }
 }
 

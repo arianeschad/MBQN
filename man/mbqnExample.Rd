@@ -60,7 +60,7 @@ Traits. Front Plant Sci. 2017 8:1961\cr
 normalization. In prep. 2019\cr
 }
 \seealso{
-\code{\link[=get_pxdfile]{get_pxdfile()}} for download dataset from PRIDE and \code{\link[=loadFile]{loadFile()}} for reading LFQ intensities from file.
+\code{\link[=getPXDfile]{getPXDfile()}} for download dataset from PRIDE and \code{\link[=mbqnLoadFile]{mbqnLoadFile()}} for reading LFQ intensities from file.
 
 Other example: \code{\link{mbqnBoxplot}},
   \code{\link{mbqnDemo}}

@@ -70,7 +70,7 @@ mbqnPlotRI <- function(obj , save_fig = FALSE, filename = NULL,
          xlab="frequency [%]",
          ylab="feature index",
          yaxt="n", xaxt="n", xaxs="i")
-    axis(side = 1, seq(0,100,10), las =1,cex.axis = 0.8)
+    axis(side = 1, seq.int(0,100,10), las =1,cex.axis = 0.8)
     rect(xleft=0, ybottom=dummy$`feature index`-0.05,
          xright=dummy$frequency*100,
          ytop=dummy$`feature index`+0.05, col = 1)
@@ -107,7 +107,7 @@ mbqnPlotRI <- function(obj , save_fig = FALSE, filename = NULL,
     if(save_fig){
       dev.copy2pdf(file=file.path(current.dir,fig1.name),width=6,height=11,
                    out.type = "pdf", paper="a4")
-      if(verbose) print(paste("Save figure to ",fig1.name))
+      if(verbose) message(paste("Save figure to ",fig1.name))
     }
-  } else { print("No NRI/RI present! You might want to adjust low_thr!")}
+  } else { message("No NRI/RI present! You might want to adjust low_thr!")}
 }

@@ -3,18 +3,22 @@ Version: 0.99.5
 Title: Mean/Median-balanced quantile normalization
 Authors@R: c(person("Ariane", "Schad",
   email = "ariane.schad@fdm.uni-freiburg.de",
-  role = c("aut", "cre"), comment = c(ORCID = "0000-0002-1921-8902")),person("Clemens","Kreutz",
+  role = c("aut", "cre"), 
+  comment = c(ORCID = "0000-0002-1921-8902")),person("Clemens","Kreutz",
   email = "clemens.kreutz@fdm.uni-freiburg.de",
   role = c("aut","ctb")))
-Description: Modified quantile normalization for omics or other matrix-like data distorted in location and scale.
+Description: Modified quantile normalization for omics or other matrix-like 
+  data distorted in location and scale.
 License: GPL-3 + file LICENSE
 Depends: R (>= 3.5)
-Imports: stats, graphics, grDevices, utils, filesstrings, limma (>= 3.30.13), preprocessCore (>= 1.36.0)
+Imports: stats, graphics, grDevices, utils, limma (>= 3.30.13), 
+  preprocessCore (>= 1.36.0)
 Suggests: knitr, rpx
 biocViews: Normalization, Preprocessing, Proteomics, Software
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/arianeschad/mbqn
+BugReports: https://github.com/Bioconductor/BiocStyle/issues
 NeedsCompilation: no
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)

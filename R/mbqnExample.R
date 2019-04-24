@@ -22,7 +22,7 @@
 #' These examples are also listed in \[6\].
 # @return A matrix of median- or mean-balanced quantile normalized data
 #' @family example
-#' @seealso [get_pxdfile()] for download dataset from PRIDE and [loadFile()] for reading LFQ intensities from file.
+#' @seealso [getPXDfile()] for download dataset from PRIDE and [mbqnLoadFile()] for reading LFQ intensities from file.
 #' @references
 #' \[1\] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I, Mayer G,
 #' Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
@@ -61,7 +61,7 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
   pxd_id <- ids[which.example]
 
   # Load file
-  out <- loadFile(pxd_id, source.path = source.path, file.pattern = "proteinGroups.txt")
+  out <- mbqnLoadFile(pxd_id, source.path = source.path, file.pattern = "proteinGroups.txt")
   featureAnnotations <- out$featureAnnotations
   mtx <- out$mtx
 
@@ -71,10 +71,10 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
 
   low_thr <- 0.5
   ylim <- NULL
-  ix <- seq(1,ncol(mtx))
+  ix <- seq_len(ncol(mtx))
 
   if(pxd_id == "PXD001584") {
-    ix <- c(seq(1,9), seq(19,27))
+    ix <- c(1:9,19:27)
     mtx <- mtx[,ix]
     ylim.qn <- ylim <- c(22.5,36)
   }
@@ -107,7 +107,7 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
   #featureAnnotations$proteinName[nri_max]
   #featureAnnotations$nbPeptides[nri_max]
 
-  df <- lapply(seq(1,dim(featureAnnotations)[2]),function(j) featureAnnotations[[j]][[nri_max]])
+  df <- lapply(seq_len(ncol(featureAnnotations)),function(j) featureAnnotations[[j]][[nri_max]])
   names(df)<- names(featureAnnotations)
 
   # truncate long name strings
@@ -137,7 +137,7 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
               irow = c(as.numeric(names(res$nri))), y.intersp = 0.5)
   if(save.fig){
     dev.copy2pdf(file=file.path(getwd(),fig1.name),width=10,height=6,paper="a4r",out.type = "pdf")
-    print(paste("Save figure to ",fig1.name))
+    message(paste("Save figure to ",fig1.name))
   }
 
   #if(which.example==1){
@@ -158,7 +158,7 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
                 ylim = ylim, y.intersp = 0.5)
     if(save.fig){
       dev.copy2pdf(file=file.path(getwd(),fig3.name),width=10,height=6,paper="a4r", out.type = "pdf")
-      print(paste("Save figure to ",fig3.name))
+      message(paste("Save figure to ",fig3.name))
     }
   #}
 
@@ -191,6 +191,6 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
 
   if(save.fig){
     dev.copy2pdf(file=file.path(getwd(),fig4.name),width=9,height=6,paper="a4r", out.type = "pdf")
-    print(paste("Save figure to ",fig4.name))
+    message(paste("Save figure to ",fig4.name))
   }
 }

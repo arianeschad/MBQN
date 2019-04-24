@@ -43,7 +43,6 @@ mbqnSimuData <- function(model = "rand", nrow = NULL, ncol = NULL,
 
   if(is.null(nrow)) nrow <- 1000
   if(is.null(ncol)) ncol <- 10
-  # if(!is.null(seed)) set.seed(seed)
 
   if(model=="rand"){
     # generate a random matrix without NAs
@@ -51,8 +50,8 @@ mbqnSimuData <- function(model = "rand", nrow = NULL, ncol = NULL,
     if(show.fig){
       image(t(dat), xlab = "sample", ylab = "feature row",
             main = "simulated data", axes= FALSE)
-      axis(1, at = seq(1, ncol(dat), by = 1)/ncol(dat),
-           labels = seq(1,ncol(dat)))
+      axis(1, at = seq_len(ncol(dat))/ncol(dat),
+           labels = seq_len(ncol(dat)))
     }
   }
 
@@ -65,7 +64,7 @@ mbqnSimuData <- function(model = "rand", nrow = NULL, ncol = NULL,
     mtx <- example_NApattern
     mtx[mtx==0] <- NA
 
-    dat <- replicate(dim(mtx)[2], rnorm(dim(mtx)[1])*0.25)+rnorm(dim(mtx)[1])*2+28
+    dat <- replicate(ncol(mtx), rnorm(nrow(mtx))*0.25)+rnorm(nrow(mtx))*2+28
     s.dat <-sort(apply(dat, 1,mean, na.rm =TRUE),
                  index.return = TRUE ,
                  decreasing = TRUE)
@@ -76,11 +75,11 @@ mbqnSimuData <- function(model = "rand", nrow = NULL, ncol = NULL,
       par(mfrow=c(2,2))
       image(t(mtx), xlab = "sample", ylab = "feature row (sorted)",
             main = "MV pattern", axes = FALSE)
-      axis(1, at = seq(1, ncol(dat), by = 1)/ncol(dat),
-           labels = seq(1,ncol(dat)))
+      axis(1, at = seq_len(ncol(dat))/ncol(dat),
+           labels = seq_len(ncol(dat)))
       image(t(dat), xlab = "sample", main = "simulated", axes= FALSE)
-      axis(1, at = seq(1, ncol(dat), by = 1)/ncol(dat),
-           labels = seq(1,ncol(dat)))
+      axis(1, at = seq_len(ncol(dat))/ncol(dat),
+           labels = seq_len(ncol(dat)))
 
       plot(apply(dat,1,mean,na.rm =TRUE),apply(is.na(dat),1,
                                                mean,na.rm =TRUE),
@@ -92,10 +91,8 @@ mbqnSimuData <- function(model = "rand", nrow = NULL, ncol = NULL,
 
     if(model=="omics.dep"){
       # add extra feature with diff. expr.
-      # set.seed(1111)
-      ncol <- dim(dat)[2]
+      ncol <- ncol(dat)
       dat <- rbind(c(rep(34.7,9),rep(34.6, 9))+rnorm(ncol)*0.02,dat)
-
     }
 
   }
