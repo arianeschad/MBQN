@@ -4,21 +4,20 @@
 \alias{mbqnPlotRI}
 \title{Plot frequency of detected RI/NRI features}
 \usage{
-mbqnPlotRI(obj, save_fig = FALSE, filename = NULL, verbose = FALSE,
-  ...)
+mbqnPlotRI(obj, verbose = FALSE, ...)
 }
 \arguments{
 \item{obj}{list object of RI frequencies from \code{mbqnGetNRIfeatures()}.}
-
-\item{save_fig}{logical indicating to save figure to pdf.}
-
-\item{filename}{string to specify the filename of the .pdf.}
 
 \item{verbose}{logical indicating to run function quietly.}
 
 \item{...}{additional arguments (cex, cex.lab, cex.axis, cex.main) passed to
 the plot function, and (width, height, paper format(default "a4") of pdf)
 to \code{dev.copy2pdf()}.}
+
+\item{save_fig}{logical indicating to save figure to pdf.}
+
+\item{filename}{string to specify the filename of the .pdf.}
 }
 \value{
 Figure, optionally saved in file

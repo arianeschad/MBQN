@@ -4,8 +4,7 @@
 \alias{mbqnBoxplot}
 \title{Combined box plot and line plot}
 \usage{
-mbqnBoxplot(mtx, irow = NULL, vals = NULL, add.leg = TRUE,
-  filename = NULL, ...)
+mbqnBoxplot(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...)
 }
 \arguments{
 \item{mtx}{a matrix or data frame.}
@@ -17,8 +16,6 @@ of the boxplot.}
 \code{ncol(mtx)} to plot on top of the boxplot.}
 
 \item{add.leg}{add legend to plot.}
-
-\item{filename}{save figure as pdf with filename in working directory.}
 
 \item{...}{additional arguments passed to the plot functions, e.g. xlab,
 ylab, main, ylim, type, las, and to \code{dev.copy2pdf()}, e.g. width,

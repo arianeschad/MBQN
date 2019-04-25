@@ -4,8 +4,7 @@
 \alias{mbqnPlotAll}
 \title{Plot RI/NRI feature frequencies and normalized/unnormalized features}
 \usage{
-mbqnPlotAll(x, FUN = NULL, low_thr = 0.5, show_fig = TRUE,
-  save_fig = TRUE, show_nri_only = FALSE, filename = NULL,
+mbqnPlotAll(x, FUN = NULL, low_thr = 0.5, show_nri_only = FALSE,
   verbose = TRUE, ...)
 }
 \arguments{
@@ -20,19 +19,15 @@ i.e. normal QN is used.}
 \item{low_thr}{a value between [0 1]. Features with RI
 frequency >=\code{low_thr} are considered as NRI/RI; default 0.5.}
 
-\item{show_fig}{logical indicating whether results are displayed in figures.}
-
-\item{save_fig}{logical indicating to save figures to pdf.}
-
 \item{show_nri_only}{logical indicating to display and save only the RI/NRI
 detection graph to pdf.}
-
-\item{filename}{a string for the .pdf-filenames.}
 
 \item{verbose}{logical indicating to print messages.}
 
 \item{...}{additional plot arguments passed to \code{mbqnBoxplot},
 \code{mbqnPlotRI} and \code{dev.copy2pdf()}.}
+
+\item{show_fig}{logical indicating whether results are displayed in figures.}
 }
 \value{
 A set of figures that display the detected RI/NRI features and a

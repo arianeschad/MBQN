@@ -8,7 +8,7 @@
 #' @param vals numeric, array, matrix, or data frame of features with length
 #' \code{ncol(mtx)} to plot on top of the boxplot.
 #' @param add.leg add legend to plot.
-#' @param filename save figure as pdf with filename in working directory.
+# #' @param filename save figure as pdf with filename in working directory.
 #' @param ... additional arguments passed to the plot functions, e.g. xlab,
 #' ylab, main, ylim, type, las, and to \code{dev.copy2pdf()}, e.g. width,
 #' height, paper format(default "a4r") of pdf.
@@ -32,8 +32,9 @@
 #' @author Ariane Schad
 #  August 2017
 #' @export mbqnBoxplot
-mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, filename = NULL, ...){
+mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
 
+  filename = NULL
   if(!(is.matrix(mtx)|| is.data.frame(mtx))) {stop("Argument mtx must be a matrix or data.frame!")}
 
   opt.args <- list(...)

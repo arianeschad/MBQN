@@ -4,10 +4,10 @@
 #' nearly rank invariant (NRI) features/rows across samples and visualize
 #' result for different normalizations.
 #' @param show_fig logical indicating whether results are displayed in figures.
-#' @param save_fig logical indicating to save figures to pdf.
+# #' @param save_fig logical indicating to save figures to pdf.
 #' @param show_nri_only logical indicating to display and save only the RI/NRI
 #' detection graph to pdf.
-#' @param filename a string for the .pdf-filenames.
+# #' @param filename a string for the .pdf-filenames.
 #' @param ... additional plot arguments passed to \code{mbqnBoxplot},
 #' \code{mbqnPlotRI} and \code{dev.copy2pdf()}.
 #' @inheritParams mbqnGetNRIfeatures
@@ -43,13 +43,16 @@
 #' @export mbqnPlotAll
 mbqnPlotAll <- function(x, FUN = NULL,
                         low_thr = 0.5,
-                        show_fig = TRUE,
-                        save_fig = TRUE,
+                        # show_fig = TRUE,
+                        # save_fig = TRUE,
                         show_nri_only = FALSE,
-                        filename = NULL,verbose = TRUE,...){
+                        #filename = NULL,
+                        verbose = TRUE,...){
 
   opt.args <- list(...)
-
+  show_fig = TRUE
+  filename = NULL
+  save_fig = FALSE
   res  <- mbqnGetNRIfeatures(x,
                              low_thr = low_thr,
                              verbose = verbose)
@@ -68,7 +71,9 @@ mbqnPlotAll <- function(x, FUN = NULL,
     current.dir = getwd()
 
     # Occupation or rank invariance frequencies and sample coverage of RI/NRI features
-    mbqnPlotRI(res, save_fig = save_fig, filename = filename,
+    mbqnPlotRI(res, 
+               #save_fig = save_fig, 
+               #filename = filename,
                verbose = verbose, ...)
 
     # boxplot of quantile normalized data and maximum RI/NRI feature after qn and mbqn
@@ -129,7 +134,7 @@ mbqnPlotAll <- function(x, FUN = NULL,
       do.call(mbqnBoxplot, c(list(mtx = mbqn_ri.dat,
                                   vals = df,
                                   main = "QN data with RI/NRI feature",
-                                  filename = fig2.name,
+                                  #filename = fig2.name,
                                   add.leg = FALSE),opt.args.var))
 
 

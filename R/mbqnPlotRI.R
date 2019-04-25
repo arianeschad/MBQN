@@ -3,8 +3,8 @@
 #' @description Plot rank invariance frequency and feature coverage of detected
 #' RI and NRI features
 #' @param obj list object of RI frequencies from \code{mbqnGetNRIfeatures()}.
-#' @param save_fig logical indicating to save figure to pdf.
-#' @param filename string to specify the filename of the .pdf.
+# #' @param save_fig logical indicating to save figure to pdf.
+# #' @param filename string to specify the filename of the .pdf.
 #' @param verbose logical indicating to run function quietly.
 #' @param ... additional arguments (cex, cex.lab, cex.axis, cex.main) passed to
 #' the plot function, and (width, height, paper format(default "a4") of pdf)
@@ -26,13 +26,17 @@
 #' @author Ariane Schad
 # 2017
 #' @export mbqnPlotRI
-mbqnPlotRI <- function(obj , save_fig = FALSE, filename = NULL,
+mbqnPlotRI <- function(obj , 
+                       #save_fig = FALSE, 
+                       #filename = NULL,
                        verbose = FALSE, ...){
 
   if(!is.null(obj$nri)){
 
     ####### Graphical output #########
-
+    save_fig = FALSE
+    filename = NULL
+    
     # plot options
     opt.args <- list(...)
     cex.main  <- ifelse(is.null(opt.args$cex.main), 1.2, opt.args$cex.main)

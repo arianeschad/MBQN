@@ -59,25 +59,25 @@ mbqnDemo <- function(x = NULL){
 
   ylim <- range(x, na.rm =TRUE)
   # create a boxplot for qn-data with nri features median balanced
-  mbqnBoxplot(qn_nri_x, irow = res$ip, filename = NULL,
+  mbqnBoxplot(qn_nri_x, irow = res$ip,
               add.leg = TRUE, main ="QN data with MBQN NRI feature",
               cex.lab = 1.2,
               cex = 1.2,
               ylim = ylim)
   # create a boxplot for x
-  mbqnBoxplot(x, filename = NULL,
+  mbqnBoxplot(x,
               add.leg = FALSE, main = "data",
               cex.lab = 1.2,
               cex = 1.2,
               ylim = ylim)
   # create a boxplot for qn-data
-  mbqnBoxplot(qn_x, filename = NULL, irow = res$ip,
+  mbqnBoxplot(qn_x, irow = res$ip,
               add.leg = FALSE, main = "QN data",
               cex.lab = 1.2,
               cex = 1.2,
               ylim = ylim)
   # create a boxplot for mbqn-data
-  mbqnBoxplot(mbqn_x, filename = NULL,
+  mbqnBoxplot(mbqn_x,
               add.leg = FALSE, main = "MBQN data",
               cex.lab = 1.2,
               cex = 1.2,
