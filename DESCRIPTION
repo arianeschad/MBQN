@@ -18,7 +18,7 @@ biocViews: Normalization, Preprocessing, Proteomics, Software
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/arianeschad/mbqn
-BugReports: https://github.com/Bioconductor/BiocStyle/issues
+BugReports: https://github.com/arianeschad/MBQN/issues
 NeedsCompilation: no
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
