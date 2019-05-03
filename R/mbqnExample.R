@@ -9,7 +9,7 @@
 #' @inheritParams mbqn
 #' @importFrom grDevices dev.copy2pdf dev.off
 #' @importFrom stats median
-#' @return Figures saved as pdf-files.
+#' @return Figures 
 #' @details To run this function, download the proteinGroups.txt file
 #' of the selected example manually in advance or use the automatic dowload
 #' provided by the function. \cr\cr
@@ -92,10 +92,7 @@ mbqnExample <- function(which.example = NULL, source.path = NULL){
                      las = 2,
                      type = "l",
                      feature_index = NULL,
-                     show_fig = TRUE,
-                     filename = pxd_id,
                      show_nri_only = TRUE,
-                     save_fig = TRUE,
                      axis.cex = 0.5,
                      y.intersp= 0.5)
 

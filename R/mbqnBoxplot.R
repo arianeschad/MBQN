@@ -10,8 +10,7 @@
 #' @param add.leg add legend to plot.
 # #' @param filename save figure as pdf with filename in working directory.
 #' @param ... additional arguments passed to the plot functions, e.g. xlab,
-#' ylab, main, ylim, type, las, and to \code{dev.copy2pdf()}, e.g. width,
-#' height, paper format(default "a4r") of pdf.
+#' ylab, main, ylim, type, las.
 #' @details This function calls \code{graphics::boxplot}.
 #' Groups are represent by matrix columns. Selected rows/features or user-defined
 #' arrays are plot on top of the box plot. Missing values are ignored.
@@ -25,7 +24,7 @@
 #' mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile normalization
 #' ## Create boxplot:
 #' plot.new()
-#' mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b", filename = NULL)
+#' mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b")
 #' @importFrom grDevices dev.copy2pdf
 #' @importFrom graphics axis boxplot grconvertX legend lines matlines par strwidth
 #' @family example
@@ -41,17 +40,17 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
   type <- if(is.null(opt.args$type)) "l"
   cex.axis <- if(is.null(opt.args$cex.axis)) 0.8
   
-  xlab <- ifelse(is.null(opt.args$xlab), "sample", opt.args$xlab)
-  ylab <- ifelse(is.null(opt.args$ylab), "intensity", opt.args$ylab)
-  main <- ifelse(is.null(opt.args$main), "Boxplot",opt.args$main)
-  cex.leg <- ifelse(is.null(opt.args$cex), 0.8, opt.args$cex)
-  cex <- ifelse(is.null(opt.args$cex), 0.8, opt.args$cex)
-  pt.cex <- ifelse(is.null(opt.args$pt.cex), 0.8, opt.args$pt.cex)
-  y.intersp <- ifelse(is.null(opt.args$y.intersp), 1, opt.args$y.intersp)
-  fig.paper <- ifelse(is.null(opt.args$paper), "a4r", opt.args$paper)
-  fig.width <- ifelse(is.null(opt.args$width), 10, opt.args$width)
-  fig.height <- ifelse(is.null(opt.args$height), 5, opt.args$height)
-
+  xlab <- if(is.null(opt.args$xlab)) "sample"
+  ylab <- if(is.null(opt.args$ylab)) "intensity"
+  main <- if(is.null(opt.args$main)) "Boxplot"
+  cex.leg <- if(is.null(opt.args$cex)) 0.8
+  cex <- if(is.null(opt.args$cex)) 0.8
+  pt.cex <- if(is.null(opt.args$pt.cex)) 0.8
+  y.intersp <- if(is.null(opt.args$y.intersp)) 1
+  fig.paper <- if(is.null(opt.args$paper)) "a4r"
+  fig.width <- if(is.null(opt.args$width)) 10
+  fig.height <- if(is.null(opt.args$height)) 5
+  
   # y-axis range
   if(is.null(opt.args$ylim)){
     ylim <- range(mtx,na.rm = TRUE)

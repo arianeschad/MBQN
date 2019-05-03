@@ -3,19 +3,14 @@
 #' @description Plot rank invariance frequency and feature coverage of detected
 #' RI and NRI features
 #' @param obj list object of RI frequencies from \code{mbqnGetNRIfeatures()}.
-# #' @param save_fig logical indicating to save figure to pdf.
-# #' @param filename string to specify the filename of the .pdf.
 #' @param verbose logical indicating to run function quietly.
 #' @param ... additional arguments (cex, cex.lab, cex.axis, cex.main) passed to
-#' the plot function, and (width, height, paper format(default "a4") of pdf)
-#' to \code{dev.copy2pdf()}.
-#' @importFrom grDevices dev.copy2pdf
+#' the plot function.
 #' @details Graphical output of the NRI/RI identification results from
 #' \code{mbqnGetNRIfeatures()}. For each detected NRI/RI feature, plot the
 #' feature index against the RI frequencies together with the RI frequency
 #' detection threshold and print the sample coverage.
-#' @return Figure, optionally saved in file
-#' Fig_nri_check_" \code{filename} ".pdf.
+#' @return Figure
 #' @seealso [mbqnGetNRIfeatures()] for detection of NRI/RI features.
 #' @references Schad, A. and Kreuz, C., MBQN: R package for
 #' mean/median-balanced quantile normalization. In prep. 2019
@@ -34,8 +29,8 @@ mbqnPlotRI <- function(obj ,
   if(!is.null(obj$nri)){
 
     ####### Graphical output #########
-    save_fig = FALSE
-    filename = NULL
+    # save_fig = FALSE
+    # filename = NULL
     
     # plot options
     opt.args <- list(...)
@@ -53,10 +48,6 @@ mbqnPlotRI <- function(obj ,
     current.dir = getwd()
 
     par(mfrow=c(1,1), mar = c(4,4,3,2))
-
-    if(is.null(filename)) {
-      fig1.name <- "Figure_nri_check.pdf"
-    }else{fig1.name <- paste0("fig_nri_check_", filename ,".pdf")}
 
     ylim <- c(min(as.numeric(names(obj$nri)))-1,
               max(as.numeric(names(obj$nri)))+2)
@@ -108,10 +99,5 @@ mbqnPlotRI <- function(obj ,
            legend = legend.txt,
            col=c(1,4,2), lty=c(1,2,1), cex=cex.legend ,bty = "n",
            y.intersp = y.intersp)
-    if(save_fig){
-      dev.copy2pdf(file=file.path(current.dir,fig1.name),width=6,height=11,
-                   out.type = "pdf", paper="a4")
-      if(verbose) message(paste("Save figure to ",fig1.name))
-    }
   } else { message("No NRI/RI present! You might want to adjust low_thr!")}
 }
