@@ -18,8 +18,7 @@ of the boxplot.}
 \item{add.leg}{add legend to plot.}
 
 \item{...}{additional arguments passed to the plot functions, e.g. xlab,
-ylab, main, ylim, type, las, and to \code{dev.copy2pdf()}, e.g. width,
-height, paper format(default "a4r") of pdf.}
+ylab, main, ylim, type, las.}
 }
 \value{
 Figure.
@@ -41,7 +40,7 @@ qn.dat <- mbqn(x=X,FUN = NULL ,na.rm = TRUE) # Quantile normalization
 mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile normalization
 ## Create boxplot:
 plot.new()
-mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b", filename = NULL)
+mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b")
 }
 \references{
 Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced

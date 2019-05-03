@@ -13,12 +13,12 @@ mbqnExample(which.example = NULL, source.path = NULL)
 "proteinGroups.txt"-file; default = NULL uses current working directory.}
 }
 \value{
-Figures saved as pdf-files.
+Figures
 }
 \description{
 This function illustrates the check for rank invariant (RI)
 and nearly rank invariant (NRI) features and the normalization of LFQ intensities
-of proteins for selected datasets deposited to PRIDE [1].
+of proteins for selected datasets deposited to the PRIDE database [1].
 }
 \details{
 To run this function, download the proteinGroups.txt file

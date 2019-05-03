@@ -19,15 +19,13 @@ i.e. normal QN is used.}
 \item{low_thr}{a value between [0 1]. Features with RI
 frequency >=\code{low_thr} are considered as NRI/RI; default 0.5.}
 
-\item{show_nri_only}{logical indicating to display and save only the RI/NRI
-detection graph to pdf.}
+\item{show_nri_only}{logical indicating to display only the RI/NRI
+detection graph.}
 
 \item{verbose}{logical indicating to print messages.}
 
 \item{...}{additional plot arguments passed to \code{mbqnBoxplot},
-\code{mbqnPlotRI} and \code{dev.copy2pdf()}.}
-
-\item{show_fig}{logical indicating whether results are displayed in figures.}
+and \code{mbqnPlotRI}.}
 }
 \value{
 A set of figures that display the detected RI/NRI features and a
@@ -55,7 +53,7 @@ deviation of normalized features located in the tails.
 \examples{
 ## Check data matrix for RI and NRI features
 X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
-mbqnPlotAll(X, mean, low_thr = 0.5, save_fig = FALSE)
+mbqnPlotAll(X, mean, low_thr = 0.5)
 }
 \references{
 Schad, A. and Kreuz, C., MBQN: R package for
