@@ -2,7 +2,7 @@
 #'
 #' @description This function illustrates the check for rank invariant (RI)
 #' and nearly rank invariant (NRI) features and the normalization of LFQ intensities
-#' of proteins for selected datasets deposited to PRIDE \[1\].
+#' of proteins for selected datasets deposited to the PRIDE database \[1\].
 #' @param which.example numerical value between 1-4 to select one of four datasets.
 #' @param source.path character specifying the path where to store and search for the
 #' "proteinGroups.txt"-file; default = NULL uses current working directory.

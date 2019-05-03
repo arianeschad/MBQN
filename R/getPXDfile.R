@@ -52,17 +52,18 @@ getPXDfile <- function(pxd_id, source.path = NULL,
     if(length(grep("tar.gz",f[ind])>0)){
       files = untar(fnm, list = TRUE)[grepl(file.pattern,untar(fnm,
                                                                list = TRUE))]
+      filepath = file.path(source.path,pxd_id)
       untar(fnm,
             files = files,
-            exdir=file.path(source.path,pxd_id))
+            exdir=)
       file.rename(file.path(source.path,pxd_id, files),
-                              file.path(source.path,pxd_id))
-      unlink(list.dirs(file.path(source.path,pxd_id), recursive = FALSE),
+                              filepath)
+      unlink(list.dirs(filepath, recursive = FALSE),
              recursive = TRUE) # delete extra folder
       unlink(fnm) # delete large .zip file
     }else{ #.gz
       unzip(fnm,files = "proteinGroups.txt",
-            exdir=file.path(source.path,pxd_id))
+            exdir=filepath)
       unlink(fnm) # delete large .zip file
     }
   }
