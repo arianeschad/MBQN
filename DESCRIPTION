@@ -10,7 +10,7 @@ Authors@R: c(person("Ariane", "Schad",
 Description: Modified quantile normalization for omics or other matrix-like 
   data distorted in location and scale.
 License: GPL-3 + file LICENSE
-Depends: R (>= 3.6)
+Depends: R (>= 3.5)
 Imports: stats, graphics, grDevices, utils, limma (>= 3.30.13), 
   preprocessCore (>= 1.36.0)
 Suggests: knitr, rpx

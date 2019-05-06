@@ -40,16 +40,30 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
   type <- if(is.null(opt.args$type)) "l"
   cex.axis <- if(is.null(opt.args$cex.axis)) 0.8
   
-  xlab <- if(is.null(opt.args$xlab)) "sample"
-  ylab <- if(is.null(opt.args$ylab)) "intensity"
-  main <- if(is.null(opt.args$main)) "Boxplot"
-  cex.leg <- if(is.null(opt.args$cex)) 0.8
-  cex <- if(is.null(opt.args$cex)) 0.8
-  pt.cex <- if(is.null(opt.args$pt.cex)) 0.8
-  y.intersp <- if(is.null(opt.args$y.intersp)) 1
-  fig.paper <- if(is.null(opt.args$paper)) "a4r"
-  fig.width <- if(is.null(opt.args$width)) 10
-  fig.height <- if(is.null(opt.args$height)) 5
+  ## I had to revert the following change recommended during review
+  ## because it did not work
+  # xlab <- if(is.null(opt.args$xlab)) "sample"
+  # ylab <- if(is.null(opt.args$ylab)) "intensity"
+  # main <- if(is.null(opt.args$main)) "Boxplot"
+  # cex.leg <- if(is.null(opt.args$cex)) 0.8
+  # cex <- if(is.null(opt.args$cex)) 0.8
+  # pt.cex <- if(is.null(opt.args$pt.cex)) 0.8
+  # y.intersp <- if(is.null(opt.args$y.intersp)) 1
+  # fig.paper <- if(is.null(opt.args$paper)) "a4r"
+  # fig.width <- if(is.null(opt.args$width)) 10
+  # fig.height <- if(is.null(opt.args$height)) 5
+  ##
+  
+  xlab <- ifelse(is.null(opt.args$xlab), "sample", opt.args$xlab)
+  ylab <- ifelse(is.null(opt.args$ylab), "intensity", opt.args$ylab)
+  main <- ifelse(is.null(opt.args$main), "Boxplot",opt.args$main)
+  cex.leg <- ifelse(is.null(opt.args$cex), 0.8, opt.args$cex)
+  cex <- ifelse(is.null(opt.args$cex), 0.8, opt.args$cex)
+  pt.cex <- ifelse(is.null(opt.args$pt.cex), 0.8, opt.args$pt.cex)
+  y.intersp <- ifelse(is.null(opt.args$y.intersp), 1, opt.args$y.intersp)
+  fig.paper <- ifelse(is.null(opt.args$paper), "a4r", opt.args$paper)
+  fig.width <- ifelse(is.null(opt.args$width), 10, opt.args$width)
+  fig.height <- ifelse(is.null(opt.args$height), 5, opt.args$height)
   
   # y-axis range
   if(is.null(opt.args$ylim)){
