@@ -37,10 +37,10 @@ mbqnLoadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGrou
   file <- list.files(fdir, pattern = file.pattern,full.names = TRUE)
 
   if(length(file)==0){ # file does not exist in fdir
-    r.input <- readline(paste("File does not exist - start downloading file. This can take a few minutes!","\n",
-                              "Do you want to continue? [y/n]", "\n"))
-    stopifnot(r.input=="y")
-    message("Proceed with download...")
+#    r.input <- readline(paste("File does not exist - start downloading file. This can take a few minutes!","\n",
+#                              "Do you want to continue? [y/n]", "\n"))
+#    stopifnot(r.input=="y")
+    message("File does not exist - proceed with download...")
     ifelse(!dir.exists(fdir), dir.create(fdir,recursive = TRUE),'')
     # Download proteinGroups.txt file if not already present
     getPXDfile(pxd_id = pxd_id, source.path = source.path, file.pattern = file.pattern)

@@ -82,9 +82,6 @@ mbqnPlotAll <- function(x, FUN = NULL,
       colnames(df2) <- c(paste0("QN",res$ip),paste0("MBQN",res$ip))
       df2 <- as.data.frame(df2)
 
-      dev.off()
-      plot.new()
-      frame()
       mtx <- matrix(c(2, 1, 1, 3), byrow=TRUE, nrow=1)
       nf <- layout(mtx, heights=c(1), widths=c(6,5,1,0.5))
 

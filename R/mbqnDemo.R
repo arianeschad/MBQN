@@ -6,8 +6,6 @@
 #' abundances/intensities, and columns represent samples. Default
 #' \code{NULL} - a simple matrix is generated.
 #' @importFrom stats median
-#' @importFrom grDevices dev.off
-#' @importFrom graphics plot.new frame
 #' @return Various graphics illustrating the effect of normalization on
 #' rank mixing and rank invariant intensity features.
 #' @family example
@@ -50,9 +48,6 @@ mbqnDemo <- function(x = NULL){
   # check saturation i.e. for rank invariance
   res <- mbqnGetNRIfeatures(x,verbose = FALSE)
 
-  try(dev.off(), silent = TRUE)
-  plot.new()
-  frame()
   mtx <- matrix(c(2, 3, 3, 6,
                   4, 1, 1, 5), byrow=TRUE, nrow=2)
   nf <- layout(mtx, heights=c(1,1), widths=c(6,5,1,0.5))
