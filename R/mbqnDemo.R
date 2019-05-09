@@ -28,7 +28,6 @@ mbqnDemo <- function(x = NULL){
   # if no matrix is given, create a simple dummy matrix
   if(is.null(x)){
     x <- matrix(c(5,2,3,NA,2,4,1,4,2,3,1,4,6,NA,1,3,NA,1,4,3,NA,1,2,3),ncol=4)
-
     print(x)
     #      [,1] [,2] [,3] [,4]
     # [1,]    5    1    6    4
@@ -48,10 +47,14 @@ mbqnDemo <- function(x = NULL){
   # check saturation i.e. for rank invariance
   res <- mbqnGetNRIfeatures(x,verbose = FALSE)
 
-  mtx <- matrix(c(2, 3, 3, 6,
-                  4, 1, 1, 5), byrow=TRUE, nrow=2)
-  nf <- layout(mtx, heights=c(1,1), widths=c(6,5,1,0.5))
+  try(dev.off(),silent = T)
+  plot.new()
+  frame()
 
+  mtx <- matrix(c(2, 3, 3, 6,
+                  4, 1, 1, 5), byrow=TRUE, nrow=2)  # matrix object specifying the location of the next N figures
+  nf <- layout(mtx, heights=c(1,1), widths=c(6,5,1,0.5)) # layout of plot arrangement
+  
   ylim <- range(x, na.rm =TRUE)
   # create a boxplot for qn-data with nri features median balanced
   mbqnBoxplot(qn_nri_x, irow = res$ip,
