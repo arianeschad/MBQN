@@ -7,8 +7,8 @@
 #' @details Load proteinGroup.txt file, select all samples with LFQ intensities, remove
 #' empty protein features. Apply log2 transform to intensities. This function acquires source code
 #' of SafeQuant::parseMaxQuantProteinGroupTxt \[2\].
-#' @return List with
-#' \item{\code{mtx}}{data matrix}
+#' @return SummarizedExperiment with
+#' \item{\code{data}}{data matrix}
 #' \item{\code{pxdid}}{PRIDE identifier}
 #' \item{\code{featureAnnotations}}{dataframe collecting feature annotations, e.g. protein name,
 #' "Potential contaminant", etc..}
@@ -24,7 +24,8 @@
 #' https://CRAN.R-project.org/package=SafeQuant.\cr
 #' @examples ## Load LFQ intensities of proteomics data of PXD001584:
 #' \dontrun{
-#' mbqnLoadFile(pxd_id = "PXD001584")
+#' out <- mbqnLoadFile(pxd_id = "PXD001584")
+#' assays(out)\[\["data"\]\]
 #' }
 #' @author Ariane Schad
 #  2017
@@ -101,10 +102,10 @@ mbqnLoadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGrou
   mtx <- log2(mtx)
 
   
-  # SummarizedExperiment(assays=list(intensities=mtx),
-  #                      row.names=featureAnnotations, colData=colData)
-  # sExp <- SummarizedExperiment(mtx, featureNames=featureAnnotations, sampleNames=ixs)
-  # adata
-  return(list(mtx = mtx, pxdid = pxdid, featureAnnotations = featureAnnotations, ixs = ixs))
+   # return(list(mtx = mtx, pxdid = pxdid, featureAnnotations = featureAnnotations, ixs = ixs))
+  sexp <- SummarizedExperiment(assays=list(data=mtx), 
+                               rowData=list(featureAnnotations,ixs=ixs),
+                               metadata=list(pxdid = pxdid))
+  return(sexp)
 }
 
