@@ -11,8 +11,7 @@ Description: Modified quantile normalization for omics or other matrix-like
   data distorted in location and scale.
 License: GPL-3 + file LICENSE
 Depends: R (>= 3.5)
-Imports: stats, graphics, grDevices, utils, limma (>= 3.30.13), SummarizedExperiment (>= 1.10.0)
-  preprocessCore (>= 1.36.0)
+Imports: stats, graphics, grDevices, utils, limma (>= 3.30.13), SummarizedExperiment (>= 1.10.0), preprocessCore (>= 1.36.0)
 Suggests: knitr, rpx
 biocViews: Normalization, Preprocessing, Proteomics, Software
 Encoding: UTF-8
