@@ -45,19 +45,19 @@ getPXDfile <- function(pxd_id, source.path = NULL,
   f <- rpx::pxfiles(px)
   ind <- grep('MaxQuant',f)
 
-  if(!file.exists(f[ind])){
-    fnm <- rpx::pxget(px, f[ind])
+  if(!file.exists(f[ind])){ # if it does not yet exist locally
+    fnm <- rpx::pxget(px, f[ind], method="libcurl") # download
   }
-  if(file.exists(f[ind])){ # unzip file
+  if(file.exists(f[ind])){ # if zip file is available, start unzipping
     if(length(grep("tar.gz",f[ind])>0)){
       files = untar(fnm, list = TRUE)[grepl(file.pattern,untar(fnm,
-                                                               list = TRUE))]
+                                                 list = TRUE))]
       filepath = file.path(source.path,pxd_id)
       untar(fnm,
             files = files,
             exdir=)
-      file.rename(file.path(source.path,pxd_id, files),
-                              filepath)
+      file.rename(file.path(source.path,files),
+                  file.path(filepath,"proteinGroups.txt"))
       unlink(list.dirs(filepath, recursive = FALSE),
              recursive = TRUE) # delete extra folder
       unlink(fnm) # delete large .zip file
@@ -66,6 +66,8 @@ getPXDfile <- function(pxd_id, source.path = NULL,
             exdir=filepath)
       unlink(fnm) # delete large .zip file
     }
+  }else{
+    message("No MaxQuant file available.")
   }
 
 }

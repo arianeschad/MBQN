@@ -8,7 +8,6 @@
 #' @param vals numeric, array, matrix, or data frame of features with length
 #' \code{ncol(mtx)} to plot on top of the boxplot.
 #' @param add.leg add legend to plot.
-# #' @param filename save figure as pdf with filename in working directory.
 #' @param ... additional arguments passed to the plot functions, e.g. xlab,
 #' ylab, main, ylim, type, las.
 #' @details This function calls \code{graphics::boxplot}.
@@ -25,7 +24,6 @@
 #' ## Create boxplot:
 #' plot.new()
 #' mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b")
-#' @importFrom grDevices dev.copy2pdf
 #' @importFrom graphics axis boxplot grconvertX legend lines matlines par strwidth
 #' @family example
 #' @author Ariane Schad
@@ -120,7 +118,6 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
     }
     leg_text <- c(leg_text,leg.txt)
   }
-
 
   dy <- 0
   if(!is.null(colnames(mtx))) dy <- strwidth(colnames(mtx)[1],
@@ -247,12 +244,6 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
              y.intersp= y.intersp
       )
     }
-  }
-
-  if(!is.null(filename)){
-      dev.copy2pdf(file=file.path(getwd(),filename), width=fig.width, 
-                   height=fig.height, paper=fig.paper, out.type = "pdf")
-      message(paste("Save figure to",filename))
   }
 }
 

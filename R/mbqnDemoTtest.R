@@ -3,7 +3,7 @@
 #' @description Apply a two-sided t-test before and after application
 #' of different normalizations to a simulated, differentially expressed and
 #' distorted RI feature.
-#' @param show.fig Logical that indicates whether results are plot to pdf.
+#' @param show.fig Logical that indicates whether results are plotted.
 #' @details Apply a two-sided t-test to an RI feature before and after
 #' normalization with MBQN. The feature is obtained from a simulated dataset
 #' where each sample is distorted in mean and scale.
@@ -72,32 +72,24 @@ mbqnDemoTtest <- function(show.fig = FALSE){
                 vals = data.frame(RI = mtx[1,],
                                   NRI = mtx[as.numeric(names(res$nri)[2]),]),
                 y.intersp= 1.5)
-    dev.copy2pdf(file=file.path(getwd(),"fig_undistorted_boxplot_simu.pdf"),
-                 width=8,height=4,paper="a4r",out.type = "pdf")
 
     #dev.off()
     mbqnBoxplot(mtx.mod,ylim = c(25,39),
                 vals = data.frame(RI = mtx.mod[1,],
                                   NRI = mtx.mod[as.numeric(names(res$nri)[2]),]),
                 y.intersp= 1.5)
-    dev.copy2pdf(file=file.path(getwd(),"fig_distortion_boxplot_simu.pdf"),
-                 width=8,height=4,paper="a4r",out.type = "pdf")
 
     #dev.off()
     mbqnBoxplot(qn.mtx,ylim = c(25,36),
                 vals = data.frame(RI = qn.mtx[1,],
                                   NRI = qn.mtx[as.numeric(names(res$nri)[2]),]),
                 y.intersp= 1.5)
-    dev.copy2pdf(file=file.path(getwd(),"fig_normalized_boxplot_simu.pdf"),
-                 width=8,height=4,paper="a4r",out.type = "pdf")
 
     #dev.off()
     mbqnBoxplot(mbqn.mtx,ylim = c(25,36),
                 vals = data.frame(RI = mbqn.mtx[1,],
                                   NRI = mbqn.mtx[as.numeric(names(res$nri)[2]),]),
                 y.intersp= 1.5)
-    dev.copy2pdf(file=file.path(getwd(),"fig_mbqn_boxplot_simu.pdf"),
-                 width=8,height=4,paper="a4r",out.type = "pdf")
 
     #dev.off()
     matplot(t(rbind(feature1 = feature1,
@@ -115,8 +107,6 @@ mbqnDemoTtest <- function(show.fig = FALSE){
            legend = paste("p-value (t-test) =",round(ttest.res1$p.value,2),
                           "\np-value (t-test, mbqn) =", round(ttest.res$p.value,4)),
            bty = "n", x.intersp = 0)
-    dev.copy2pdf(file=file.path(getwd(),"fig_features_simu.pdf"),
-                 width=8,height=4.5,paper="a4r",out.type = "pdf")
   }
 
   if(ttest.res$p.value<0.05)

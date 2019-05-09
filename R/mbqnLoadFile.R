@@ -12,7 +12,7 @@
 #' \item{\code{pxdid}}{PRIDE identifier}
 #' \item{\code{featureAnnotations}}{dataframe collecting feature annotations, e.g. protein name,
 #' "Potential contaminant", etc..}
-#' \item{\code{ixs}}{row indices of potential contaminant features, or features identified only by site, reverse.}
+#' \item{\code{ixs}}{locical array indicating rows of potential contaminant features, or features identified only by site, reverse.}
 #' @seealso [getPXDfile()] for downloading data from PRIDE.
 #' @references
 #' \[1\] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I, Mayer G,
@@ -25,10 +25,10 @@
 #' @examples ## Load LFQ intensities of proteomics data of PXD001584:
 #' \dontrun{
 #' mbqnLoadFile(pxd_id = "PXD001584")
-#'}
+#' }
 #' @author Ariane Schad
-# 2017
-
+#  2017
+#' @export mbqnLoadFile
 mbqnLoadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.txt"){
 
   if(is.null(source.path)) {source.path = file.path(getwd())}
@@ -36,7 +36,7 @@ mbqnLoadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGrou
   fdir <- file.path(source.path,pxd_id)
   file <- list.files(fdir, pattern = file.pattern,full.names = TRUE)
 
-  if(length(file)==0){ # !file.exist
+  if(length(file)==0){ # file does not exist in fdir
     r.input <- readline(paste("File does not exist - start downloading file. This can take a few minutes!","\n",
                               "Do you want to continue? [y/n]", "\n"))
     stopifnot(r.input=="y")
@@ -56,8 +56,6 @@ mbqnLoadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGrou
   # Select all columns with LFQ intensities
   mtx <- as.matrix(dat[, grepl("^LFQ", names(dat))])
   mtx[mtx == 0] <- NA
-  ix <- seq_len(ncol(mtx))
-  ylim <- NULL
 
   # check for proteins with NA intensity across all samples
   allColNA <- as.vector(apply(mtx, 1, function(r) {
@@ -76,11 +74,10 @@ mbqnLoadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGrou
 
 
   # check for potential contaminant and only identfied by side proteins
-  ixs <- which(dat[,grep(annotations[6],colnames(dat),value = TRUE)]=="+")
-  ixs <- c(ixs,which(dat[["Only identified by site"]]=="+"))
-  ixs <- c(ixs, which(dat[["Reverse"]]=="+"))
-  ixs <- unique(ixs)
-
+  bool1 <- dat[,grep(annotations[6],colnames(dat),value = TRUE)]=="+"
+  bool2 <- dat[["Only identified by site"]]=="+" & !is.na(dat[["Only identified by site"]])
+  bool3 <- dat[["Reverse"]]=="+"
+  ixs <-  bool1 | bool2 | bool3  # logical is better because it has same dimension as the data
 
   for (i in seq_len(length(fieldnames))){
     if(length(grep(annotations[i],colnames(dat)))>0){
@@ -103,6 +100,11 @@ mbqnLoadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGrou
   # log2 transform intensities
   mtx <- log2(mtx)
 
+  
+  # SummarizedExperiment(assays=list(intensities=mtx),
+  #                      row.names=featureAnnotations, colData=colData)
+  # sExp <- SummarizedExperiment(mtx, featureNames=featureAnnotations, sampleNames=ixs)
+  # adata
   return(list(mtx = mtx, pxdid = pxdid, featureAnnotations = featureAnnotations, ixs = ixs))
 }
 
