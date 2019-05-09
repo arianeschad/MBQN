@@ -18,8 +18,8 @@ directory.}
 e.g. "proteinGroups" or "peptides".}
 }
 \value{
-List with
-\item{\code{mtx}}{data matrix}
+SummarizedExperiment with
+\item{\code{data}}{data matrix}
 \item{\code{pxdid}}{PRIDE identifier}
 \item{\code{featureAnnotations}}{dataframe collecting feature annotations, e.g. protein name,
 "Potential contaminant", etc..}
@@ -37,7 +37,8 @@ of SafeQuant::parseMaxQuantProteinGroupTxt [2].
 \examples{
 ## Load LFQ intensities of proteomics data of PXD001584:
 \dontrun{
-mbqnLoadFile(pxd_id = "PXD001584")
+out <- mbqnLoadFile(pxd_id = "PXD001584")
+assays(out)\\[\\["data"\\]\\]
 }
 }
 \references{

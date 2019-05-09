@@ -63,7 +63,9 @@ download the data. <br/>
 To install these packages in R run: <br/>
 
 ``` r
-# BiocManager::install(pkgs = c("preprocessCore","limma","rpx"))
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+# BiocManager::install(pkgs = c("preprocessCore","limma","rpx","SummarizedExperiment"))
 ```
 
 Additional packages needed to run MBQN examples: <br/>

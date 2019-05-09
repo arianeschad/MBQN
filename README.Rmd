@@ -47,7 +47,9 @@ The example function `mbqnExample()` in MBQN uses data from the PRIDE repository
 
 To install these packages in R run: <br/>
 ```{r dependencies1}
-# BiocManager::install(pkgs = c("preprocessCore","limma","rpx"))
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+# BiocManager::install(pkgs = c("preprocessCore","limma","rpx","SummarizedExperiment"))
 ```
 
 Additional packages needed to run MBQN examples:  <br/>
