@@ -72,3 +72,8 @@ Additional packages needed to run MBQN examples: <br/>
 # install.packages(pkgs = c("filesstrings"), dependencies = TRUE)
 ```
 
+
+## Usage 
+
+Further information about the package is provided at the wiki<br/>
+<https://github.com/arianeschad/MBQN/wiki>
