@@ -30,10 +30,10 @@
 #  August 2017
 #' @export mbqnBoxplot
 mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
-
+  
   filename = NULL
   if(!(is.matrix(mtx)|| is.data.frame(mtx))) {stop("Argument mtx must be a matrix or data.frame!")}
-
+  
   opt.args <- list(...)
   type <- if(is.null(opt.args$type)) "l"
   cex.axis <- if(is.null(opt.args$cex.axis)) 0.8
@@ -77,18 +77,18 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
     ylim = c(ymin,ymax)
   }else{
     ylim <- opt.args$ylim
-    }
-
+  }
+  
   #if(add.leg){
   # par(mar=c(par('mar')[seq_len(3)], 0)) # removes extraneous right inner margin space
   #}
-
+  
   leg_text <- "data"
   lcol <- c("gold")
   lty <- 1
   las <- ifelse(length(opt.args$las)!=0, opt.args$las,0)
   # las <- ifelse(is.null(opt.args$las)) 0
-
+  
   if(length(irow)==1){
     leg_text <- c(leg_text,paste("id",irow))
     lcol <- c("gold",2)
@@ -98,15 +98,15 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
     lcol <- c("gold",rep(2,length(irow)))
     lty <- c(lty,seq_len(length(irow)))
   }
-
+  
   if(!is.null(vals)){
-
+    
     if(is.numeric(vals) || is.array(vals)){
       lcol <- c(lcol,3)
       lty <- c(lty,1)
       leg.txt <- "feature"
     }
-
+    
     if(is.matrix(vals) || is.data.frame(vals)){
       if(length(attributes(vals)$names)>=1){
         leg.txt <- as.array(names(vals))
@@ -118,12 +118,12 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
     }
     leg_text <- c(leg_text,leg.txt)
   }
-
+  
   dy <- 0
   if(!is.null(colnames(mtx))) dy <- strwidth(colnames(mtx)[1],
                                              units = "figure",
                                              cex = cex)
-
+  
   if(add.leg){
     #axis(side = 2, at = seq_len(18),labels = colnames(mtx), las =2)
     l <- legend(0, 0, bty='n', leg_text,
@@ -134,16 +134,16 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
     w <- max(0.05,grconvertX(l$rect$w, to='ndc') - grconvertX(0, to='ndc'))
     par(omd=c(0, 1-w*.9, dy*3/4, 1))
   }
-
+  
   # calculate lower margin width in ndc
-
+  
   #opt.args <- list(opt.args,
   #                 xlim = c(0,ncol(mtx)+.5),
   #                 ylim = ylim)
   # remove empty elements
   #opt.args <- opt.args[lapply(opt.args, length)>0]
   #opt.args <- opt.args
-
+  
   if(!is.null(opt.args$ylim)) {
     opt.args <- .optargsReplace(..., replace = list(ylim = ylim))
   }
@@ -152,41 +152,41 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
      !is.null(opt.args$height) || 
      !is.null(opt.args$y.intersp)) {
     opt.args <- .optargsRemove(..., remove = c("width","height","y.intersp"))
-    }
-
+  }
+  
   if(is.null(irow)){
     do.call(boxplot, c(list(x = mtx,use.cols = TRUE, col=c("gold"),
-                       ylab = ylab,
-                       xlab = xlab,
-                       main = main,
-                       cex = cex,
-                       xlim = c(0,ncol(mtx)+.5),
-                       las = las),opt.args))
-     }else if(length(irow)==1){
+                            ylab = ylab,
+                            xlab = xlab,
+                            main = main,
+                            cex = cex,
+                            xlim = c(0,ncol(mtx)+.5),
+                            las = las),opt.args))
+  }else if(length(irow)==1){
     do.call(boxplot, c(list(x = mtx,use.cols = TRUE, col=c("gold"),
-                          ylab = ylab,
-                          xlab = xlab,
-                          notch=FALSE,
-                          main = main,
-                          cex = cex,
-                          xlim = c(0,ncol(mtx)+.5),
-                          las = las),opt.args))
-
-       do.call(lines, c(list(x=mtx[irow,], pch = 1,col=c(2)),opt.args))
+                            ylab = ylab,
+                            xlab = xlab,
+                            notch=FALSE,
+                            main = main,
+                            cex = cex,
+                            xlim = c(0,ncol(mtx)+.5),
+                            las = las),opt.args))
+    
+    do.call(lines, c(list(x=mtx[irow,], pch = 1,col=c(2)),opt.args))
   }else if(length(irow)>1){
     do.call(boxplot, c(list(x = mtx, use.cols = TRUE,
-                          col=(c("gold")),
-                          notch=FALSE, plot = TRUE,
-                          xlab = xlab,
-                          ylab = ylab,
-                          main = main,
-                          cex = cex,
-                          xlim = c(0,ncol(mtx)+.5),
-                          las = las),opt.args))
-     do.call(matlines, c(list(y=t(mtx[irow,]),col=c(2), pch = 1),opt.args))
-
+                            col=(c("gold")),
+                            notch=FALSE, plot = TRUE,
+                            xlab = xlab,
+                            ylab = ylab,
+                            main = main,
+                            cex = cex,
+                            xlim = c(0,ncol(mtx)+.5),
+                            las = las),opt.args))
+    do.call(matlines, c(list(y=t(mtx[irow,]),col=c(2), pch = 1),opt.args))
+    
   }
-
+  
   if(!is.null(vals)){
     if(is.array(vals) || is.numeric(vals)){
       do.call(lines, c(list(x = vals, pch = 1,col=3,ylim = ylim,xlab = xlab, 
@@ -205,7 +205,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
                 opt.args))
     }
   }
-
+  
   if(add.leg){
     if(is.null(irow) & is.null(vals)){
       legend(par('usr')[2], par('usr')[4],
