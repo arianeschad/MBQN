@@ -12,7 +12,10 @@ vignettes/*.R
 figures/
 temp/
 *.zip
+*.tar.gz
 temp/*.zip
 packrat/lib*/
 packrat/src/
 MBQN.Rproj
+PXD*
+.gitignore~
