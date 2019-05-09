@@ -7,7 +7,7 @@
 mbqnDemoTtest(show.fig = FALSE)
 }
 \arguments{
-\item{show.fig}{Logical that indicates whether results are plot to pdf.}
+\item{show.fig}{Logical that indicates whether results are plotted.}
 }
 \value{
 Multiple figures of boxplots of intensity distribution for different

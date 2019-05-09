@@ -47,8 +47,7 @@ Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced
 quantile normalization. In prep. 2019
 }
 \seealso{
-Other example: \code{\link{mbqnDemo}},
-  \code{\link{mbqnExample}}
+Other example: \code{\link{mbqnDemo}}
 }
 \author{
 Ariane Schad

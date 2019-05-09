@@ -23,7 +23,7 @@ List with
 \item{\code{pxdid}}{PRIDE identifier}
 \item{\code{featureAnnotations}}{dataframe collecting feature annotations, e.g. protein name,
 "Potential contaminant", etc..}
-\item{\code{ixs}}{row indices of potential contaminant features, or features identified only by site, reverse.}
+\item{\code{ixs}}{locical array indicating rows of potential contaminant features, or features identified only by site, reverse.}
 }
 \description{
 Auxilary function used to load and preprocess LFQ
