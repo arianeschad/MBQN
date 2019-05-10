@@ -17,7 +17,7 @@ directory.}
 e.g. "proteinGroups" or "peptides".}
 }
 \value{
-Datafile from PRIDE.
+status (0=ok, 1=not MaxQuant data set, 2=no proteinGroup file)
 }
 \description{
 Auxiliary function which downloads selected data, like protein

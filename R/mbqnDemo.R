@@ -6,6 +6,8 @@
 #' abundances/intensities, and columns represent samples. Default
 #' \code{NULL} - a simple matrix is generated.
 #' @importFrom stats median
+#' @importFrom grDevices dev.off 
+#' @importFrom graphics frame plot.new
 #' @return Various graphics illustrating the effect of normalization on
 #' rank mixing and rank invariant intensity features.
 #' @family example

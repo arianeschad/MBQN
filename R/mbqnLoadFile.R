@@ -4,6 +4,7 @@
 #' intensities of selected dataset with a PRIDE \[1\] identifier.
 #' @inheritParams getPXDfile
 #' @importFrom utils read.csv
+#' @importFrom SummarizedExperiment SummarizedExperiment
 #' @details Load proteinGroup.txt file, select all samples with LFQ intensities, remove
 #' empty protein features. Apply log2 transform to intensities. This function acquires source code
 #' of SafeQuant::parseMaxQuantProteinGroupTxt \[2\].
@@ -25,46 +26,56 @@
 #' @examples ## Load LFQ intensities of proteomics data of PXD001584:
 #' \dontrun{
 #' out <- mbqnLoadFile(pxd_id = "PXD001584")
-#' assays(out)\[\["data"\]\]
+#' mbqn(assays(out)\[\["data"\]\])
 #' }
 #' @author Ariane Schad
 #  2017
 #' @export mbqnLoadFile
 mbqnLoadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGroups.txt"){
-
+  
   if(is.null(source.path)) {source.path = file.path(getwd())}
-
+  
   fdir <- file.path(source.path,pxd_id)
-  file <- list.files(fdir, pattern = file.pattern,full.names = TRUE)
-
+  file <- list.files(fdir, pattern = file.pattern,full.names = TRUE, recursive=TRUE)
+  
   if(length(file)==0){ # file does not exist in fdir
-#    r.input <- readline(paste("File does not exist - start downloading file. This can take a few minutes!","\n",
-#                              "Do you want to continue? [y/n]", "\n"))
-#    stopifnot(r.input=="y")
+    #    r.input <- readline(paste("File does not exist - start downloading file. This can take a few minutes!","\n",
+    #                              "Do you want to continue? [y/n]", "\n"))
+    #    stopifnot(r.input=="y")
     message("File does not exist - proceed with download...")
-    ifelse(!dir.exists(fdir), dir.create(fdir,recursive = TRUE),'')
+    if(!dir.exists(fdir)){
+      dir.create(fdir,recursive = TRUE)
+      madeDir <- TRUE
+    }
+    else
+      madeDir <- FALSE
     # Download proteinGroups.txt file if not already present
-    getPXDfile(pxd_id = pxd_id, source.path = source.path, file.pattern = file.pattern)
-    file <- list.files(fdir, pattern = file.pattern,full.names = TRUE)
+    status <- getPXDfile(pxd_id = pxd_id, source.path = source.path, file.pattern = file.pattern)
+    if (status!=0){
+      if (madeDir)
+        unlink(fdir,recursive = TRUE)
+      return(NULL)
+    }
+    file <- list.files(fdir, pattern = file.pattern,full.names = TRUE, recursive = TRUE)
   } # fi file.exist
   ##################################################################################
   str <- unlist(strsplit(file,"/"))
   pxdid <- str[pmatch("PXD",str)]
-
+  
   # Read file
   dat <- read.csv(file, allowEscapes = TRUE, check.names = FALSE,sep = "\t")
-
+  
   # Select all columns with LFQ intensities
   mtx <- as.matrix(dat[, grepl("^LFQ", names(dat))])
   mtx[mtx == 0] <- NA
-
+  
   # check for proteins with NA intensity across all samples
   allColNA <- as.vector(apply(mtx, 1, function(r) {
     return(all(is.na(r)))
   }))
   message(paste("Number of proteins with empty entries:", length(which(allColNA))))
-
-
+  
+  
   # check if exist and append to featureAnnotations
   featureAnnotations <- data.frame(proteinName = dat[, "Protein IDs"])
   annotations <- c("Fasta headers", "Q-value", "Reverse", "Peptides", "Reverse",
@@ -72,40 +83,47 @@ mbqnLoadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGrou
                    "Only identified by site")
   fieldnames <- c("proteinDescription", "idScore","isDecoy", "nbPeptides",
                   "isFiltered", "isPotential.contaminant", "isIdentified.by.site")
-
-
+  
+  
   # check for potential contaminant and only identfied by side proteins
   bool1 <- dat[,grep(annotations[6],colnames(dat),value = TRUE)]=="+"
   bool2 <- dat[["Only identified by site"]]=="+" & !is.na(dat[["Only identified by site"]])
   bool3 <- dat[["Reverse"]]=="+"
   ixs <-  bool1 | bool2 | bool3  # logical is better because it has same dimension as the data
-
+  
   for (i in seq_len(length(fieldnames))){
     if(length(grep(annotations[i],colnames(dat)))>0){
-      featureAnnotations[[fieldnames[i]]] <- ifelse(length(grep(fieldnames[i],
-                                                                c("isDecoy","isPotential.contaminant",
-                                                                  "Only identified by site")))>0,
-                                                   dat[,grep(annotations[i],colnames(dat),value = TRUE)]=="+",
-                                                   dat[,annotations[i]])
-       }
+      if(length(grep(fieldnames[i],c("isDecoy",
+                                     "isPotential.contaminant",
+                                     "Only identified by site")))>0){
+        featureAnnotations[[fieldnames[i]]] <- dat[,grep(annotations[i],colnames(dat),value = TRUE)]=="+"  
+      }
+      else{      
+        featureAnnotations[[fieldnames[i]]] <- dat[,annotations[i]]
+      }
+    }
   }
-
-
-  featureAnnotations <- featureAnnotations[!allColNA, ]
-
+  
+  
+  # featureAnnotations <- featureAnnotations[!allColNA, ]
+  
   row.names(mtx) <- dat[, "Protein IDs"]
-
-   # remove empty rows
-  mtx <- as.matrix(mtx[!allColNA, ])
-
+  
+  # # remove empty rows
+  # mtx <- as.matrix(mtx[!allColNA, ])
+  
   # log2 transform intensities
   mtx <- log2(mtx)
-
   
-   # return(list(mtx = mtx, pxdid = pxdid, featureAnnotations = featureAnnotations, ixs = ixs))
+  featureAnnotations <- as.list(featureAnnotations)
+  featureAnnotations[["ixs"]]<-ixs
+  
   sexp <- SummarizedExperiment(assays=list(data=mtx), 
-                               rowData=list(featureAnnotations,ixs=ixs),
+                               rowData=featureAnnotations,
                                metadata=list(pxdid = pxdid))
+  # return(list(mtx = mtx, pxdid = pxdid, featureAnnotations = featureAnnotations, ixs = ixs))
+  # remove empty rows
+  sexp <- sexp[!allColNA, ]
   return(sexp)
 }
 
