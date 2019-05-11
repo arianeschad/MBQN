@@ -36,7 +36,7 @@ mbqnLoadFile <- function(pxd_id, source.path = NULL, file.pattern = "proteinGrou
   if(is.null(source.path)) {source.path = file.path(getwd())}
   
   fdir <- file.path(source.path,pxd_id)
-  file <- list.files(fdir, pattern = file.pattern,full.names = TRUE, recursive=TRUE)
+  file <- list.files(fdir, pattern = file.pattern,full.names = TRUE, recursive= TRUE)
   
   if(length(file)==0){ # file does not exist in fdir
     #    r.input <- readline(paste("File does not exist - start downloading file. This can take a few minutes!","\n",

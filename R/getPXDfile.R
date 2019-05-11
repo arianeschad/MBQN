@@ -59,7 +59,7 @@ getPXDfile <- function(pxd_id, source.path = NULL,
   
   destDir <- paste("_download",round(runif(1,0,1000)),sep="")  # should be random because interruptions might occur
   dir.create(destDir)
-  destFile <- rpx::pxget(px, repoFiles[ind], method="libcurl",force=T,destdir=destDir) # download
+  destFile <- rpx::pxget(px, repoFiles[ind], method="libcurl",force=TRUE,destdir=destDir) # download
 
   if(file.exists(destFile)){ # if zip file is available, start unzipping
     if(length(grep("tar.gz",repoFiles[ind])>0)){
@@ -73,7 +73,7 @@ getPXDfile <- function(pxd_id, source.path = NULL,
       unlink(list.dirs(pdxFolder, recursive = FALSE),
              recursive = TRUE) # delete extra folder
       unlink(destFile) # delete large .zip file
-      unlink(destDir,recursive = T, force = T) # delete download folder
+      unlink(destDir,recursive = TRUE, force = TRUE) # delete download folder
     }else{ #.gz
       files = unzip(destFile, list = TRUE) # which files are in archive
       files = files$Name[grepl(file.pattern,files$Name)] # only pattern match
@@ -81,7 +81,7 @@ getPXDfile <- function(pxd_id, source.path = NULL,
       if (length(files)>0){
         unzip(destFile,files = files,exdir=pdxFolder)
         unlink(destFile) # delete large .zip file
-        unlink(destDir,recursive = T, force = T) # delete download folder
+        unlink(destDir,recursive = TRUE, force = TRUE) # delete download folder
       }else{
         message(sprintf("File %s not found in the downloaded data archive.",file.pattern))
         status <- 3

@@ -49,7 +49,7 @@ mbqnDemo <- function(x = NULL){
   # check saturation i.e. for rank invariance
   res <- mbqnGetNRIfeatures(x,verbose = FALSE)
 
-  try(dev.off(),silent = T)
+  try(dev.off(),silent = TRUE)
   plot.new()
   frame()
 
