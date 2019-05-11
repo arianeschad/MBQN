@@ -29,28 +29,15 @@
 #' @author Ariane Schad
 #  August 2017
 #' @export mbqnBoxplot
-mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
-  
+mbqnBoxplot <- function(mtx,irow=NULL,vals=NULL,add.leg=TRUE, ...){
   filename = NULL
-  if(!(is.matrix(mtx)|| is.data.frame(mtx))) {stop("Argument mtx must be a matrix or data.frame!")}
+  if(!(is.matrix(mtx)|| is.data.frame(mtx))) {
+    stop("Argument mtx must be a matrix or data.frame!")
+    }
   
   opt.args <- list(...)
   type <- if(is.null(opt.args$type)) "l"
   cex.axis <- if(is.null(opt.args$cex.axis)) 0.8
-  
-  ## I had to revert the following change recommended during review
-  ## because it did not work
-  # xlab <- if(is.null(opt.args$xlab)) "sample"
-  # ylab <- if(is.null(opt.args$ylab)) "intensity"
-  # main <- if(is.null(opt.args$main)) "Boxplot"
-  # cex.leg <- if(is.null(opt.args$cex)) 0.8
-  # cex <- if(is.null(opt.args$cex)) 0.8
-  # pt.cex <- if(is.null(opt.args$pt.cex)) 0.8
-  # y.intersp <- if(is.null(opt.args$y.intersp)) 1
-  # fig.paper <- if(is.null(opt.args$paper)) "a4r"
-  # fig.width <- if(is.null(opt.args$width)) 10
-  # fig.height <- if(is.null(opt.args$height)) 5
-  ##
   
   xlab <- ifelse(is.null(opt.args$xlab), "sample", opt.args$xlab)
   ylab <- ifelse(is.null(opt.args$ylab), "intensity", opt.args$ylab)
@@ -78,17 +65,12 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
   }else{
     ylim <- opt.args$ylim
   }
-  
-  #if(add.leg){
-  # par(mar=c(par('mar')[seq_len(3)], 0)) # removes extraneous right inner margin space
-  #}
-  
+
   leg_text <- "data"
   lcol <- c("gold")
   lty <- 1
   las <- ifelse(length(opt.args$las)!=0, opt.args$las,0)
-  # las <- ifelse(is.null(opt.args$las)) 0
-  
+
   if(length(irow)==1){
     leg_text <- c(leg_text,paste("id",irow))
     lcol <- c("gold",2)
@@ -113,7 +95,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
       }else{
         leg.txt <- paste("feature",seq_len(nrow(vals)))
       }
-      lcol <- c(lcol,rep(seq_len(ncol(vals))+2,each = 6)[seq_len(min(dim(vals)))])
+      lcol <- c(lcol,rep(seq_len(ncol(vals))+2,each=6)[seq_len(min(dim(vals)))])
       lty <- c(lty, rep(seq_len(6), ncol(vals))[seq_len(min(dim(vals)))])
     }
     leg_text <- c(leg_text,leg.txt)
@@ -135,15 +117,6 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
     par(omd=c(0, 1-w*.9, dy*3/4, 1))
   }
   
-  # calculate lower margin width in ndc
-  
-  #opt.args <- list(opt.args,
-  #                 xlim = c(0,ncol(mtx)+.5),
-  #                 ylim = ylim)
-  # remove empty elements
-  #opt.args <- opt.args[lapply(opt.args, length)>0]
-  #opt.args <- opt.args
-  
   if(!is.null(opt.args$ylim)) {
     opt.args <- .optargsReplace(..., replace = list(ylim = ylim))
   }
@@ -151,7 +124,7 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
   if(!is.null(opt.args$width) || 
      !is.null(opt.args$height) || 
      !is.null(opt.args$y.intersp)) {
-    opt.args <- .optargsRemove(..., remove = c("width","height","y.intersp"))
+    opt.args <- .optargsRemove(..., remove=c("width","height","y.intersp"))
   }
   
   if(is.null(irow)){
@@ -183,13 +156,12 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
                             cex = cex,
                             xlim = c(0,ncol(mtx)+.5),
                             las = las),opt.args))
-    do.call(matlines, c(list(y=t(mtx[irow,]),col=c(2), pch = 1),opt.args))
-    
+    do.call(matlines, c(list(y=t(mtx[irow,]),col=c(2), pch=1),opt.args))
   }
   
   if(!is.null(vals)){
     if(is.array(vals) || is.numeric(vals)){
-      do.call(lines, c(list(x = vals, pch = 1,col=3,ylim = ylim,xlab = xlab, 
+      do.call(lines, c(list(x = vals, pch = 1,col=3,ylim=ylim,xlab=xlab, 
                             ylab = ylab),opt.args))
     }else if(is.matrix(vals)){
       do.call(matlines, c(list(y = t(vals), pch = 1,
@@ -246,6 +218,3 @@ mbqnBoxplot <- function(mtx, irow = NULL, vals = NULL, add.leg = TRUE, ...){
     }
   }
 }
-
-
-

@@ -28,10 +28,8 @@
 #' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced
 #' quantile normalization. In prep. 2019.
 #' @examples
-#'\dontrun{
 #' set.seed(1234)
 #' mbqnDemoTtest(show.fig = TRUE)
-#' }
 #' @author Ariane Schad
 #' @export mbqnDemoTtest
 mbqnDemoTtest <- function(show.fig = FALSE){
