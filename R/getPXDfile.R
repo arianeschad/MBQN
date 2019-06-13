@@ -9,9 +9,9 @@
 #' @param file.pattern character specifying the kind of dataset for download,
 #' e.g. "proteinGroups" or "peptides".
 #' @importFrom utils untar unzip
-#' @importFrom stats runif
+#' @importFrom BiocFileCache bfcadd
 #' @return status (0=ok, 1=not MaxQuant data set, 2=no proteinGroup file)
-#' @details This function requires the R package rpx \[2\].
+#' @details This function requires the R packages rpx \[2\] and BiocFileChace .
 #' @references
 #' \[1\] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I,
 #' Mayer G, Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
@@ -26,6 +26,7 @@
 #'}
 #' @author Ariane Schad
 # 2018
+#' @export getPXDfile
 getPXDfile <- function(pxd_id, source.path = NULL,
                         file.pattern = "proteinGroups"){
   px <- rpx::PXDataset(pxd_id)
@@ -38,10 +39,10 @@ getPXDfile <- function(pxd_id, source.path = NULL,
       stop("Package \"pkg\" is required for this function to work.
            Please install it this package first!", call. = FALSE)}
 
-  # General Informations on PXD File
-  rpx::pxtax(px)
-  rpx::pxurl(px) # url
-  rpx::pxref(px) # reference
+  # General Informations on PXD File:
+  # rpx::pxtax(px)
+  # rpx::pxurl(px) # url
+  # rpx::pxref(px) # reference
 
   status <- 0 # everything ok
   
@@ -56,10 +57,18 @@ getPXDfile <- function(pxd_id, source.path = NULL,
   if (length(ind)>1)
     ind <- ind[1] # only the first match
   
+  # old (without BiocFileCache): 
+  # destDir <- paste("_download",round(runif(1,0,1000)),sep="")  # should be random because interruptions might occur
+  # dir.create(destDir)
+  # destFile <- rpx::pxget(px, repoFiles[ind], method="libcurl",force=TRUE,destdir=destDir) # download
+
+  # new (use BiocFileCache):
+  # It was recommended during the package review process to use this package 
+  # (although continuous updates of local data is not intended)
+  destDir <- "_downloads"
+  bfc <- BiocFileCache::BiocFileCache(destDir, ask = FALSE)
+  destFile <- BiocFileCache::bfcadd(bfc, pxd_id, fpath=paste(rpx::pxurl(px),repoFiles[ind],sep="/"))
   
-  destDir <- paste("_download",round(runif(1,0,1000)),sep="")  # should be random because interruptions might occur
-  dir.create(destDir)
-  destFile <- rpx::pxget(px, repoFiles[ind], method="libcurl",force=TRUE,destdir=destDir) # download
 
   if(file.exists(destFile)){ # if zip file is available, start unzipping
     if(length(grep("tar.gz",repoFiles[ind])>0)){

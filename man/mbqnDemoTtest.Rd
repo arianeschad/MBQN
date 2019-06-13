@@ -35,10 +35,8 @@ normalization with MBQN. The feature is obtained from a simulated dataset
 where each sample is distorted in mean and scale.
 }
 \examples{
-\dontrun{
 set.seed(1234)
 mbqnDemoTtest(show.fig = TRUE)
-}
 }
 \references{
 Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced

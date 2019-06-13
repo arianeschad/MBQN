@@ -21,3 +21,5 @@
 ^README-.*\.png$
 ^packrat/
 ^\.Rprofile$
+^README.html$
+^.mbqnExample_Backup.R$

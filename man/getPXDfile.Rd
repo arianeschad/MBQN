@@ -24,7 +24,7 @@ Auxiliary function which downloads selected data, like protein
 group intensities, from PRIDE [1].
 }
 \details{
-This function requires the R package rpx [2].
+This function requires the R packages rpx [2] and BiocFileChace .
 }
 \examples{
 ## Download protein LFQ intensities of PXD001584 from PRIDE
