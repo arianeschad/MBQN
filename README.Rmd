@@ -43,7 +43,7 @@ or
 ## Dependencies
 The core of the MBQN package uses `normalizeQuantiles()` from the package `limma`[2], available at https://bioconductor.org/packages/release/bioc/html/limma.html, for computation of the quantile normalization. Optionally, `normalize.quantiles()` from the package `preprocessCore`[3], available at https://bioconductor.org/packages/release/bioc/html/preprocessCore.html, can be used. <br/>
 
-The example function `mbqnExample()` in MBQN uses data from the PRIDE repository. To run this function one needs the R package `rpx` [4] to download the data. <br/>
+The function `getPXDfile()` in MBQN uses data from the PRIDE repository. To run this function one needs the R package `rpx` [4] to download the data. <br/>
 
 To install these packages in R run: <br/>
 ```{r dependencies1}
@@ -52,10 +52,6 @@ To install these packages in R run: <br/>
 # BiocManager::install(pkgs = c("preprocessCore","limma","rpx","SummarizedExperiment"))
 ```
 
-Additional packages needed to run MBQN examples:  <br/>
-```{r dependencies2}
-# install.packages(pkgs = c("filesstrings"), dependencies = TRUE)
-```
 
 ## Usage 
 Further information about the package is provided at the wiki <br/>

@@ -23,7 +23,7 @@ application of conventional quantile normalization in order to reduce
 systematics in downstream analysis. 
 
 ## Installation
-To install this package from Bioconductor, type in R (version >="3.5"): 
+To install this package from Bioconductor, type in R (version >="3.6"): 
 ```{r bc-installation, eval = FALSE}
 # if (!requireNamespace("BiocManager", quietly = TRUE))
 #    install.packages("BiocManager")
@@ -36,10 +36,10 @@ conventional quantile normalization, available at Bioconductor.
 Alternatively, `normalize.quantiles()` from the package preprocessCore [3] 
 available at Bioconductor and CRAN, can be used.
 
-Collecting data from PRIDE experiments in `mbqnExample()` requires the R 
+Collecting data from PRIDE experiments requires the R 
 package `rpx` [4] available at Bioconductor and CRAN.
 
-After installation, check the `?mbqnDemo` and the `?mbqnExample` help content 
+After installation, check the `?mbqnDemo` help content 
 for full working examples.
 
 ## Basic Usage
@@ -49,7 +49,7 @@ normalization or mean/median-balanced quantile normalization to a matrix.
 normalization only to selected nearly rank invariant and rank invariant 
 features, specified by a threshold or manually. The input matrix may contain 
 NAs. To run one of these functions you will need to provide an input matrix 
-similar to the data matrix in `mbqnDemo` or `mbqnExample`. The argument `FUN` 
+similar to the data matrix in `mbqnDemo`. The argument `FUN` 
 is used to select between classical quantile normalization (default), and mean 
 or median balanced quantile normalization. The function `mbqnGetNRIfeatures()` 
 and `mbqnPlotRI()` can be used to check a data matrix for rank or nearly rank 
@@ -99,11 +99,6 @@ in the current working directory currentdir/PXDxxx.
 ## Normalize LFQ intensity data from the PRIDE repository
 mbqnExample(which.example = 1)
 ```
-
-In order to run `mbqnExample()`, the respective proteinGroups.txt file must be 
-first downloaded from PRIDE, e.g. with `MBQN:::get_pxdfile()` to a 
-user-specified directory or you can directly download the data by running 
-`mbqnExample()` to currentdir/PXDxxx. 
 
 ## Figures
 Figures created with MBQN are saved as pdf in the current working directory.

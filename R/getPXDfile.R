@@ -65,8 +65,12 @@ getPXDfile <- function(pxd_id, source.path = NULL,
   # new (use BiocFileCache):
   # It was recommended during the package review process to use this package 
   # (although continuous updates of local data is not intended)
-  destDir <- "_downloads"
-  bfc <- BiocFileCache::BiocFileCache(destDir, ask = FALSE)
+  
+  destDirName <- "MBQN"
+  destDir <- rappdirs::user_cache_dir(appname=destDirName)
+  bfc <- BiocFileCache::BiocFileCache(destDir, ask=TRUE) 
+  # destDir <- "_downloads"
+  # bfc <- BiocFileCache::BiocFileCache(destDir, ask = FALSE)
   destFile <- BiocFileCache::bfcadd(bfc, pxd_id, fpath=paste(rpx::pxurl(px),repoFiles[ind],sep="/"))
   
 
@@ -76,8 +80,12 @@ getPXDfile <- function(pxd_id, source.path = NULL,
       files = files[grepl(file.pattern,files)] # only pattern match
       
       untar(destFile, files = files, exdir=)
-      file.rename(file.path(source.path,files),
-                  file.path(pdxFolder,"proteinGroups.txt"))
+      # file.rename(file.path(source.path,files),
+      #             file.path(pdxFolder,"proteinGroups.txt"))
+      
+      # Change directory name to pxd id
+      file.rename(file.path(source.path, sub("/[^/]+$", "", files)),
+                  file.path(pdxFolder))
       
       unlink(list.dirs(pdxFolder, recursive = FALSE),
              recursive = TRUE) # delete extra folder
