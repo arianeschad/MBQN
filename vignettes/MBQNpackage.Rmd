@@ -13,17 +13,12 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The MBQN package supplies the mean/median-balanced quantile normalization for 
-preprocessing omics or other matrix-like organized data with intensity values 
-distorted by global shifts of mean and scatter of columns [1]. The mean 
-intensity of rank invariant (RI) or nearly rank invariant (NRI) features, e.g. 
-features that have always largest intensity across samples/columns or are 
-otherwise intensity-separated from the other features, is balanced before 
-application of conventional quantile normalization in order to reduce 
-systematics in downstream analysis. 
+This package contains a modified quantile normalization (QN) for preprocessing and analysis of omics or other matrix-like organized data with intensity values biased by global, columnwise distortions of intensity mean and scale. The modification balances the mean intensity of features (rows) which are rank invariant (RI) or nearly rank invariant (NRI) across samples (columns) before quantile normalization [1]. This helps to prevent an over-correction of the intensity profiles of RI and NRI features by classical QN and therefore supports the reduction of systematics in downstream analyses. Additional package functions help to detect, identify, and visualize potential RI or NRI features in the data and demonstrate the use of the modification.
 
 ## Installation
-To install this package from Bioconductor, type in R (version >="3.5"): 
+To install this package, you need R version >= 3.5.
+
+For installation from Bioconductor run in R:
 ```{r bc-installation, eval = FALSE}
 # if (!requireNamespace("BiocManager", quietly = TRUE))
 #    install.packages("BiocManager")
@@ -31,16 +26,17 @@ BiocManager::install("MBQN")
 ```
 
 ## Dependencies
-The package depends on the `limma` package [2] for computation of the 
-conventional quantile normalization, available at Bioconductor. 
-Alternatively, `normalize.quantiles()` from the package preprocessCore [3] 
-available at Bioconductor and CRAN, can be used.
+The core of the MBQN package uses normalizeQuantiles() from the package `limma` [2], available at https://bioconductor.org/packages/release/bioc/html/limma.html, for computation of the quantile normalization. Optionally, `normalize.quantiles()` from the package preprocessCore [3], available at https://bioconductor.org/packages/release/bioc/html/preprocessCore.html, can be used. 
 
-Collecting data from PRIDE experiments in `mbqnExample()` requires the R 
-package `rpx` [4] available at Bioconductor and CRAN.
+The function `getPXDfile()` in MBQN uses data from the PRIDE repository. To run this function one needs the R package `rpx` [4] to download the data. 
 
-After installation, check the `?mbqnDemo` and the `?mbqnExample` help content 
-for full working examples.
+To install these packages in R run: 
+
+```{r dependencies1, eval = FALSE}
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+# BiocManager::install(pkgs = c("preprocessCore","limma","rpx","SummarizedExperiment"))
+```
 
 ## Basic Usage
 The package provides two basic functions: `mbqn()` applies quantile 
@@ -49,7 +45,7 @@ normalization or mean/median-balanced quantile normalization to a matrix.
 normalization only to selected nearly rank invariant and rank invariant 
 features, specified by a threshold or manually. The input matrix may contain 
 NAs. To run one of these functions you will need to provide an input matrix 
-similar to the data matrix in `mbqnDemo` or `mbqnExample`. The argument `FUN` 
+similar to the data matrix in `mbqnDemo()`. The argument `FUN` 
 is used to select between classical quantile normalization (default), and mean 
 or median balanced quantile normalization. The function `mbqnGetNRIfeatures()` 
 and `mbqnPlotRI()` can be used to check a data matrix for rank or nearly rank 
@@ -62,6 +58,7 @@ intensities with missing values and a single rank invariant feature:
 ```{r example1, eval = TRUE}
 ## basic example
 library("MBQN")
+set.seed(1234)
 mtx <- mbqnSimuData("omics.dep")
 mtx <- mbqnSimuDistortion(mtx)$x.mod
 ```
@@ -95,22 +92,130 @@ repository, normalizes the data, identifies RI/NRI features, and give graphical
 output. One can choose between four data sets. By default data files are stored 
 in the current working directory currentdir/PXDxxx.
 
-```{r example2, eval = FALSE}
-## Normalize LFQ intensity data from the PRIDE repository
-mbqnExample(which.example = 1)
-```
+The following example illustrates normalization of LFQ intensity data from the PRIDE repository.
+For illustration purpose, we use the data set "PXD001584" (file size 10.8 MB)
 
-In order to run `mbqnExample()`, the respective proteinGroups.txt file must be 
-first downloaded from PRIDE, e.g. with `MBQN:::get_pxdfile()` to a 
-user-specified directory or you can directly download the data by running 
-`mbqnExample()` to currentdir/PXDxxx. 
+Other data examples are
+*  "PXD005138" - contains one RI feature (file size 7440.6 MB) 
+*  "PXD005861" - contains one RI feature (file size 334.7 MB) 
+*  "PXD006617" - contains one RI feature (file size 290.8 MB) 
+
+```{r example2, eval = FALSE}
+library("SummarizedExperiment")
+  pxd_id <- "PXD001584"   
+  
+  # Download file from PRIDE to currentdir/PXDxxx
+  getPXDfile(pxd_id)
+
+  # Load file
+  out <- mbqnLoadFile(pxd_id, file.pattern = "proteinGroups.txt")
+
+  # filter for potential contaminants and identified only by site features
+  out <- out[!rowData(out)[["ixs"]],] 
+
+  # extract data and feature annotation
+  mtx <- assays(out)[["data"]]
+  featureAnnotations <- rowData(out)
+
+  low_thr <- 0.5
+  ylim <- NULL
+  ix <- seq_len(ncol(mtx))
+
+  ix <- c(1:9,19:27)
+  mtx <- mtx[,ix]
+  ylim.qn <- ylim <- c(22.5,36)
+
+  ####################################################################################
+  res <- mbqnPlotAll(mtx,
+                     FUN = median,
+                     low_thr = low_thr,
+                     las = 2,
+                     type = "l",
+                     feature_index = NULL,
+                     show_nri_only = TRUE,
+                     axis.cex = 0.5,
+                     y.intersp= 0.5)
+  dev.off()
+
+  # get protein name of strongest nri/ri feature
+  nri_max <- as.numeric(names(which.max(res$nri)))
+  #featureAnnotations$proteinDescription[nri_max]
+  #featureAnnotations$proteinName[nri_max]
+  #featureAnnotations$nbPeptides[nri_max]
+
+  df <- lapply(seq_len(ncol(featureAnnotations)),function(j) featureAnnotations[[j]][[nri_max]])
+  names(df)<- names(featureAnnotations)
+
+  # truncate long name strings
+  df$proteinName <-  paste(strtrim(df$proteinName,80),"...")
+  df$proteinDescription <- paste(strtrim(df$proteinDescription,80),"...")
+
+  colnames(mtx) <- gsub("LFQ intensity","",colnames(mtx))
+  mbqn.mtx <- mbqn(mtx,FUN = median)
+  qn.mtx <- mbqn(mtx,FUN = NULL)
+
+  # Boxplot of QN intensity features, highlight RI/NRI Features
+  if(length(ylim)==0) {
+    ylim <- c(floor(min(range(mbqn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE))))
+    ylim.qn <- c(floor(min(range(qn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE))))
+  }
+  #colnames(qn.mtx) <- colnames(mbqn.mtx) <- ix
+
+  plot.new()
+  frame()
+  mbqnBoxplot(mtx = qn.mtx,main = paste("QN"),
+              ylab = "LFQ intensity",
+              ylim = ylim, xlab = "",las =2,
+              irow = c(as.numeric(names(res$nri))), y.intersp = 0.5)
+
+  plot.new()
+  frame()
+  
+  # select a qn feature:
+  is.full.feature <- which((apply(is.na(mtx),1,sum))==0)[1]
+  df <- data.frame(QN.feature = qn.mtx[is.full.feature,])
+  names(df) <- paste("QN feature", is.full.feature)
+  mbqnBoxplot(mtx = mbqn.mtx,main = "MBQN with QN-feature",
+              irow = c(as.numeric(names(res$nri)),is.full.feature),
+              xlab= "", las =2,
+              ylab = "LFQ intensity",
+              vals = df,
+              ylim = ylim, y.intersp = 0.5)
+  
+  # QN of data and balance only NRI/RI features
+  dev.off()
+  plot.new()
+  frame()
+  par(mfrow = c(1,1))
+
+  df <- data.frame(qn.mtx[as.numeric(names(res$nri)),])
+  if(ncol(df)==1) df <- t(df)
+  rownames(df) <- paste("QN feature",names(res$nri))
+  df2 <- data.frame(mtx[as.numeric(names(res$nri)),])
+  if(ncol(df2)==1) df2 <- t(df2)
+  rownames(df2) <- paste("unnormal. feature",names(res$nri))
+  colnames(df) <- colnames(df2)
+  df <- rbind(df,df2)
+  df <- as.data.frame(t(df))
+
+  mtx.nri <- mbqnNRI(mtx,FUN = median,low_thr = 0.5, verbose = FALSE)
+  mbqnBoxplot(mtx = mtx.nri,
+              irow = as.numeric(names(res$nri)),
+              ylim = ylim.qn, xlab= "", las=2,
+              ylab = "LFQ intensity",
+              vals = df,lwd = 1.,
+              main = "QN with RI/NRI balanced",
+              cex.axis = 1, cex.lab = .9, cex = .9, y.intersp = 0.5)
+```
 
 ## Figures
 Figures created with MBQN are saved as pdf in the current working directory.
 
 ## Documentation
 To view the documentation for MBQN, type in R
-`help(package = "MBQN")`.
+```
+??MBQN
+```
 
 ## References
 [1] A. Schad and C. Kreutz, MBQN: an R/Bioconductor package for 

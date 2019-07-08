@@ -69,6 +69,9 @@ getPXDfile <- function(pxd_id, source.path = NULL,
   bfc <- BiocFileCache::BiocFileCache(destDir, ask = FALSE)
   destFile <- BiocFileCache::bfcadd(bfc, pxd_id, fpath=paste(rpx::pxurl(px),repoFiles[ind],sep="/"))
   
+  # dirs <- app_dir("SuperApp", "Acme")
+  # dirs$config()
+  # BiocFileCache::BiocFileCache(user_cache_dir(appname=destdir), ask=TRUE) 
 
   if(file.exists(destFile)){ # if zip file is available, start unzipping
     if(length(grep("tar.gz",repoFiles[ind])>0)){

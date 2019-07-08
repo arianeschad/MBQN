@@ -56,9 +56,9 @@ available at
 <https://bioconductor.org/packages/release/bioc/html/preprocessCore.html>,
 can be used. <br/>
 
-The example function `mbqnExample()` in MBQN uses data from the PRIDE
-repository. To run this function one needs the R package `rpx` \[4\] to
-download the data. <br/>
+The function `getPXDfile()` in MBQN uses data from the PRIDE repository.
+To run this function one needs the R package `rpx` \[4\] to download the
+data. <br/>
 
 To install these packages in R run: <br/>
 
