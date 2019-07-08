@@ -9,6 +9,7 @@ doc
 *.html
 vignettes/*.html
 vignettes/*.R
+vignettes/.gitignore
 figures/
 temp/
 *.zip
