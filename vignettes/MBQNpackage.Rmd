@@ -40,21 +40,14 @@ To install these packages in R run:
 ```
 
 
-## Basic Usage
+## Usage
 The package provides two basic functions: `mbqn()` applies quantile 
 normalization or mean/median-balanced quantile normalization to a matrix. 
 `mbqnNRI()` applies quantile normalization and mean/median-balanced quantile 
 normalization only to selected nearly rank invariant and rank invariant 
 features, specified by a threshold or manually. The input matrix may contain 
 NAs. To run one of these functions you will need to provide an input matrix 
-<<<<<<< HEAD
-similar to the data matrix in `mbqnDemo()`. The argument `FUN` 
-=======
-similar to the data matrix in `mbqnDemo`. The argument `FUN` 
->>>>>>> 85f6774278fd4da3eac0a46cf59a2e68222e2262
-is used to select between classical quantile normalization (default), and mean 
-or median balanced quantile normalization. The function `mbqnGetNRIfeatures()` 
-and `mbqnPlotRI()` can be used to check a data matrix for rank or nearly rank 
+similar to the data matrix in `mbqnDemo()`. The argument `FUN` is used to select between classical quantile normalization (default), and mean or median balanced quantile normalization. The function `mbqnGetNRIfeatures()` and `mbqnPlotRI()` can be used to check a data matrix for rank or nearly rank 
 invariant features. They provide a list of potential RI/NRI features together 
 with their rank invariance frequency and a graphical output. 
 
@@ -101,10 +94,10 @@ in the current working directory currentdir/PXDxxx.
 The following example illustrates normalization of LFQ intensity data from the PRIDE repository.
 For illustration purpose, we use the data set "PXD001584" (file size 10.8 MB)
 
-Other data examples are
-*  "PXD005138" - contains one RI feature (file size 7440.6 MB) 
-*  "PXD005861" - contains one RI feature (file size 334.7 MB) 
-*  "PXD006617" - contains one RI feature (file size 290.8 MB) 
+Other data examples are <br />
+* "PXD005138" - contains one RI feature (file size 7440.6 MB) <br />
+* "PXD005861" - contains one RI feature (file size 334.7 MB) <br />
+* "PXD006617" - contains one RI feature (file size 290.8 MB) <br />
 
 ```{r example2, eval = FALSE}
 library("SummarizedExperiment")
