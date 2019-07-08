@@ -20,7 +20,7 @@ This package contains a modified quantile normalization (QN) for preprocessing a
  
 
 ## Installation
-To install this package, you need R version >= 3.5.
+To install this package, you need R version >= 3.6.
 
 For installation from Bioconductor run in R:
 ```{r, eval = FALSE}

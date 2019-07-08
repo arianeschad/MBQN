@@ -1,5 +1,5 @@
 Package: MBQN
-Version: 0.99.13
+Version: 0.99.14
 Title: Mean/Median-balanced quantile normalization
 Authors@R: c(person("Ariane", "Schad",
   email = "ariane.schad@fdm.uni-freiburg.de",

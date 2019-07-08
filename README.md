@@ -21,7 +21,7 @@ features in the data and demonstrate the use of the modification.
 
 ## Installation
 
-To install this package, you need R version \>= 3.5.
+To install this package, you need R version \>= 3.6.
 
 For installation from Bioconductor run in R:
 
@@ -66,12 +66,6 @@ To install these packages in R run: <br/>
 # if (!requireNamespace("BiocManager", quietly = TRUE))
 #    install.packages("BiocManager")
 # BiocManager::install(pkgs = c("preprocessCore","limma","rpx","SummarizedExperiment"))
-```
-
-Additional packages needed to run MBQN examples: <br/>
-
-``` r
-# install.packages(pkgs = c("filesstrings"), dependencies = TRUE)
 ```
 
 ## Usage
