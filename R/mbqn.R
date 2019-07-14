@@ -1,36 +1,44 @@
 #' Mean/Median-balanced quantile normalization
 #'
 #' @description Modified quantile-normalization (QN) of a matrix, e.g.,
-#' intensity values from omics data or other data sorted in columns. The modification prevents systematic flattening of features (rows)
-#' which are rank invariant (RI) or nearly rank invariant (NRI) across columns, for example features that populate mainly the tails of the intensity distribution
-#' or features that separate in intensity.
-#' @param x a data matrix, where rows represent features, e.g.
-#' of protein abundance, and columns represent groups or samples, e.g. replicates, treatments, or conditions.
-#' @param FUN a function like mean, median (default), a user defined function, or a numeric vector
-#' of weights with length \code{nrow(x)} to balance each feature across samples.
-#' Functions can be parsed also as characters. If FUN = NULL, features are not balanced,
-#' i.e. normal QN is used.
+#' intensity values from omics data or other data sorted in columns.
+#' The modification prevents systematic flattening of features (rows) which are
+#' rank invariant (RI) or nearly rank invariant (NRI) across columns, for
+#' example features that populate mainly the tails of the intensity
+#' distribution or features that separate in intensity.
+#' @param x a data matrix, where rows represent features, e.g. of protein
+#' abundance, and columns represent groups or samples, e.g. replicates,
+#' treatments, or conditions.
+#' @param FUN a function like mean, median (default), a user defined function,
+#' or a numeric vector of weights with length \code{nrow(x)} to balance each
+#' feature across samples. Functions can be parsed also as characters.
+#' If FUN = NULL, features are not balanced, i.e. normal QN is used.
 #' @param na.rm logical indicating to omit NAs in the
 #' computation of feature mean.
-#' @param method character specifying function for computation of quantile normalization;
-#' "limma" (default) for \code{normalizeQuantiles()} from the limma package or
-#'"preprocessCore" for \code{normalize.quantiles()} from the preprocessCore package.
+#' @param method character specifying function for computation of quantile
+#' normalization; "limma" (default) for \code{normalizeQuantiles()} from the
+#' limma package or "preprocessCore" for \code{normalize.quantiles()} from the
+#' preprocessCore package.
 #' @param verbose logical indicating to print messages.
-#' @details Balance each matrix row by substracting its feature offset computed with
-#' FUN, e.g. the median; apply quantile-normalization and add the feature means to the normalized matrix.
-#' For further details see \[4\]. For quantile normalization with the "limma" package see \[1,2\]
-#' and for the preProcessCore package see \[3\].
+#' @details Balance each matrix row by substracting its feature offset computed
+#' with FUN, e.g. the median; apply quantile-normalization and add the feature
+#' means to the normalized matrix.
+#' For further details see \[4\]. For quantile normalization with the "limma"
+#' package see \[1,2\] and for the preProcessCore package see \[3\].
 #' @return Normalized matrix
 #' @importFrom limma normalizeQuantiles
 #' @seealso [mbqnNRI()], [mbqnGetNRIfeatures()].
 #' @references
-#' \[1\] Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray data. Methods 31, 265–273. \cr
+#' \[1\] Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray
+#' data. Methods 31, 265–273. \cr
 #' Ritchie, M.E., Phipson, B., Wu, D., Hu, Y., Law, C.W., Shi, W., and Smyth,
-#' \[2\] G.K. (2015). limma powers differential expression analyses for RNA-sequencing
-#' and microarray studies. Nucleic Acids Research 43(7), e47.\cr
-#' \[3\] Bolstad B. M. (2016). preprocessCore: A collection of pre-processing functions. R package version 1.36.0.
+#' \[2\] G.K. (2015). limma powers differential expression analyses for
+#' RNA-sequencing and microarray studies. Nucleic Acids Research 43(7), e47.\cr
+#' \[3\] Bolstad B. M. (2016). preprocessCore: A collection of pre-processing
+#' functions. R package version 1.36.0.
 #' https://github.com/bmbolstad/preprocessCore \cr
-#' \[4\] Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep., 2019
+#' \[4\] Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced
+#' quantile normalization. In prep., 2019
 #' @examples
 #' ## Compute mean and median balanced quantile normalization
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
@@ -49,9 +57,10 @@
 #' @export mbqn
 # Created: July 2017
 
-mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma", verbose = FALSE){
+mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma",
+    verbose = FALSE){
 
-    if(is.null(method)) method <- "limma"
+    if (is.null(method)) method <- "limma"
     # Check if package limma is installed to run this function
     if (!requireNamespace("limma", quietly = TRUE)) {
         stop("Package \"pkg\" needed for this function to work. Please install it.",
@@ -69,33 +78,36 @@ mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma", verbose = FA
         stop("Wrong data format! Input must be a matrix!")
     }
 
-    # check if data contains NaN and replace it with NA, since preprocessCore will
-    # give erronous results in this case
+    # check if data contains NaN and replace it with NA,
+    # since preprocessCore will give erronous results in this case
     if (length(which(is.nan(x)))>0)
         x[is.nan(x)] <- NA
-    
-    if(!is.null(FUN)){
-        if(is.character(FUN)) FUN <- match.fun(FUN)
-        if(is.function(FUN)){
+
+    if (!is.null(FUN)){
+        if (is.character(FUN)) FUN <- match.fun(FUN)
+        if (is.function(FUN)){
             mx <- apply(x,1,FUN,na.rm=na.rm) # row mean
         }
-        if(is.numeric(FUN)){mx <- FUN
-        if(sum(abs(FUN)==0,na.rm =TRUE))  message("Array-elements are all zero. Comput QN without mean balancing.")
+        if (is.numeric(FUN)){
+            mx <- FUN
+            if (sum(abs(FUN)==0, na.rm =TRUE)){
+                message("Array-elements are all zero. Comput QN without mean balancing.")
+            }
         }
-    
+
         # balanced quantile normalisation
-        if(is.null(method) || method == "limma"){
+        if (is.null(method) || method == "limma"){
             dummy <- normalizeQuantiles(x-mx)
             rownames(dummy) <- NULL
         } else if (method == "preprocessCore"){
             dummy <- preprocessCore::normalize.quantiles(x-mx)
         }
         qn_x <- dummy + mx
-    
+
     } else {
-        if(verbose) message("Comput QN without mean balancing.")
+        if (verbose) message("Comput QN without mean balancing.")
         # quantile normalisation
-        if(is.null(method) || method == "limma") {
+        if (is.null(method) || method == "limma") {
             qn_x <- normalizeQuantiles(x)
             rownames(qn_x) <- NULL
         } else if (method == "preprocessCore"){

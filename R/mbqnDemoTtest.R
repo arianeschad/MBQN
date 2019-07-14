@@ -38,9 +38,9 @@ mbqnDemoTtest <- function(show.fig = FALSE){
     mtx.mod <- mbqnSimuDistortion(mtx, s.mean = 0.05, s.scale = 0.01)
     bla <- mtx.mod
     mtx.mod <- mtx.mod$x.mod
-    
+
     res <- mbqnGetNRIfeatures(mtx.mod, low_thr = 0.5, verbose = FALSE)
-    
+
     # undistorted feature
     feature1 <- mtx[1,]
     # distorted feature
@@ -48,10 +48,10 @@ mbqnDemoTtest <- function(show.fig = FALSE){
     # feature after normalization
     qn.feature1 = mbqn(mtx.mod, verbose = FALSE)[1,]
     qn.mtx = mbqn(mtx.mod,verbose = FALSE)
-    
+
     mbqn.mtx = mbqn(mtx.mod, FUN = "mean",verbose = FALSE)
     mbqn.feature1 = mbqn(mtx.mod, FUN = "mean",verbose = FALSE)[1,]
-    
+
     # Apply t-test:
     # undistorted feature
     ttest.res0 <- t.test(feature1[seq_len(9)], feature1[c(10:18)],
@@ -62,7 +62,7 @@ mbqnDemoTtest <- function(show.fig = FALSE){
     # mbqn normalized distorted feature
     ttest.res <- t.test(mbqn.feature1[seq_len(9)], mbqn.feature1[c(10:18)],
                         var.equal =TRUE)
-    
+
     if (show.fig){
         # compare qn, mbqn and original feature
         par(mfrow = c(1,1))
@@ -70,46 +70,49 @@ mbqnDemoTtest <- function(show.fig = FALSE){
                     vals = data.frame(RI = mtx[1,],
                                     NRI = mtx[as.numeric(names(res$nri)[2]),]),
                     y.intersp= 1.5)
-        
+
         #dev.off()
         mbqnBoxplot(mtx.mod,ylim = c(25,39),
                     vals = data.frame(RI = mtx.mod[1,],
-                                    NRI = mtx.mod[as.numeric(names(res$nri)[2]),]),
+                            NRI = mtx.mod[as.numeric(names(res$nri)[2]),]),
                     y.intersp= 1.5)
 
         #dev.off()
         mbqnBoxplot(qn.mtx,ylim = c(25,36),
                     vals = data.frame(RI = qn.mtx[1,],
-                                    NRI = qn.mtx[as.numeric(names(res$nri)[2]),]),
+                            NRI = qn.mtx[as.numeric(names(res$nri)[2]),]),
                     y.intersp= 1.5)
 
         #dev.off()
         mbqnBoxplot(mbqn.mtx,ylim = c(25,36),
                     vals = data.frame(RI = mbqn.mtx[1,],
-                                    NRI = mbqn.mtx[as.numeric(names(res$nri)[2]),]),
+                            NRI = mbqn.mtx[as.numeric(names(res$nri)[2]),]),
                     y.intersp= 1.5)
 
         #dev.off()
         matplot(t(rbind(feature1 = feature1,
-                        feature1.mod = (feature1mod-mean(feature1mod))/25+mean(feature1),
-                        qn.feature1 = (qn.feature1-mean(qn.feature1))+mean(feature1),
-                        mbqn.feature1 = (mbqn.feature1-mean(mbqn.feature1))+mean(feature1))),
-                type = "b", lty = c(1,1,1), pch = "o", ylab = "intensity", xlab = "sample",
-                main = "Differentially expressed RI feature",
-                ylim = c(34.48,34.85))
+            feature1.mod = (feature1mod-mean(feature1mod))/25+mean(feature1),
+            qn.feature1 = (qn.feature1-mean(qn.feature1))+mean(feature1),
+            mbqn.feature1 = (
+                mbqn.feature1-mean(mbqn.feature1))+mean(feature1))),
+            type = "b", lty = c(1,1,1), pch = "o",
+            ylab = "intensity",
+            xlab = "sample",
+            main = "Differentially expressed RI feature",
+            ylim = c(34.48,34.85))
         legend(x=11,y= 34.86, legend = c("feature","distorted feature/25" ,
                                         "QN feature", " MBQN feature"),pch = 1,
                 col = c(1,2,3,4), lty= c(1,1,1,1), bty = "n", y.intersp = 1.5,
                 x.intersp = 0.2)
         legend(x = .1, y = 34.6,
                 legend = paste("p-value (t-test) =",round(ttest.res1$p.value,2),
-                                "\np-value (t-test, mbqn) =", round(ttest.res$p.value,4)),
+                    "\np-value (t-test, mbqn) =", round(ttest.res$p.value,4)),
                 bty = "n", x.intersp = 0)
     }
-    
+
     if (ttest.res$p.value<0.05)
         message("H0 (=equal mean) is rejected!")
-    
+
     return(list(bla$x.mod, bla$mx.offset, bla$mx.scale,
                 ttest.undistorted = ttest.res0,
                 ttest.distorted = ttest.res1,

@@ -13,9 +13,10 @@ columns represent samples.}
 \item{low_thr}{a value between [0 1]. Features with RI
 frequency >=\code{low_thr} are considered as NRI/RI; default 0.5.}
 
-\item{method}{character specifying function for computation of quantile normalization;
-"limma" (default) for \code{normalizeQuantiles()} from the limma package or
-"preprocessCore" for \code{normalize.quantiles()} from the preprocessCore package.}
+\item{method}{character specifying function for computation of quantile
+normalization; "limma" (default) for \code{normalizeQuantiles()} from the
+limma package or "preprocessCore" for \code{normalize.quantiles()} from the
+preprocessCore package.}
 
 \item{verbose}{logical indicating to print messages.}
 }

@@ -21,24 +21,25 @@
 #' @author Ariane Schad
 # 2017
 #' @export mbqnPlotRI
-mbqnPlotRI <- function(obj , 
-                    #save_fig = FALSE, 
+mbqnPlotRI <- function(obj ,
+                    #save_fig = FALSE,
                     #filename = NULL,
                     verbose = FALSE, ...){
 
     if(!is.null(obj$nri)){
-    
+
         ####### Graphical output #########
         # save_fig = FALSE
         # filename = NULL
-        
+
         # plot options
         opt.args <- list(...)
         cex.main  <- ifelse(is.null(opt.args$cex.main), 1.2, opt.args$cex.main)
         cex.legend <- ifelse(is.null(opt.args$cex), 0.8, opt.args$cex)
         cex.lab <- ifelse(is.null(opt.args$cex.lab), 1., opt.args$cex.lab)
         cex.axis <- ifelse(is.null(opt.args$cex.axis), 1., opt.args$cex.axis)
-        y.intersp <- ifelse(is.null(opt.args$y.intersp), .8, opt.args$y.intersp)
+        y.intersp <- ifelse(
+            is.null(opt.args$y.intersp), .8, opt.args$y.intersp)
 
         fig.paper <- ifelse(is.null(opt.args$paper), "a4", opt.args$paper)
         fig.width <- ifelse(is.null(opt.args$width), 10, opt.args$width)

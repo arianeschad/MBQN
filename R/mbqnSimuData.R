@@ -9,10 +9,11 @@
 #' present in real data, and \code{"omics.dep"} is the same as \code{"omics"}
 #' but with an additional single, differentially expressed RI feature.
 #' @param nrow number of rows of data matrix (only for \code{model = "rand"}).
-#' @param ncol number of columns of data matrix (only for \code{model = "rand"}).
+#' @param ncol number of columns of data matrix
+#' (only for \code{model = "rand"}).
 # #' @param seed seed for random number generator.
-#' @param show.fig logical inidicating whether data properties are plot to figure
-#' (only for \code{model = "omics"} and \code{model = "omics.dep"}).
+#' @param show.fig logical inidicating whether data properties are plot to
+#' figure (only for \code{model = "omics"} and \code{model = "omics.dep"}).
 #' @details For model \code{"rand"}, each matrix element is drawn from a
 #' standard normal distribution \eqn{N(0,1)}. For model \code{"omics"}, the
 #' matrix elements of each row are drawn from a Gaussian distribution
@@ -64,7 +65,8 @@ mbqnSimuData <- function(model = "rand", nrow = NULL, ncol = NULL,
         mtx <- example_NApattern
         mtx[mtx==0] <- NA
 
-        dat <- replicate(ncol(mtx), rnorm(nrow(mtx))*0.25)+rnorm(nrow(mtx))*2+28
+        dat <- replicate(
+            ncol(mtx), rnorm(nrow(mtx))*0.25)+rnorm(nrow(mtx))*2+28
         s.dat <-sort(apply(dat, 1,mean, na.rm =TRUE),
                         index.return = TRUE,
                         decreasing = TRUE)
@@ -80,7 +82,7 @@ mbqnSimuData <- function(model = "rand", nrow = NULL, ncol = NULL,
             image(t(dat), xlab = "sample", main = "simulated", axes= FALSE)
             axis(1, at = seq_len(ncol(dat))/ncol(dat),
                     labels = seq_len(ncol(dat)))
-        
+
             plot(apply(dat,1,mean,na.rm =TRUE),apply(is.na(dat),1,
                         mean,na.rm =TRUE),
                 col =1,

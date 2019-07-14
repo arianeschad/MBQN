@@ -21,18 +21,20 @@ e.g. "proteinGroups" or "peptides".}
 SummarizedExperiment with
 \item{\code{data}}{data matrix}
 \item{\code{pxdid}}{PRIDE identifier}
-\item{\code{featureAnnotations}}{dataframe collecting feature annotations, e.g. protein name,
-"Potential contaminant", etc..}
-\item{\code{ixs}}{locical array indicating rows of potential contaminant features, or features identified only by site, reverse.}
+\item{\code{featureAnnotations}}{dataframe collecting feature annotations,
+e.g. protein name, "Potential contaminant", etc..}
+\item{\code{ixs}}{locical array indicating rows of potential contaminant
+features, or features identified only by site, reverse.}
 }
 \description{
 Auxilary function used to load and preprocess LFQ
 intensities of selected dataset with a PRIDE [1] identifier.
 }
 \details{
-Load proteinGroup.txt file, select all samples with LFQ intensities, remove
-empty protein features. Apply log2 transform to intensities. This function acquires source code
-of SafeQuant::parseMaxQuantProteinGroupTxt [2].
+Load proteinGroup.txt file, select all samples with LFQ
+intensities, remove empty protein features. Apply log2 transform to
+intensities. This function acquires source code of
+SafeQuant::parseMaxQuantProteinGroupTxt [2].
 }
 \examples{
 ## Load LFQ intensities of proteomics data of PXD001584:
@@ -42,12 +44,12 @@ mbqn(assays(out)\\[\\["data"\\]\\])
 }
 }
 \references{
-[1] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I, Mayer G,
-Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
+[1] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I,
+Mayer G, Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
 2016 update of the PRIDE database and related tools. Nucleic Acids Res.
 2016 Jan 1;44(D1): D447-D456. PubMed PMID:26527722.\cr
-[2] See "SafeQuant" by Erik Ahrne (2016). SafeQuant: A Toolbox for the Analysis
-of Proteomics Data. R package version 2.3.1.,
+[2] See "SafeQuant" by Erik Ahrne (2016). SafeQuant: A Toolbox for the
+Analysis of Proteomics Data. R package version 2.3.1.,
 https://CRAN.R-project.org/package=SafeQuant.\cr
 }
 \seealso{

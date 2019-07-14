@@ -11,7 +11,7 @@
 #' @importFrom utils untar unzip
 #' @importFrom BiocFileCache bfcadd
 #' @return status (0=ok, 1=not MaxQuant data set, 2=no proteinGroup file)
-#' @details This function requires the R packages rpx \[2\] and BiocFileChace .
+#' @details This function requires the R packages rpx \[2\] and BiocFileChace.
 #' @references
 #' \[1\] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I,
 #' Mayer G, Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
@@ -38,7 +38,7 @@ getPXDfile <- function(pxd_id, source.path = NULL,
     if (!requireNamespace("rpx", quietly = TRUE)) {
         stop("Package \"pkg\" is required for this function to work.
             Please install it this package first!", call. = FALSE)}
-            
+
     # General Informations on PXD File:
     # rpx::pxtax(px)
     # rpx::pxurl(px) # url
@@ -56,13 +56,14 @@ getPXDfile <- function(pxd_id, source.path = NULL,
     }
     if (length(ind)>1)
     ind <- ind[1] # only the first match
-    
+
     destDirName <- "MBQN"
     destDir <- rappdirs::user_cache_dir(appname=destDirName)
-    bfc <- BiocFileCache::BiocFileCache(destDir, ask=TRUE) 
-    destFile <- BiocFileCache::bfcadd(bfc, 
-                                    pxd_id, 
-                                    fpath=paste(rpx::pxurl(px),repoFiles[ind],sep="/"))
+    bfc <- BiocFileCache::BiocFileCache(destDir, ask=TRUE)
+    destFile <- BiocFileCache::bfcadd(bfc,
+                                    pxd_id,
+                                    fpath=paste(rpx::pxurl(px),
+                                        repoFiles[ind],sep="/"))
 
     if (file.exists(destFile)){ # if zip file is available, start unzipping
         if (length(grep("tar.gz",repoFiles[ind])>0)){
@@ -78,17 +79,22 @@ getPXDfile <- function(pxd_id, source.path = NULL,
             unlink(list.dirs(pdxFolder, recursive = FALSE),
                 recursive = TRUE) # delete extra folder
             unlink(destFile) # delete large .zip file
-            unlink(destDir,recursive = TRUE, force = TRUE) # delete download folder
+            # delete download folder
+            unlink(destDir,recursive = TRUE, force = TRUE)
         } else { #.gz
             files = unzip(destFile, list = TRUE) # which files are in archive
-            files = files$Name[grepl(file.pattern,files$Name)] # only pattern match
+            # only pattern match
+            files = files$Name[grepl(file.pattern,files$Name)]
 
             if (length(files)>0){
                 unzip(destFile,files = files,exdir=pdxFolder)
                 unlink(destFile) # delete large .zip file
-                unlink(destDir,recursive = TRUE, force = TRUE) # delete download folder
+                # delete download folder
+                unlink(destDir,recursive = TRUE, force = TRUE)
             } else {
-                message(sprintf("File %s not found in the downloaded data archive.",file.pattern))
+                message(sprintf(
+                    "File %s not found in the downloaded data archive.",
+                    file.pattern))
                 status <- 3
             }
         }

@@ -8,25 +8,28 @@ mbqnNRI(x, FUN = "median", na.rm = TRUE, method = NULL,
   low_thr = 0.5, index = NULL, verbose = TRUE)
 }
 \arguments{
-\item{x}{a data matrix, where rows represent features, e.g.
-of protein abundance, and columns represent groups or samples, e.g. replicates, treatments, or conditions.}
+\item{x}{a data matrix, where rows represent features, e.g. of protein
+abundance, and columns represent groups or samples, e.g. replicates,
+treatments, or conditions.}
 
-\item{FUN}{a function like mean, median (default), a user defined function, or a numeric vector
-of weights with length \code{nrow(x)} to balance each feature across samples.
-Functions can be parsed also as characters. If FUN = NULL, features are not balanced,
-i.e. normal QN is used.}
+\item{FUN}{a function like mean, median (default), a user defined function,
+or a numeric vector of weights with length \code{nrow(x)} to balance each
+feature across samples. Functions can be parsed also as characters.
+If FUN = NULL, features are not balanced, i.e. normal QN is used.}
 
 \item{na.rm}{logical indicating to omit NAs in the
 computation of feature mean.}
 
-\item{method}{character specifying function for computation of quantile normalization;
-"limma" (default) for \code{normalizeQuantiles()} from the limma package or
-"preprocessCore" for \code{normalize.quantiles()} from the preprocessCore package.}
+\item{method}{character specifying function for computation of quantile
+normalization; "limma" (default) for \code{normalizeQuantiles()} from the
+limma package or "preprocessCore" for \code{normalize.quantiles()} from the
+preprocessCore package.}
 
 \item{low_thr}{a value between [0 1]. Features with RI
 frequency >=\code{low_thr} are considered as NRI/RI; default 0.5.}
 
-\item{index}{an integer or a vector integers specifying the indices of selected rows.}
+\item{index}{an integer or a vector integers specifying the indices of
+selected rows.}
 
 \item{verbose}{logical indicating to print messages.}
 }
@@ -34,14 +37,15 @@ frequency >=\code{low_thr} are considered as NRI/RI; default 0.5.}
 Normalized \code{matrix}.
 }
 \description{
-Quantile normalization of a data matrix where rank invariant (RI)/
-nearly rank invariant (NRI) rows/features or other user-selected rows are normalized by
-the mean/median-balanced quantile normalization.
+Quantile normalization of a data matrix where rank
+invariant (RI)/nearly rank invariant (NRI) rows/features or other
+user-selected rows are normalized by the mean/median-balanced quantile
+normalization.
 }
 \details{
-Selected rows and/or rows with rank invariance frequency \code{>=threshold}
-are normalized with the mean/median-balanced quantile normalization. Remaining rows are quantile normalized
-without mean balancing.
+Selected rows and/or rows with rank invariance frequency
+\code{>=threshold} are normalized with the mean/median-balanced quantile
+normalization. Remaining rows are quantile normalized without mean balancing.
 }
 \examples{
 ## Quantile normalize a data matrix where
@@ -51,7 +55,8 @@ mbqnNRI(X, median,low_thr = 0.5) # Balance NRI features selected by threshold
 mbqnNRI(X, median, index = c(1,2)) # Balance selected features
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
+Schad, A. and Kreuz, C., MBQN: R package for
+mean/median-balanced quantile normalization. In prep. 2019
 }
 \seealso{
 \code{\link[=mbqn]{mbqn()}}, \code{\link[=mbqnGetNRIfeatures]{mbqnGetNRIfeatures()}}.

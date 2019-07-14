@@ -11,10 +11,10 @@ mbqnPlotAll(x, FUN = NULL, low_thr = 0.5, show_nri_only = FALSE,
 \item{x}{a data matrix. Rows represent features, e.g. protein abundances;
 columns represent samples.}
 
-\item{FUN}{a function like mean, median (default), a user defined function, or a numeric vector
-of weights with length \code{nrow(x)} to balance each feature across samples.
-Functions can be parsed also as characters. If FUN = NULL, features are not balanced,
-i.e. normal QN is used.}
+\item{FUN}{a function like mean, median (default), a user defined function,
+or a numeric vector of weights with length \code{nrow(x)} to balance each
+feature across samples. Functions can be parsed also as characters.
+If FUN = NULL, features are not balanced, i.e. normal QN is used.}
 
 \item{low_thr}{a value between [0 1]. Features with RI
 frequency >=\code{low_thr} are considered as NRI/RI; default 0.5.}
@@ -31,7 +31,8 @@ and \code{mbqnPlotRI}.}
 A set of figures that display the detected RI/NRI features and a
 list with elements:
 \item{\code{p}}{a matrix with the rank invariance frequencies \code{ri.freq}
-and the sample coverage \code{sample.coverage} for all detected RI/NRI features}
+and the sample coverage \code{sample.coverage} for all detected
+RI/NRI features}
 \item{\code{max_p}}{maximum rank invariance frequency in percent}
 \item{\code{ip}}{index of feature with maximum rank invariance frequency}
 \item{\code{nri}}{table of the rank invariance frequencies in percent for

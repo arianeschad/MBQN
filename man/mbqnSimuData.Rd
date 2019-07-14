@@ -17,10 +17,11 @@ but with an additional single, differentially expressed RI feature.}
 
 \item{nrow}{number of rows of data matrix (only for \code{model = "rand"}).}
 
-\item{ncol}{number of columns of data matrix (only for \code{model = "rand"}).}
+\item{ncol}{number of columns of data matrix
+(only for \code{model = "rand"}).}
 
-\item{show.fig}{logical inidicating whether data properties are plot to figure
-(only for \code{model = "omics"} and \code{model = "omics.dep"}).}
+\item{show.fig}{logical inidicating whether data properties are plot to
+figure (only for \code{model = "omics"} and \code{model = "omics.dep"}).}
 }
 \value{
 \code{matrix} of size nrow x ncol.

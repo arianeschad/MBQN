@@ -20,8 +20,8 @@ Visualize the intensity distribution of unnormalized,
 quantile and mean/median-balanced quantile normalized data.
 }
 \details{
-Normalize matrix and return boxplots of quantile normalized and mean balanced normalized
-data.
+Normalize matrix and return boxplots of quantile normalized and
+mean balanced normalized data.
 }
 \examples{
 # Simple example:
@@ -32,7 +32,8 @@ x <- mbqnSimuData(model = "omics.dep")
 mbqnDemo(x)
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep. 2019
+Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced
+quantile normalization. In prep. 2019
 }
 \seealso{
 Other example: \code{\link{mbqnBoxplot}}

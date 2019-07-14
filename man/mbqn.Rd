@@ -8,20 +8,22 @@ mbqn(x, FUN = "median", na.rm = TRUE, method = "limma",
   verbose = FALSE)
 }
 \arguments{
-\item{x}{a data matrix, where rows represent features, e.g.
-of protein abundance, and columns represent groups or samples, e.g. replicates, treatments, or conditions.}
+\item{x}{a data matrix, where rows represent features, e.g. of protein
+abundance, and columns represent groups or samples, e.g. replicates,
+treatments, or conditions.}
 
-\item{FUN}{a function like mean, median (default), a user defined function, or a numeric vector
-of weights with length \code{nrow(x)} to balance each feature across samples.
-Functions can be parsed also as characters. If FUN = NULL, features are not balanced,
-i.e. normal QN is used.}
+\item{FUN}{a function like mean, median (default), a user defined function,
+or a numeric vector of weights with length \code{nrow(x)} to balance each
+feature across samples. Functions can be parsed also as characters.
+If FUN = NULL, features are not balanced, i.e. normal QN is used.}
 
 \item{na.rm}{logical indicating to omit NAs in the
 computation of feature mean.}
 
-\item{method}{character specifying function for computation of quantile normalization;
-"limma" (default) for \code{normalizeQuantiles()} from the limma package or
-"preprocessCore" for \code{normalize.quantiles()} from the preprocessCore package.}
+\item{method}{character specifying function for computation of quantile
+normalization; "limma" (default) for \code{normalizeQuantiles()} from the
+limma package or "preprocessCore" for \code{normalize.quantiles()} from the
+preprocessCore package.}
 
 \item{verbose}{logical indicating to print messages.}
 }
@@ -30,15 +32,18 @@ Normalized matrix
 }
 \description{
 Modified quantile-normalization (QN) of a matrix, e.g.,
-intensity values from omics data or other data sorted in columns. The modification prevents systematic flattening of features (rows)
-which are rank invariant (RI) or nearly rank invariant (NRI) across columns, for example features that populate mainly the tails of the intensity distribution
-or features that separate in intensity.
+intensity values from omics data or other data sorted in columns.
+The modification prevents systematic flattening of features (rows) which are
+rank invariant (RI) or nearly rank invariant (NRI) across columns, for
+example features that populate mainly the tails of the intensity
+distribution or features that separate in intensity.
 }
 \details{
-Balance each matrix row by substracting its feature offset computed with
-FUN, e.g. the median; apply quantile-normalization and add the feature means to the normalized matrix.
-For further details see [4]. For quantile normalization with the "limma" package see [1,2]
-and for the preProcessCore package see [3].
+Balance each matrix row by substracting its feature offset computed
+with FUN, e.g. the median; apply quantile-normalization and add the feature
+means to the normalized matrix.
+For further details see [4]. For quantile normalization with the "limma"
+package see [1,2] and for the preProcessCore package see [3].
 }
 \examples{
 ## Compute mean and median balanced quantile normalization
@@ -53,13 +58,16 @@ user_array <- apply(X,1,weighted.mean, wt ,na.rm =TRUE)
 mbqn(X, user_array)
 }
 \references{
-[1] Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray data. Methods 31, 265–273. \cr
+[1] Smyth, G. K., and Speed, T. P. (2003). Normalization of cDNA microarray
+data. Methods 31, 265–273. \cr
 Ritchie, M.E., Phipson, B., Wu, D., Hu, Y., Law, C.W., Shi, W., and Smyth,
-[2] G.K. (2015). limma powers differential expression analyses for RNA-sequencing
-and microarray studies. Nucleic Acids Research 43(7), e47.\cr
-[3] Bolstad B. M. (2016). preprocessCore: A collection of pre-processing functions. R package version 1.36.0.
+[2] G.K. (2015). limma powers differential expression analyses for
+RNA-sequencing and microarray studies. Nucleic Acids Research 43(7), e47.\cr
+[3] Bolstad B. M. (2016). preprocessCore: A collection of pre-processing
+functions. R package version 1.36.0.
 https://github.com/bmbolstad/preprocessCore \cr
-[4] Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced quantile normalization. In prep., 2019
+[4] Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced
+quantile normalization. In prep., 2019
 }
 \seealso{
 \code{\link[=mbqnNRI]{mbqnNRI()}}, \code{\link[=mbqnGetNRIfeatures]{mbqnGetNRIfeatures()}}.
