@@ -37,9 +37,10 @@ ignored.
 ## Create boxplot of quantile normalized data matrix and plot
 ## feature from median balanced quantile normalization on top of it.
 X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create data matrix
-qn.dat <- mbqn(x=X,FUN = NULL ,na.rm = TRUE) # Quantile normalization
-mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE) # Median balanced quantile
-normalization
+# Quantile normalization
+qn.dat <- mbqn(x=X,FUN = NULL ,na.rm = TRUE)
+# Median balanced quantile normalization
+mbqn.dat <- mbqn(x=X,FUN = median ,na.rm = TRUE)
 ## Create boxplot:
 plot.new()
 mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b")

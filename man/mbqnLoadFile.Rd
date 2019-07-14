@@ -38,10 +38,9 @@ SafeQuant::parseMaxQuantProteinGroupTxt [2].
 }
 \examples{
 ## Load LFQ intensities of proteomics data of PXD001584:
-\dontrun{
+library(SummarizedExperiment)
 out <- mbqnLoadFile(pxd_id = "PXD001584")
-mbqn(assays(out)\\[\\["data"\\]\\])
-}
+mbqn(assays(out)[["data"]])
 }
 \references{
 [1] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I,

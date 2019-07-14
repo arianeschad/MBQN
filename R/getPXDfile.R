@@ -21,9 +21,7 @@
 #' ProteomeXchange Repository. Package version 1.10.2,
 #' https://github.com/lgatto/rpx.
 #' @examples ## Download protein LFQ intensities of PXD001584 from PRIDE
-#'\dontrun{
 #' getPXDfile(pxd_id = "PXD001584")
-#'}
 #' @author Ariane Schad
 # 2018
 #' @export getPXDfile

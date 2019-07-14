@@ -28,9 +28,7 @@ This function requires the R packages rpx [2] and BiocFileChace.
 }
 \examples{
 ## Download protein LFQ intensities of PXD001584 from PRIDE
-\dontrun{
 getPXDfile(pxd_id = "PXD001584")
-}
 }
 \references{
 [1] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I,

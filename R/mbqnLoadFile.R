@@ -26,10 +26,9 @@
 #' Analysis of Proteomics Data. R package version 2.3.1.,
 #' https://CRAN.R-project.org/package=SafeQuant.\cr
 #' @examples ## Load LFQ intensities of proteomics data of PXD001584:
-#' \dontrun{
+#' library(SummarizedExperiment)
 #' out <- mbqnLoadFile(pxd_id = "PXD001584")
-#' mbqn(assays(out)\[\["data"\]\])
-#' }
+#' mbqn(assays(out)[["data"]])
 #' @author Ariane Schad
 #  2017
 #' @export mbqnLoadFile
