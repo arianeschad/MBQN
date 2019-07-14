@@ -4,7 +4,8 @@ Title: Mean/Median-balanced quantile normalization
 Authors@R: c(person("Ariane", "Schad",
   email = "ariane.schad@fdm.uni-freiburg.de",
   role = c("aut", "cre"), 
-  comment = c(ORCID = "0000-0002-1921-8902")),person("Clemens","Kreutz",
+  comment = c(ORCID = "0000-0002-1921-8902")),
+  person("Clemens","Kreutz",
   email = "clemens.kreutz@imbi.uni-freiburg.de",
   role = c("aut","ctb"), 
   comment = c(ORCID = "0000-0002-8796-5766")))
@@ -13,7 +14,7 @@ Description: Modified quantile normalization for omics or other matrix-like
 License: GPL-3 + file LICENSE
 Depends: R (>= 3.6)
 Imports: stats, graphics, grDevices, utils, limma (>= 3.30.13), SummarizedExperiment (>= 1.10.0), preprocessCore (>= 1.36.0), BiocFileCache, rappdirs, rpx
-Suggests: knitr, rpx
+Suggests: knitr
 biocViews: Normalization, Preprocessing, Proteomics, Software
 Encoding: UTF-8
 LazyData: true
