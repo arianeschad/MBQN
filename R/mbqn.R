@@ -51,57 +51,57 @@
 
 mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma", verbose = FALSE){
 
-  if(is.null(method)) method <- "limma"
-  # Check if package limma is installed to run this function
-  if (!requireNamespace("limma", quietly = TRUE)) {
-    stop("Package \"pkg\" needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
-
-  if (method == "preprocessCore"){
-    # Check if package preprocessCore is installed  to run this function
-    if (!requireNamespace("preprocessCore", quietly = TRUE)) {
-      stop("Package \"pkg\" is required for this function to work. Please install it.",
-           call. = FALSE)}
-  }
-
-  if (!is.matrix(x)) {
-    stop("Wrong data format! Input must be a matrix!")
-  }
-
-  # check if data contains NaN and replace it with NA, since preprocessCore will
-  # give erronous results in this case
-  if (length(which(is.nan(x)))>0)
-    x[is.nan(x)] <- NA
-
-  if(!is.null(FUN)){
-    if(is.character(FUN)) FUN <- match.fun(FUN)
-    if(is.function(FUN)){
-      mx <- apply(x,1,FUN,na.rm=na.rm) # row mean
-    }
-    if(is.numeric(FUN)){mx <- FUN
-    if(sum(abs(FUN)==0,na.rm =TRUE))  message("Array-elements are all zero. Comput QN without mean balancing.")
+    if(is.null(method)) method <- "limma"
+    # Check if package limma is installed to run this function
+    if (!requireNamespace("limma", quietly = TRUE)) {
+        stop("Package \"pkg\" needed for this function to work. Please install it.",
+            call. = FALSE)
     }
 
-    # balanced quantile normalisation
-    if(is.null(method) || method == "limma"){
-      dummy <- normalizeQuantiles(x-mx)
-      rownames(dummy) <- NULL
-    } else if (method == "preprocessCore"){
-     dummy <- preprocessCore::normalize.quantiles(x-mx)
+    if (method == "preprocessCore"){
+        # Check if package preprocessCore is installed  to run this function
+        if (!requireNamespace("preprocessCore", quietly = TRUE)) {
+            stop("Package \"pkg\" is required for this function to work. Please install it.",
+                call. = FALSE)}
     }
-    qn_x <- dummy + mx
 
-  }else{
-    if(verbose) message("Comput QN without mean balancing.")
-    # quantile normalisation
-    if(is.null(method) || method == "limma") {
-      qn_x <- normalizeQuantiles(x)
-      rownames(qn_x) <- NULL
-    }else if (method == "preprocessCore"){
-      qn_x <- preprocessCore::normalize.quantiles(x)
+    if (!is.matrix(x)) {
+        stop("Wrong data format! Input must be a matrix!")
     }
-  }
-  colnames(qn_x) <- colnames(x)
-  return(qn_x)
+
+    # check if data contains NaN and replace it with NA, since preprocessCore will
+    # give erronous results in this case
+    if (length(which(is.nan(x)))>0)
+        x[is.nan(x)] <- NA
+    
+    if(!is.null(FUN)){
+        if(is.character(FUN)) FUN <- match.fun(FUN)
+        if(is.function(FUN)){
+            mx <- apply(x,1,FUN,na.rm=na.rm) # row mean
+        }
+        if(is.numeric(FUN)){mx <- FUN
+        if(sum(abs(FUN)==0,na.rm =TRUE))  message("Array-elements are all zero. Comput QN without mean balancing.")
+        }
+    
+        # balanced quantile normalisation
+        if(is.null(method) || method == "limma"){
+            dummy <- normalizeQuantiles(x-mx)
+            rownames(dummy) <- NULL
+        } else if (method == "preprocessCore"){
+            dummy <- preprocessCore::normalize.quantiles(x-mx)
+        }
+        qn_x <- dummy + mx
+    
+    } else {
+        if(verbose) message("Comput QN without mean balancing.")
+        # quantile normalisation
+        if(is.null(method) || method == "limma") {
+            qn_x <- normalizeQuantiles(x)
+            rownames(qn_x) <- NULL
+        } else if (method == "preprocessCore"){
+            qn_x <- preprocessCore::normalize.quantiles(x)
+        }
+    }
+    colnames(qn_x) <- colnames(x)
+    return(qn_x)
 }

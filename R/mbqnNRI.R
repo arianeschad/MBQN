@@ -23,18 +23,18 @@
 
 mbqnNRI <- function(x, FUN = "median", na.rm = TRUE, method = NULL, low_thr = 0.5 ,index = NULL, verbose = TRUE){
 
-  if(is.null(index)){
-    if (!is.numeric(low_thr) || low_thr >1)
-    { stop("Wrong data format, low_thr must be a value within [0 1]!")}
+    if(is.null(index)){
+        if (!is.numeric(low_thr) || low_thr >1)
+            { stop("Wrong data format, low_thr must be a value within [0 1]!")}
 
-    res  <- mbqnGetNRIfeatures(x,
-                               method = method,
-                               low_thr = low_thr,
-                               verbose = verbose)
-    index <- as.numeric(names(res$nri))
-  }
-  x.mbqn <- mbqn(x = x, FUN = FUN,na.rm = na.rm, method = method, verbose = verbose)
-  x.qn <- mbqn(x = x, FUN = NULL ,na.rm = na.rm, method = method, verbose = verbose)
-  if(length(index)>0) x.qn[index,] <- x.mbqn[index,]
-  return(x.qn)
+        res  <- mbqnGetNRIfeatures(x,
+                                method = method,
+                                low_thr = low_thr,
+                                verbose = verbose)
+        index <- as.numeric(names(res$nri))
+    }
+    x.mbqn <- mbqn(x = x, FUN = FUN,na.rm = na.rm, method = method, verbose = verbose)
+    x.qn <- mbqn(x = x, FUN = NULL ,na.rm = na.rm, method = method, verbose = verbose)
+    if(length(index)>0) x.qn[index,] <- x.mbqn[index,]
+    return(x.qn)
 }

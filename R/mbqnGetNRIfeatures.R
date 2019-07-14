@@ -35,100 +35,95 @@
 #' @export mbqnGetNRIfeatures
 #  Created: Nov 2018
 mbqnGetNRIfeatures <- function(x,
-                               low_thr = 0.5,
-                               method = NULL,
-                               verbose = TRUE){
+                            low_thr = 0.5,
+                            method = NULL,
+                            verbose = TRUE){
 
-  # if FUN is not specified, use median!
-  #if(is.null(FUN)) FUN <- median
-  #if(is.character(FUN)) FUN <- match.fun(FUN)
-
-  N <- nrow(x) #number of rows
-  M <- ncol(x) #number of cols
-
-  # classical quantile normalisation and its standard deviation
-  qn.x <- mbqn(x = x, FUN = NULL, method = method, verbose = FALSE)
-  s.qn <- apply(qn.x, 1, sd, na.rm=TRUE)
-
-  ## Rank frequencies for each feature after QN (top-down)
-  # & assign NAs to 0 rank
-
-  out <- getKminmax(x = qn.x, k = N, flag = "max")
-
-  tdummy = lapply(
+    # if FUN is not specified, use median!
+    #if(is.null(FUN)) FUN <- median
+    #if(is.character(FUN)) FUN <- match.fun(FUN)
+    
+    N <- nrow(x) #number of rows
+    M <- ncol(x) #number of cols
+    
+    # classical quantile normalisation and its standard deviation
+    qn.x <- mbqn(x = x, FUN = NULL, method = method, verbose = FALSE)
+    s.qn <- apply(qn.x, 1, sd, na.rm=TRUE)
+    
+    ## Rank frequencies for each feature after QN (top-down)
+    # & assign NAs to 0 rank
+    
+    out <- getKminmax(x = qn.x, k = N, flag = "max")
+    
+    tdummy = lapply(
     seq_len(N),
-    function(i)
-    {
-      table(which(out$ik==i, arr.ind =TRUE)[,1]*(!is.na(x[i,])),
+    function(i){
+        table(which(out$ik==i, arr.ind =TRUE)[,1]*(!is.na(x[i,])),
             useNA = 'ifany')
-    }
-  )
-
-  # scale to frequencies
-  pi <- lapply(tdummy,function(x) x/M)
-
-  max_pi = lapply(
+    })
+    
+    # scale to frequencies
+    pi <- lapply(tdummy,function(x) x/M)
+    
+    max_pi = lapply(
     seq_len(N),
-    function(i)
-    {
-      # ignore NAs!
-      ki <- bla <- NULL
-      ki <- which(as.numeric(names(pi[[i]]))!=0)
-      if(length(ki)>0){
-        bla <- pi[[i]][which(pi[[i]]==max(pi[[i]][ki], na.rm =TRUE))]
-      }else{
-        bla <- pi[[i]][1]*0
-        #bla[[1]][1] <- 1 # if it has no rank
-      }
-    }
-  )
-
-  max_pi_vals <- lapply(max_pi,function(i) unique(i))
-  # max_pi_vals[which(sapply(max_pi_vals,length)<1)] <- 0
-  max_pi_vals[which(vapply(max_pi_vals,length,FUN.VALUE = numeric(1))<1)] <- 0
-
-  # how often are data present for these features
-  not_nas <- apply(qn.x,1,function(x) length(which(!is.na(x))))/M
-
-  p <- max_pi_vals[which(max_pi_vals>=low_thr)]
-  p <- unlist(p)
-
-  is.defined <- (!is.null(p))
-
-  if(is.defined){
+    function(i){
+        # ignore NAs!
+        ki <- bla <- NULL
+        ki <- which(as.numeric(names(pi[[i]]))!=0)
+        if(length(ki)>0){
+            bla <- pi[[i]][which(pi[[i]]==max(pi[[i]][ki], na.rm =TRUE))]
+        }else{
+            bla <- pi[[i]][1]*0
+            #bla[[1]][1] <- 1 # if it has no rank
+        }
+    })
+    
+    max_pi_vals <- lapply(max_pi,function(i) unique(i))
+    # max_pi_vals[which(sapply(max_pi_vals,length)<1)] <- 0
+    max_pi_vals[which(vapply(max_pi_vals,length,FUN.VALUE = numeric(1))<1)] <- 0
+    
+    # how often are data present for these features
+    not_nas <- apply(qn.x,1,function(x) length(which(!is.na(x))))/M
+    
+    p <- max_pi_vals[which(max_pi_vals>=low_thr)]
+    p <- unlist(p)
+    
+    is.defined <- (!is.null(p))
+    
+    if(is.defined){
     names(p) <- as.character(which(max_pi_vals>=low_thr))
     p <- as.table(p)
-
+    
     if(length(p)>1){
-      if(verbose) message('Caution: There might be multiple RI/NRI features!')
+        if(verbose) message('Caution: There might be multiple RI/NRI features!')
     }
-
+    
     max_p <- max(p)*100
     ip <- as.integer(names(which(p*100==max_p)))
-
+    
     # cnt how often protein is missing
     freq_ismissing = sum(is.na(qn.x[ip,]))/ncol(qn.x)
-
-    if(verbose) message(paste('Maximum frequency of RI/NRI feature(s): ',
+    
+    if (verbose) message(paste('Maximum frequency of RI/NRI feature(s): ',
                             max_p,"%"))
-
+    
     # in percent
     nri <- p*100
-
+    
     p <- rbind(p,not_nas[as.numeric(names(p))])
     rownames(p) <- c("RI.freq", "sample.coverage")
-
+    
     # which features have zero variation after QN
     ind_var0 <- which(s.qn==0)
     } else {
-    if(verbose) message(paste('No RI/NRI feature(s) found!'))
-    max_p <- NULL
-    ip <- NULL
-    nri <- NULL
-
-  }
-  ind_var0 <- which(s.qn==0)
-
-  return(list(p = p, max_p = max_p, ip = ip, nri = nri,
-              var0_feature = ind_var0, low_thr = low_thr))
+        if(verbose) message(paste('No RI/NRI feature(s) found!'))
+        max_p <- NULL
+        ip <- NULL
+        nri <- NULL
+    }
+    ind_var0 <- which(s.qn==0)
+    
+    return(list(p = p, max_p = max_p, ip = ip, nri = nri,
+            var0_feature = ind_var0, low_thr = low_thr))
 }

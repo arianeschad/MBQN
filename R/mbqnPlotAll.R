@@ -42,91 +42,80 @@ mbqnPlotAll <- function(x, FUN = NULL,
                         show_nri_only = FALSE,
                         verbose = TRUE,...){
 
-  opt.args <- list(...)
+    opt.args <- list(...)
+    
+    res  <- mbqnGetNRIfeatures(x,
+                            low_thr = low_thr,
+                            verbose = verbose)
+    
+    # quantile normalisation and its standard deviation
+    mbqn.dat <- mbqn(x = x, FUN = median, verbose = FALSE)
+    qn.dat <- mbqn(x = x, FUN = NULL, verbose = FALSE)
 
-  res  <- mbqnGetNRIfeatures(x,
-                             low_thr = low_thr,
-                             verbose = verbose)
-
-  # quantile normalisation and its standard deviation
-  mbqn.dat <- mbqn(x = x, FUN = median, verbose = FALSE)
-  qn.dat <- mbqn(x = x, FUN = NULL, verbose = FALSE)
-
-  mbqn_ri.dat <- mbqnNRI(x = x, FUN = median, low_thr = low_thr,
-                         verbose = FALSE)
-
-  ####### Graphical output #########
-
-  # if(show_fig){
-
+    mbqn_ri.dat <- mbqnNRI(x = x, FUN = median, low_thr = low_thr,
+                            verbose = FALSE)
+    
+    ####### Graphical output #########
     current.dir = getwd()
-
+    
     # Occupation or rank invariance frequencies and sample coverage of RI/NRI features
     mbqnPlotRI(res, 
-               verbose = verbose, ...)
-
+            verbose = verbose, ...)
+    
     # boxplot of quantile normalized data and maximum RI/NRI feature after qn and mbqn
     if(!show_nri_only){
-
-      low <- floor(min(range(mbqn.dat,na.rm = TRUE)))
-      up <- ceiling(max(range(mbqn.dat,na.rm = TRUE)))
-
-      df <- t(rbind(qn.dat[res$ip,],mbqn.dat[res$ip,]))
-      colnames(df) <- c(paste0("QN",res$ip),paste0("MBQN",res$ip))
-      df <- as.data.frame(df)
-
-      low2 <- floor(min(range(mbqn.dat,na.rm = TRUE)))
-      up2 <- ceiling(max(range(mbqn.dat,na.rm = TRUE)))
-
-      df2 <- t(rbind(qn.dat[res$ip,],mbqn.dat[res$ip,]))
-      colnames(df2) <- c(paste0("QN",res$ip),paste0("MBQN",res$ip))
-      df2 <- as.data.frame(df2)
-
-      mtx <- matrix(c(2, 1, 1, 3), byrow=TRUE, nrow=1)
-      nf <- layout(mtx, heights=c(1), widths=c(6,5,1,0.5))
-
-      ylim2 <- c(low2,up2)
-      ylim <- c(low,up)
-      if(!is.null(opt.args$ylim)) {ylim <- ylim2 <- opt.args$ylim}
-
-
-      opt.args.var <- opt.args
-
-      if(!is.null(opt.args$ylim)) opt.args.var <- .optargsReplace(..., replace = list(ylim = ylim))
-      opt.args.var <- .optargsRemove(opt.args.var, remove = c("main", "ylab"))
-
-
-      # boxplot of mbqn data and with balanced qn RI/NRI features
-      opt.args.var$ylab <- ""
-      # remove empty list elements
-      opt.args.var[which(lapply(opt.args.var, length)<1)] <- NULL
-      do.call(mbqnBoxplot, c(list(mtx = mbqn.dat,
-                                  vals = df2,
-                                  add.leg = TRUE,
-                                  main = "MBQN data with RI/NRI feature"),
-                             opt.args.var))
-
-      # boxplot of qn data and with balanced qn RI/NRI features
-      opt.args.var$ylab <- "normalized intensity"
-      do.call(mbqnBoxplot, c(list(mtx = mbqn_ri.dat,
-                                  vals = df,
-                                  main = "QN data with RI/NRI feature",
-                                  add.leg = FALSE),opt.args.var))
-
-
-      #########################################################################
-      # boxplot of qn data and with balanced qn RI/NRI features
-      #fig4.name <- NULL
-      #if(save_fig){
-      #  if(is.null(filename)) {
-      #    fig4.name <- "Figure_example_mbqn.pdf"
-      #  }else{fig4.name <- paste0("Figure_example_mbqn_", filename ,".pdf")}
-      #if(verbose) message(paste("Save figure to ",fig4.name))
-      #}
-
-    #}
-  }
-
-  return(invisible(res))
-
+    
+        low <- floor(min(range(mbqn.dat,na.rm = TRUE)))
+        up <- ceiling(max(range(mbqn.dat,na.rm = TRUE)))
+        
+        df <- t(rbind(qn.dat[res$ip,],mbqn.dat[res$ip,]))
+        colnames(df) <- c(paste0("QN",res$ip),paste0("MBQN",res$ip))
+        df <- as.data.frame(df)
+        
+        low2 <- floor(min(range(mbqn.dat,na.rm = TRUE)))
+        up2 <- ceiling(max(range(mbqn.dat,na.rm = TRUE)))
+        
+        df2 <- t(rbind(qn.dat[res$ip,],mbqn.dat[res$ip,]))
+        colnames(df2) <- c(paste0("QN",res$ip),paste0("MBQN",res$ip))
+        df2 <- as.data.frame(df2)
+        
+        mtx <- matrix(c(2, 1, 1, 3), byrow=TRUE, nrow=1)
+        nf <- layout(mtx, heights=c(1), widths=c(6,5,1,0.5))
+        
+        ylim2 <- c(low2,up2)
+        ylim <- c(low,up)
+        if(!is.null(opt.args$ylim)) {ylim <- ylim2 <- opt.args$ylim}
+        
+        opt.args.var <- opt.args
+        
+        if(!is.null(opt.args$ylim)) opt.args.var <- .optargsReplace(..., replace = list(ylim = ylim))
+        opt.args.var <- .optargsRemove(opt.args.var, remove = c("main", "ylab"))
+        
+        # boxplot of mbqn data and with balanced qn RI/NRI features
+        opt.args.var$ylab <- ""
+        # remove empty list elements
+        opt.args.var[which(lapply(opt.args.var, length)<1)] <- NULL
+        do.call(mbqnBoxplot, c(list(mtx = mbqn.dat,
+                                    vals = df2,
+                                    add.leg = TRUE,
+                                    main = "MBQN data with RI/NRI feature"),
+                                    opt.args.var))
+        
+        # boxplot of qn data and with balanced qn RI/NRI features
+        opt.args.var$ylab <- "normalized intensity"
+        do.call(mbqnBoxplot, c(list(mtx = mbqn_ri.dat,
+                                    vals = df,
+                                    main = "QN data with RI/NRI feature",
+                                    add.leg = FALSE),opt.args.var))
+        #########################################################################
+        # boxplot of qn data and with balanced qn RI/NRI features
+        #fig4.name <- NULL
+        #if(save_fig){
+        #  if(is.null(filename)) {
+        #    fig4.name <- "Figure_example_mbqn.pdf"
+        #  }else{fig4.name <- paste0("Figure_example_mbqn_", filename ,".pdf")}
+        #if(verbose) message(paste("Save figure to ",fig4.name))
+        #}
+    }
+    return(invisible(res))
 }

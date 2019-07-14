@@ -39,68 +39,61 @@
 #' @author Ariane Schad
 #' @export mbqnSimuData
 mbqnSimuData <- function(model = "rand", nrow = NULL, ncol = NULL,
-                         show.fig = FALSE){
+                        show.fig = FALSE){
 
-  if(is.null(nrow)) nrow <- 1000
-  if(is.null(ncol)) ncol <- 10
+    if (is.null(nrow)) nrow <- 1000
+    if (is.null(ncol)) ncol <- 10
 
-  if(model=="rand"){
-    # generate a random matrix without NAs
-    dat <- replicate(ncol, rnorm(nrow))
-    if(show.fig){
-      image(t(dat), xlab = "sample", ylab = "feature row",
-            main = "simulated data", axes= FALSE)
-      axis(1, at = seq_len(ncol(dat))/ncol(dat),
-           labels = seq_len(ncol(dat)))
-    }
-  }
-
-  if(model=="omics" || model == "omics.dep"){
-    # generate a structured random matrix with NAs
-    # the NA structure is extracted from a real dataset
-
-    # load an internal stored MV pattern extracted from a real proteomics
-    # dataset from PRIDE
-    mtx <- example_NApattern
-    mtx[mtx==0] <- NA
-
-    dat <- replicate(ncol(mtx), rnorm(nrow(mtx))*0.25)+rnorm(nrow(mtx))*2+28
-    s.dat <-sort(apply(dat, 1,mean, na.rm =TRUE),
-                 index.return = TRUE ,
-                 decreasing = TRUE)
-    dat <- dat[s.dat$ix,]
-    dat[is.na(mtx)] <- NA
-
-    if(show.fig){
-      par(mfrow=c(2,2))
-      image(t(mtx), xlab = "sample", ylab = "feature row (sorted)",
-            main = "MV pattern", axes = FALSE)
-      axis(1, at = seq_len(ncol(dat))/ncol(dat),
-           labels = seq_len(ncol(dat)))
-      image(t(dat), xlab = "sample", main = "simulated", axes= FALSE)
-      axis(1, at = seq_len(ncol(dat))/ncol(dat),
-           labels = seq_len(ncol(dat)))
-
-      plot(apply(dat,1,mean,na.rm =TRUE),apply(is.na(dat),1,
-                                               mean,na.rm =TRUE),
-           col =1,
-           xlab = "mean feature intensity", ylab = "MV frequency")
-      legend("topright",legend = c("simulated"),  pch = 1, col = c(1),
-             bty ="n", y.intersp = 1.5)
+    if (model=="rand"){
+        # generate a random matrix without NAs
+        dat <- replicate(ncol, rnorm(nrow))
+        if(show.fig){
+            image(t(dat), xlab = "sample", ylab = "feature row",
+                main = "simulated data", axes= FALSE)
+            axis(1, at = seq_len(ncol(dat))/ncol(dat),
+                labels = seq_len(ncol(dat)))
+        }
     }
 
-    if(model=="omics.dep"){
-      # add extra feature with diff. expr.
-      ncol <- ncol(dat)
-      dat <- rbind(c(rep(34.7,9),rep(34.6, 9))+rnorm(ncol)*0.02,dat)
+    if (model == "omics" || model == "omics.dep"){
+        # generate a structured random matrix with NAs
+        # the NA structure is extracted from a real dataset
+
+        # load an internal stored MV pattern extracted from a real proteomics
+        # dataset from PRIDE
+        mtx <- example_NApattern
+        mtx[mtx==0] <- NA
+
+        dat <- replicate(ncol(mtx), rnorm(nrow(mtx))*0.25)+rnorm(nrow(mtx))*2+28
+        s.dat <-sort(apply(dat, 1,mean, na.rm =TRUE),
+                        index.return = TRUE,
+                        decreasing = TRUE)
+        dat <- dat[s.dat$ix,]
+        dat[is.na(mtx)] <- NA
+
+        if (show.fig){
+            par(mfrow=c(2,2))
+            image(t(mtx), xlab = "sample", ylab = "feature row (sorted)",
+                    main = "MV pattern", axes = FALSE)
+            axis(1, at = seq_len(ncol(dat))/ncol(dat),
+                    labels = seq_len(ncol(dat)))
+            image(t(dat), xlab = "sample", main = "simulated", axes= FALSE)
+            axis(1, at = seq_len(ncol(dat))/ncol(dat),
+                    labels = seq_len(ncol(dat)))
+        
+            plot(apply(dat,1,mean,na.rm =TRUE),apply(is.na(dat),1,
+                        mean,na.rm =TRUE),
+                col =1,
+                xlab = "mean feature intensity", ylab = "MV frequency")
+            legend("topright",legend = c("simulated"),  pch = 1, col = c(1),
+                bty ="n", y.intersp = 1.5)
+        }
+
+        if (model == "omics.dep"){
+            # add extra feature with diff. expr.
+            ncol <- ncol(dat)
+            dat <- rbind(c(rep(34.7,9),rep(34.6, 9))+rnorm(ncol)*0.02,dat)
+        }
     }
-
-  }
-
-  return(dat)
-
+    return(dat)
 }
-
-
-
-

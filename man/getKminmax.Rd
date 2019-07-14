@@ -30,8 +30,10 @@ k smallest (\code{flag = "min"}) or largest (\code{flag = "max"}) values and
 their indices. NA's in the data are ignored.
 }
 \examples{
-x <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create a data matrix
-getKminmax(x, k = 5, "max") # get indices of the 5 largest values in each column
+# Create a data matrix
+x <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
+# Get indices of the 5 largest values in each column
+getKminmax(x, k = 5, "max") 
 }
 \references{
 Schad, A. and Kreutz, C., MBQN: R package for

@@ -6,13 +6,13 @@
 # Ariane Schad, Feb 2019
 
 .optargsReplace <- function(..., replace){
-  opt.args <- list(...)
-  opt.args[[names(replace)]] <- replace[[1]]
-  return(opt.args)
+    opt.args <- list(...)
+    opt.args[[names(replace)]] <- replace[[1]]
+    return(opt.args)
 }
 
 .optargsRemove <- function(..., remove){
-  opt.args <- list(...)
-  opt.args[remove] <- NULL
-  return(opt.args)
+    opt.args <- list(...)
+    opt.args[remove] <- NULL
+    return(opt.args)
 }

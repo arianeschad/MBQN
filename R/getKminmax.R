@@ -18,28 +18,30 @@
 #' mean/median-balanced quantile
 #' normalization. In prep. 2019
 #' @examples
-#' x <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3) # Create a data matrix
-#' getKminmax(x, k = 5, "max") # get indices of the 5 largest values in each column
+#' # Create a data matrix
+#' x <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
+#' # Get indices of the 5 largest values in each column
+#' getKminmax(x, k = 5, "max") 
 #' @author Ariane Schad
 #  Aug. 2017
 #' @export getKminmax
 getKminmax <- function(x,k,flag = "max"){
 
-  if(flag == "min"){
-    decreasing <- FALSE
-  }else if(flag=="max"){
-    decreasing <- TRUE
-  }
+    if(flag == "min"){
+        decreasing <- FALSE
+    }else if(flag=="max"){
+        decreasing <- TRUE
+    }
 
-  ## sort ##
-  na.last <- TRUE
-  ik <- apply(x,2,order, decreasing = decreasing, na.last = na.last )
-  minmax <- apply(x,2,function(y)y[order(y, decreasing = decreasing,
-                                         na.last = na.last )])
-  ## select the first k elements ##
-  ik <- ik[seq_len(k),]
-  minmax <- minmax[seq_len(k),]
+    ## sort ##
+    na.last <- TRUE
+    ik <- apply(x,2,order, decreasing = decreasing, na.last = na.last )
+    minmax <- apply(x,2,function(y)y[order(y, decreasing = decreasing,
+                    na.last = na.last )])
+    ## select the first k elements ##
+    ik <- ik[seq_len(k),]
+    minmax <- minmax[seq_len(k),]
 
-  ## return results
-  return(list(ik = ik, minmax = minmax))
+    ## return results
+    return(list(ik = ik, minmax = minmax))
 }
