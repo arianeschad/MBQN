@@ -47,7 +47,7 @@ normalization or mean/median-balanced quantile normalization to a matrix.
 normalization only to selected nearly rank invariant and rank invariant 
 features, specified by a threshold or manually. The input matrix may contain 
 NAs. To run one of these functions you will need to provide an input matrix 
-similar to the data matrix in `mbqnDemo()`. The argument `FUN` is used to select between classical quantile normalization (default), and mean or median balanced quantile normalization. The function `mbqnGetNRIfeatures()` and `mbqnPlotRI()` can be used to check a data matrix for rank or nearly rank 
+(see Examples). The argument `FUN` is used to select between classical quantile normalization (default), and mean or median balanced quantile normalization. The function `mbqnGetNRIfeatures()` and `mbqnPlotRI()` can be used to check a data matrix for rank or nearly rank 
 invariant features. They provide a list of potential RI/NRI features together 
 with their rank invariance frequency and a graphical output. 
 
@@ -58,7 +58,9 @@ intensities with missing values and a single rank invariant feature:
 ## basic example
 library("MBQN")
 set.seed(1234)
+# data generation 
 mtx <- mbqnSimuData("omics.dep")
+# data distortion
 mtx <- mbqnSimuDistortion(mtx)$x.mod
 ```
 ```{r figure1, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 1 Boxplot of the unnormalized, distorted intensity data matrix. The first feature is an RI feature (red line). It has maximum intensity for each sample!"}
@@ -86,7 +88,165 @@ mbqnBoxplot(mtx.norm, irow = ri.obj$ip, vals = data.frame(QN = mtx.qn[ri.obj$ip,
 ```
 
 <br /><br />
-Example 2: This example downloads an LFQ intensity dataset from the PRIDE 
+Example 2: Visualize  the effect of normalization on
+rank mixing and rank invariant intensity features by comparing the intensity distribution of unnormalized, quantile and mean/median-balanced quantile normalized data on a matrix where rows represent features, e.g. of protein
+abundances/intensities, and columns represent samples. 
+
+```{r example2, eval = TRUE}
+## basic example
+library("MBQN")
+set.seed(1234)
+mtx <- mbqnSimuData("omics.dep") 
+# Alternatively: mtx <- matrix(
+#            c(5,2,3,NA,2,4,1,4,2,3,1,4,6,NA,1,3,NA,1,4,3,NA,1,2,3),ncol=4)
+
+# perform qn, median balanced qn, and qn with median balanced nri feature
+qn_mtx <- mbqn(mtx,FUN=NULL, verbose = FALSE)
+mbqn_mtx <- mbqn(mtx,FUN = "median", verbose = FALSE)
+qn_nri_mtx <- mbqnNRI(mtx,FUN = "median", low_thr = 0.5, verbose = FALSE)
+
+# check saturation i.e. for rank invariance
+res <- mbqnGetNRIfeatures(mtx,verbose = FALSE)
+
+#try(dev.off(),silent = TRUE)
+#plot.new()
+#frame()
+
+# matrix object specifying the location of the next N figures
+#mtx2 <- matrix(c(2, 3, 3, 6,
+#                4, 1, 1, 5), byrow=TRUE, nrow=2)
+# layout of plot arrangement
+#nf <- layout(mtx2, heights=c(1,1), widths=c(6,5,1,0.5))
+
+ylim <- range(mtx, na.rm =TRUE)
+
+# create a boxplot for qn-data with nri features median balanced
+plot.new()
+mbqnBoxplot(qn_nri_mtx, irow = res$ip,
+            add.leg = TRUE, main ="QN data with MBQN NRI feature",
+            cex.lab = 1.2,
+            cex = 1.2,
+            ylim = ylim)
+# create a boxplot for x
+plot.new()
+mbqnBoxplot(mtx,
+            add.leg = FALSE, main = "data",
+            cex.lab = 1.2,
+            cex = 1.2,
+            ylim = ylim)
+# create a boxplot for qn-data
+plot.new()
+mbqnBoxplot(qn_mtx, irow = res$ip,
+            add.leg = FALSE, main = "QN data",
+            cex.lab = 1.2,
+            cex = 1.2,
+            ylim = ylim)
+# create a boxplot for mbqn-data
+plot.new()
+mbqnBoxplot(mbqn_mtx,
+            add.leg = FALSE, main = "MBQN data",
+            cex.lab = 1.2,
+            cex = 1.2,
+            ylim = ylim)
+```
+
+<br /><br />
+Example 3: Apply a two-sided t-test before and after application
+of different normalizations to a simulated, differentially expressed and
+distorted RI feature. The feature is obtained from a simulated dataset
+where each sample is distorted in mean and scale.
+
+```{r example3, eval = TRUE}
+plot.new()
+mtx <- mbqnSimuData("omics.dep", show.fig = FALSE)
+mtx.mod <- mbqnSimuDistortion(mtx, s.mean = 0.05, s.scale = 0.01)
+mtx2 <- mtx.mod
+mtx.mod <- mtx.mod$x.mod
+
+res <- mbqnGetNRIfeatures(mtx.mod, low_thr = 0.5, verbose = FALSE)
+
+# undistorted feature
+feature1 <- mtx[1,]
+# distorted feature
+feature1mod = mtx.mod[1,]
+# feature after normalization
+qn.feature1 = mbqn(mtx.mod, verbose = FALSE)[1,]
+qn.mtx = mbqn(mtx.mod,verbose = FALSE)
+
+mbqn.mtx = mbqn(mtx.mod, FUN = "mean",verbose = FALSE)
+mbqn.feature1 = mbqn(mtx.mod, FUN = "mean",verbose = FALSE)[1,]
+
+# Apply t-test:
+# undistorted feature
+ttest.res0 <- t.test(feature1[seq_len(9)], feature1[c(10:18)],
+                    var.equal =TRUE)
+# distorted feature
+ttest.res1 <- t.test(feature1mod[seq_len(9)], feature1mod[c(10:18)],
+                    var.equal =TRUE)
+# mbqn normalized distorted feature
+ttest.res <- t.test(mbqn.feature1[seq_len(9)], mbqn.feature1[c(10:18)],
+                    var.equal =TRUE)
+
+# compare qn, mbqn and original feature
+par(mfrow = c(1,1))
+mbqnBoxplot(mtx,ylim = c(25,36),
+            vals = data.frame(RI = mtx[1,],
+                            NRI = mtx[as.numeric(names(res$nri)[2]),]),
+            y.intersp= 1.5)
+
+#dev.off()
+mbqnBoxplot(mtx.mod,ylim = c(25,39),
+            vals = data.frame(RI = mtx.mod[1,],
+                    NRI = mtx.mod[as.numeric(names(res$nri)[2]),]),
+            y.intersp= 1.5)
+
+#dev.off()
+mbqnBoxplot(qn.mtx,ylim = c(25,36),
+            vals = data.frame(RI = qn.mtx[1,],
+                    NRI = qn.mtx[as.numeric(names(res$nri)[2]),]),
+            y.intersp= 1.5)
+
+#dev.off()
+mbqnBoxplot(mbqn.mtx,ylim = c(25,36),
+            vals = data.frame(RI = mbqn.mtx[1,],
+                    NRI = mbqn.mtx[as.numeric(names(res$nri)[2]),]),
+            y.intersp= 1.5)
+
+#dev.off()
+matplot(t(rbind(feature1 = feature1,
+    feature1.mod = (feature1mod-mean(feature1mod))/25+mean(feature1),
+    qn.feature1 = (qn.feature1-mean(qn.feature1))+mean(feature1),
+    mbqn.feature1 = (
+        mbqn.feature1-mean(mbqn.feature1))+mean(feature1))),
+    type = "b", lty = c(1,1,1), pch = "o",
+    ylab = "intensity",
+    xlab = "sample",
+    main = "Differentially expressed RI feature",
+    ylim = c(34.48,34.85))
+legend(x=11,y= 34.86, legend = c("feature","distorted feature/25" ,
+                                "QN feature", " MBQN feature"),pch = 1,
+        col = c(1,2,3,4), lty= c(1,1,1,1), bty = "n", y.intersp = 1.5,
+        x.intersp = 0.2)
+legend(x = .1, y = 34.6,
+        legend = paste("p-value (t-test) =",round(ttest.res1$p.value,2),
+            "\np-value (t-test, mbqn) =", round(ttest.res$p.value,4)),
+        bty = "n", x.intersp = 0)
+
+
+if (ttest.res$p.value<0.05)
+    message("H0 (=equal mean) is rejected!")
+
+
+# print(mtx2$x.mod)
+# print(mtx2$mx.offset)
+# print(mtx2$mx.scale)
+# print(paste("ttest.undistorted =",ttest.res0)) 
+# print(paste("ttest.distorted =", ttest.res1))
+# print(paste("ttest.mbqndistorted =", ttest.res))
+```
+
+<br /><br />
+Example 4: This example downloads an LFQ intensity dataset from the PRIDE 
 repository, normalizes the data, identifies RI/NRI features, and give graphical 
 output. One can choose between four data sets. By default data files are stored 
 in the current working directory currentdir/PXDxxx.
@@ -99,7 +259,7 @@ Other data examples are <br />
 * "PXD005861" - contains one RI feature (file size 334.7 MB) <br />
 * "PXD006617" - contains one RI feature (file size 290.8 MB) <br />
 
-```{r example2, eval = FALSE}
+```{r example4, eval = TRUE}
 library("SummarizedExperiment")
   pxd_id <- "PXD001584"   
   

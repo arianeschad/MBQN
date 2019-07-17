@@ -49,9 +49,6 @@ mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b")
 Schad, A. and Kreutz, C., MBQN: R package for mean/median-
 balanced quantile normalization. In prep. 2019
 }
-\seealso{
-Other example: \code{\link{mbqnDemo}}
-}
 \author{
 Ariane Schad
 }
