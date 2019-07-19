@@ -65,17 +65,17 @@ mtx <- mbqnSimuDistortion(mtx)$x.mod
 ```
 ```{r figure1, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 1 Boxplot of the unnormalized, distorted intensity data matrix. The first feature is an RI feature (red line). It has maximum intensity for each sample!"}
 plot.new()
-mbqnBoxplot(mtx, irow = 1, main = "unnormalized")
+mbqnBoxplot(mtx, irow = 1, main = "Unnormalized")
 ```
 <br />
 Apply check for rank invariant (RI) or nearly rank invariant (NRI) features to 
 the data matrix and visualize result:
 ```{r, eval = TRUE}
-ri.obj <- mbqnGetNRIfeatures(mtx, low_thr = 0.5)
+res <- mbqnGetNRIfeatures(mtx, low_thr = 0.5)
 ```
 ```{r figure2, fig.height = 3, fig.width = 6, fig.align = "left", fig.cap = "Fig. 2 Correctly detected and identified RI feature with a data coverage of 100% across samples."}
 plot.new()
-mbqnPlotRI(ri.obj)
+mbqnPlotRI(res)
 ```
 <br />
 Apply quantile normalization with and without balancing the RI feature and 
@@ -84,7 +84,7 @@ compare the intensity features:
 plot.new()
 mtx.norm <- mbqnNRI(x = mtx, FUN = median, verbose = FALSE) # MBQN
 mtx.qn <- mbqnNRI(x = mtx, FUN = NULL, verbose = FALSE) # QN
-mbqnBoxplot(mtx.norm, irow = ri.obj$ip, vals = data.frame(QN = mtx.qn[ri.obj$ip,]), main = "normalized")
+mbqnBoxplot(mtx.norm, irow = res$ip, vals = data.frame(QN = mtx.qn[res$ip,]), main = "Normalized")
 ```
 
 <br /><br />
@@ -106,20 +106,11 @@ mbqn_mtx <- mbqn(mtx,FUN = "median", verbose = FALSE)
 qn_nri_mtx <- mbqnNRI(mtx,FUN = "median", low_thr = 0.5, verbose = FALSE)
 
 # check saturation i.e. for rank invariance
-res <- mbqnGetNRIfeatures(mtx,verbose = FALSE)
-
-#try(dev.off(),silent = TRUE)
-#plot.new()
-#frame()
-
-# matrix object specifying the location of the next N figures
-#mtx2 <- matrix(c(2, 3, 3, 6,
-#                4, 1, 1, 5), byrow=TRUE, nrow=2)
-# layout of plot arrangement
-#nf <- layout(mtx2, heights=c(1,1), widths=c(6,5,1,0.5))
+res <- mbqnGetNRIfeatures(mtx, low_thr = 0.5)
 
 ylim <- range(mtx, na.rm =TRUE)
-
+```
+```{r figure4, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 4 "}
 # create a boxplot for qn-data with nri features median balanced
 plot.new()
 mbqnBoxplot(qn_nri_mtx, irow = res$ip,
@@ -127,13 +118,17 @@ mbqnBoxplot(qn_nri_mtx, irow = res$ip,
             cex.lab = 1.2,
             cex = 1.2,
             ylim = ylim)
+```
+```{r figure5, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 5 "}
 # create a boxplot for x
 plot.new()
 mbqnBoxplot(mtx,
-            add.leg = FALSE, main = "data",
+            add.leg = FALSE, main = "Data",
             cex.lab = 1.2,
             cex = 1.2,
             ylim = ylim)
+```
+```{r figure6, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 6 "}
 # create a boxplot for qn-data
 plot.new()
 mbqnBoxplot(qn_mtx, irow = res$ip,
@@ -141,6 +136,8 @@ mbqnBoxplot(qn_mtx, irow = res$ip,
             cex.lab = 1.2,
             cex = 1.2,
             ylim = ylim)
+```
+```{r figure7, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 7 "}
 # create a boxplot for mbqn-data
 plot.new()
 mbqnBoxplot(mbqn_mtx,
@@ -157,13 +154,13 @@ distorted RI feature. The feature is obtained from a simulated dataset
 where each sample is distorted in mean and scale.
 
 ```{r example3, eval = TRUE}
-plot.new()
+#plot.new()
 mtx <- mbqnSimuData("omics.dep", show.fig = FALSE)
 mtx.mod <- mbqnSimuDistortion(mtx, s.mean = 0.05, s.scale = 0.01)
 mtx2 <- mtx.mod
 mtx.mod <- mtx.mod$x.mod
 
-res <- mbqnGetNRIfeatures(mtx.mod, low_thr = 0.5, verbose = FALSE)
+res <- mbqnGetNRIfeatures(mtx.mod, low_thr = 0.5)
 
 # undistorted feature
 feature1 <- mtx[1,]
@@ -188,31 +185,41 @@ ttest.res <- t.test(mbqn.feature1[seq_len(9)], mbqn.feature1[c(10:18)],
                     var.equal =TRUE)
 
 # compare qn, mbqn and original feature
-par(mfrow = c(1,1))
+```
+```{r figure8, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 8 "}
+plot.new()
 mbqnBoxplot(mtx,ylim = c(25,36),
             vals = data.frame(RI = mtx[1,],
                             NRI = mtx[as.numeric(names(res$nri)[2]),]),
-            y.intersp= 1.5)
-
-#dev.off()
+            y.intersp= 1.5,
+            main = "Undistorted data")
+```
+```{r figure9, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 9 "}
+plot.new()
 mbqnBoxplot(mtx.mod,ylim = c(25,39),
             vals = data.frame(RI = mtx.mod[1,],
                     NRI = mtx.mod[as.numeric(names(res$nri)[2]),]),
-            y.intersp= 1.5)
-
-#dev.off()
+            y.intersp= 1.5,
+            main = "Distorted data")
+```
+```{r figure10, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 10 "}
+plot.new()
 mbqnBoxplot(qn.mtx,ylim = c(25,36),
             vals = data.frame(RI = qn.mtx[1,],
                     NRI = qn.mtx[as.numeric(names(res$nri)[2]),]),
-            y.intersp= 1.5)
-
-#dev.off()
+            y.intersp= 1.5,
+            main = "QN data")
+```
+```{r figure11, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 11 "}
+plot.new()
 mbqnBoxplot(mbqn.mtx,ylim = c(25,36),
             vals = data.frame(RI = mbqn.mtx[1,],
                     NRI = mbqn.mtx[as.numeric(names(res$nri)[2]),]),
-            y.intersp= 1.5)
-
-#dev.off()
+            y.intersp= 1.5,
+            main = "MBQN data")
+```
+```{r figure12, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 12 "}
+plot.new()
 matplot(t(rbind(feature1 = feature1,
     feature1.mod = (feature1mod-mean(feature1mod))/25+mean(feature1),
     qn.feature1 = (qn.feature1-mean(qn.feature1))+mean(feature1),
@@ -261,115 +268,118 @@ Other data examples are <br />
 
 ```{r example4, eval = TRUE}
 library("SummarizedExperiment")
-  pxd_id <- "PXD001584"   
-  
-  # Download file from PRIDE to currentdir/PXDxxx
-  getPXDfile(pxd_id)
+pxd_id <- "PXD001584"   
 
-  # Load file
-  out <- mbqnLoadFile(pxd_id, file.pattern = "proteinGroups.txt")
+# Download file from PRIDE to currentdir/PXDxxx
+# getPXDfile(pxd_id)
 
-  # filter for potential contaminants and identified only by site features
-  out <- out[!rowData(out)[["ixs"]],] 
+# Load file
+out <- mbqnLoadFile(pxd_id, file.pattern = "proteinGroups.txt")
 
-  # extract data and feature annotation
-  mtx <- assays(out)[["data"]]
-  featureAnnotations <- rowData(out)
+# filter for potential contaminants and identified only by site features
+out <- out[!rowData(out)[["ixs"]],] 
 
-  low_thr <- 0.5
-  ylim <- NULL
-  ix <- seq_len(ncol(mtx))
+# extract data and feature annotation
+mtx <- assays(out)[["data"]]
+featureAnnotations <- rowData(out)
 
-  ix <- c(1:9,19:27)
-  mtx <- mtx[,ix]
-  ylim.qn <- ylim <- c(22.5,36)
+low_thr <- 0.5
+ylim <- NULL
+ix <- seq_len(ncol(mtx))
 
-  ####################################################################################
-  res <- mbqnPlotAll(mtx,
-                     FUN = median,
-                     low_thr = low_thr,
-                     las = 2,
-                     type = "l",
-                     feature_index = NULL,
-                     show_nri_only = TRUE,
-                     axis.cex = 0.5,
-                     y.intersp= 0.5)
-  dev.off()
+ix <- c(1:9,19:27)
+mtx <- mtx[,ix]
+ylim.qn <- ylim <- c(22.5,36)
 
-  # get protein name of strongest nri/ri feature
-  nri_max <- as.numeric(names(which.max(res$nri)))
-  #featureAnnotations$proteinDescription[nri_max]
-  #featureAnnotations$proteinName[nri_max]
-  #featureAnnotations$nbPeptides[nri_max]
-
-  df <- lapply(seq_len(ncol(featureAnnotations)),function(j) featureAnnotations[[j]][[nri_max]])
-  names(df)<- names(featureAnnotations)
-
-  # truncate long name strings
-  df$proteinName <-  paste(strtrim(df$proteinName,80),"...")
-  df$proteinDescription <- paste(strtrim(df$proteinDescription,80),"...")
-
-  colnames(mtx) <- gsub("LFQ intensity","",colnames(mtx))
-  mbqn.mtx <- mbqn(mtx,FUN = median)
-  qn.mtx <- mbqn(mtx,FUN = NULL)
-
-  # Boxplot of QN intensity features, highlight RI/NRI Features
-  if(length(ylim)==0) {
-    ylim <- c(floor(min(range(mbqn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE))))
-    ylim.qn <- c(floor(min(range(qn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE))))
-  }
-  #colnames(qn.mtx) <- colnames(mbqn.mtx) <- ix
-
-  plot.new()
-  frame()
-  mbqnBoxplot(mtx = qn.mtx,main = paste("QN"),
-              ylab = "LFQ intensity",
-              ylim = ylim, xlab = "",las =2,
-              irow = c(as.numeric(names(res$nri))), y.intersp = 0.5)
-
-  plot.new()
-  frame()
-  
-  # select a qn feature:
-  is.full.feature <- which((apply(is.na(mtx),1,sum))==0)[1]
-  df <- data.frame(QN.feature = qn.mtx[is.full.feature,])
-  names(df) <- paste("QN feature", is.full.feature)
-  mbqnBoxplot(mtx = mbqn.mtx,main = "MBQN with QN-feature",
-              irow = c(as.numeric(names(res$nri)),is.full.feature),
-              xlab= "", las =2,
-              ylab = "LFQ intensity",
-              vals = df,
-              ylim = ylim, y.intersp = 0.5)
-  
-  # QN of data and balance only NRI/RI features
-  dev.off()
-  plot.new()
-  frame()
-  par(mfrow = c(1,1))
-
-  df <- data.frame(qn.mtx[as.numeric(names(res$nri)),])
-  if(ncol(df)==1) df <- t(df)
-  rownames(df) <- paste("QN feature",names(res$nri))
-  df2 <- data.frame(mtx[as.numeric(names(res$nri)),])
-  if(ncol(df2)==1) df2 <- t(df2)
-  rownames(df2) <- paste("unnormal. feature",names(res$nri))
-  colnames(df) <- colnames(df2)
-  df <- rbind(df,df2)
-  df <- as.data.frame(t(df))
-
-  mtx.nri <- mbqnNRI(mtx,FUN = median,low_thr = 0.5, verbose = FALSE)
-  mbqnBoxplot(mtx = mtx.nri,
-              irow = as.numeric(names(res$nri)),
-              ylim = ylim.qn, xlab= "", las=2,
-              ylab = "LFQ intensity",
-              vals = df,lwd = 1.,
-              main = "QN with RI/NRI balanced",
-              cex.axis = 1, cex.lab = .9, cex = .9, y.intersp = 0.5)
+####################################################################################
 ```
+```{r figure13, fig.height = 3, fig.width = 6, fig.align = "left", fig.cap = "Fig. 13 "}
+plot.new()
+res <- mbqnPlotAll(mtx,
+                   FUN = median,
+                   low_thr = low_thr,
+                   las = 2,
+                   type = "l",
+                   feature_index = NULL,
+                   show_nri_only = TRUE,
+                   axis.cex = 0.5,
+                   y.intersp= 0.5)
+dev.off()
 
+# get protein name of strongest nri/ri feature
+nri_max <- as.numeric(names(which.max(res$nri)))
+#featureAnnotations$proteinDescription[nri_max]
+#featureAnnotations$proteinName[nri_max]
+#featureAnnotations$nbPeptides[nri_max]
 
-## Figures
-Figures created with MBQN are saved as pdf in the current working directory.
+df <- lapply(seq_len(ncol(featureAnnotations)),function(j) featureAnnotations[[j]][[nri_max]])
+names(df)<- names(featureAnnotations)
+
+# truncate long name strings
+df$proteinName <-  paste(strtrim(df$proteinName,80),"...")
+df$proteinDescription <- paste(strtrim(df$proteinDescription,80),"...")
+
+colnames(mtx) <- gsub("LFQ intensity","",colnames(mtx))
+mbqn.mtx <- mbqn(mtx,FUN = median)
+qn.mtx <- mbqn(mtx,FUN = NULL)
+
+# Boxplot of QN intensity features, highlight RI/NRI Features
+if(length(ylim)==0) {
+  ylim <- c(floor(min(range(mbqn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE))))
+  ylim.qn <- c(floor(min(range(qn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE))))
+}
+```
+```{r figure14, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 14 "}
+plot.new()
+frame()
+mbqnBoxplot(mtx = qn.mtx,main = "QN",
+            ylab = "LFQ intensity",
+            ylim = ylim, xlab = "",las =2,
+            irow = c(as.numeric(names(res$nri))), y.intersp = 0.5)
+
+# select a qn feature:
+is.full.feature <- which((apply(is.na(mtx),1,sum))==0)[1]
+df <- data.frame(QN.feature = qn.mtx[is.full.feature,])
+names(df) <- paste("QN feature", is.full.feature)
+
+```
+```{r figure15, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 15 "}
+plot.new()
+frame()
+mbqnBoxplot(mtx = mbqn.mtx,main = "MBQN with QN-feature",
+            irow = c(as.numeric(names(res$nri)),is.full.feature),
+            xlab= "", las =2,
+            ylab = "LFQ intensity",
+            vals = df,
+            ylim = ylim, y.intersp = 0.5)
+
+# QN of data and balance only NRI/RI features
+dev.off()
+
+df <- data.frame(qn.mtx[as.numeric(names(res$nri)),])
+if(ncol(df)==1) df <- t(df)
+rownames(df) <- paste("QN feature",names(res$nri))
+df2 <- data.frame(mtx[as.numeric(names(res$nri)),])
+if(ncol(df2)==1) df2 <- t(df2)
+rownames(df2) <- paste("unnormal. feature",names(res$nri))
+colnames(df) <- colnames(df2)
+df <- rbind(df,df2)
+df <- as.data.frame(t(df))
+```
+```{r figure16, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 16 "}
+  mtx.nri <- mbqnNRI(mtx,FUN = median,low_thr = 0.5, verbose = FALSE)
+
+plot.new()
+frame()
+par(mfrow = c(1,1))
+mbqnBoxplot(mtx = mtx.nri,
+            irow = as.numeric(names(res$nri)),
+            ylim = ylim.qn, xlab= "", las=2,
+            ylab = "LFQ intensity",
+            vals = df,lwd = 1.,
+            main = "QN with RI/NRI balanced",
+            cex.axis = 1, cex.lab = .9, cex = .9, y.intersp = 0.5)
+```
 
 ## Documentation
 To view the documentation for MBQN, type in R
