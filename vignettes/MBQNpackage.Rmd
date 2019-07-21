@@ -204,7 +204,7 @@ mbqnBoxplot(mtx.mod,ylim = c(25,39),
 ```
 ```{r figure10, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 10 "}
 plot.new()
-mbqnBoxplot(qn.mtx,ylim = c(25,36),
+mbqnBoxplot(qn.mtx,ylim = c(25,39),
             vals = data.frame(RI = qn.mtx[1,],
                     NRI = qn.mtx[as.numeric(names(res$nri)[2]),]),
             y.intersp= 1.5,
@@ -212,7 +212,7 @@ mbqnBoxplot(qn.mtx,ylim = c(25,36),
 ```
 ```{r figure11, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 11 "}
 plot.new()
-mbqnBoxplot(mbqn.mtx,ylim = c(25,36),
+mbqnBoxplot(mbqn.mtx,ylim = c(25,39),
             vals = data.frame(RI = mbqn.mtx[1,],
                     NRI = mbqn.mtx[as.numeric(names(res$nri)[2]),]),
             y.intersp= 1.5,
@@ -304,7 +304,7 @@ res <- mbqnPlotAll(mtx,
                    show_nri_only = TRUE,
                    axis.cex = 0.5,
                    y.intersp= 0.5)
-dev.off()
+#dev.off()
 
 # get protein name of strongest nri/ri feature
 nri_max <- as.numeric(names(which.max(res$nri)))
@@ -331,7 +331,6 @@ if(length(ylim)==0) {
 ```
 ```{r figure14, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 14 "}
 plot.new()
-frame()
 mbqnBoxplot(mtx = qn.mtx,main = "QN",
             ylab = "LFQ intensity",
             ylim = ylim, xlab = "",las =2,
@@ -345,7 +344,6 @@ names(df) <- paste("QN feature", is.full.feature)
 ```
 ```{r figure15, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 15 "}
 plot.new()
-frame()
 mbqnBoxplot(mtx = mbqn.mtx,main = "MBQN with QN-feature",
             irow = c(as.numeric(names(res$nri)),is.full.feature),
             xlab= "", las =2,
@@ -353,8 +351,8 @@ mbqnBoxplot(mtx = mbqn.mtx,main = "MBQN with QN-feature",
             vals = df,
             ylim = ylim, y.intersp = 0.5)
 
+#dev.off()
 # QN of data and balance only NRI/RI features
-dev.off()
 
 df <- data.frame(qn.mtx[as.numeric(names(res$nri)),])
 if(ncol(df)==1) df <- t(df)
@@ -370,8 +368,6 @@ df <- as.data.frame(t(df))
   mtx.nri <- mbqnNRI(mtx,FUN = median,low_thr = 0.5, verbose = FALSE)
 
 plot.new()
-frame()
-par(mfrow = c(1,1))
 mbqnBoxplot(mtx = mtx.nri,
             irow = as.numeric(names(res$nri)),
             ylim = ylim.qn, xlab= "", las=2,
