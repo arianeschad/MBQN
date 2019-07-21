@@ -41,14 +41,15 @@ To install these packages in R run:
 
 
 ## Usage
-The package provides two basic functions: `mbqn()` applies quantile 
-normalization or mean/median-balanced quantile normalization to a matrix. 
+The package provides two basic functions: `mbqn()` applies QN or mean/median-balanced quantile
+normalization (MBQN) to a matrix. 
 `mbqnNRI()` applies quantile normalization and mean/median-balanced quantile 
-normalization only to selected nearly rank invariant and rank invariant 
-features, specified by a threshold or manually. The input matrix may contain 
-NAs. To run one of these functions you will need to provide an input matrix 
-(see Examples). The argument `FUN` is used to select between classical quantile normalization (default), and mean or median balanced quantile normalization. The function `mbqnGetNRIfeatures()` and `mbqnPlotRI()` can be used to check a data matrix for rank or nearly rank 
-invariant features. They provide a list of potential RI/NRI features together 
+normalization only to selected NRI and RI features, specified by a threshold or manually. 
+The input matrix may contain NAs. To run one of these functions you will need to provide an
+input matrix (see Examples). The argument `FUN` is used to select between classical quantile
+normalization (default), and mean or median balanced quantile normalization. The function
+`mbqnGetNRIfeatures()` and `mbqnPlotRI()` can be used to check a data matrix for RI or NRI 
+features. They provide a list of potential RI/NRI features together 
 with their rank invariance frequency and a graphical output. 
 
 ## Examples
@@ -99,13 +100,17 @@ set.seed(1234)
 mtx <- mbqnSimuData("omics.dep") 
 # Alternatively: mtx <- matrix(
 #            c(5,2,3,NA,2,4,1,4,2,3,1,4,6,NA,1,3,NA,1,4,3,NA,1,2,3),ncol=4)
-
-# perform qn, median balanced qn, and qn with median balanced nri feature
+```
+<br />
+Perform QN, median balanced QN, and QN with median balanced NRI feature.
+```{r, eval = TRUE}
 qn_mtx <- mbqn(mtx,FUN=NULL, verbose = FALSE)
 mbqn_mtx <- mbqn(mtx,FUN = "median", verbose = FALSE)
 qn_nri_mtx <- mbqnNRI(mtx,FUN = "median", low_thr = 0.5, verbose = FALSE)
-
-# check saturation i.e. for rank invariance
+```
+<br />
+Check saturation i.e. for rank invariance.
+```{r, eval = TRUE}
 res <- mbqnGetNRIfeatures(mtx, low_thr = 0.5)
 
 ylim <- range(mtx, na.rm =TRUE)
@@ -172,8 +177,10 @@ qn.mtx = mbqn(mtx.mod,verbose = FALSE)
 
 mbqn.mtx = mbqn(mtx.mod, FUN = "mean",verbose = FALSE)
 mbqn.feature1 = mbqn(mtx.mod, FUN = "mean",verbose = FALSE)[1,]
-
-# Apply t-test:
+```
+<br />
+Apply t-test:
+```{r, eval = TRUE}
 # undistorted feature
 ttest.res0 <- t.test(feature1[seq_len(9)], feature1[c(10:18)],
                     var.equal =TRUE)
@@ -183,8 +190,10 @@ ttest.res1 <- t.test(feature1mod[seq_len(9)], feature1mod[c(10:18)],
 # mbqn normalized distorted feature
 ttest.res <- t.test(mbqn.feature1[seq_len(9)], mbqn.feature1[c(10:18)],
                     var.equal =TRUE)
-
-# compare qn, mbqn and original feature
+```
+<br />
+Compare QN, MBQN and original feature.
+```{r, eval = TRUE}
 ```
 ```{r figure8, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 8 "}
 plot.new()
@@ -247,9 +256,9 @@ if (ttest.res$p.value<0.05)
 # print(mtx2$x.mod)
 # print(mtx2$mx.offset)
 # print(mtx2$mx.scale)
-# print(paste("ttest.undistorted =",ttest.res0)) 
-# print(paste("ttest.distorted =", ttest.res1))
-# print(paste("ttest.mbqndistorted =", ttest.res))
+print(paste("ttest.undistorted =",ttest.res0)) 
+print(paste("ttest.distorted =", ttest.res1))
+print(paste("ttest.mbqndistorted =", ttest.res))
 ```
 
 <br /><br />
