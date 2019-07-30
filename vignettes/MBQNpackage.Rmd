@@ -83,9 +83,9 @@ Apply quantile normalization with and without balancing the RI feature and
 compare the intensity features: 
 ```{r figure3, fig.height = 5, fig.width = 6, fig.align = 'left', fig.cap = "Fig. 3 Quantile normalized intensities with balanced and unbalanced normalized RI feature. Classical quantile normalization suppresses any intensity variation of the RI feature, while the MBQN preserves its variation while reducing systematic batch effects!"}
 plot.new()
-mtx.norm <- mbqnNRI(x = mtx, FUN = median, verbose = FALSE) # MBQN
-mtx.qn <- mbqnNRI(x = mtx, FUN = NULL, verbose = FALSE) # QN
-mbqnBoxplot(mtx.norm, irow = res$ip, vals = data.frame(QN = mtx.qn[res$ip,]), main = "Normalized")
+mbqn.mtx <- mbqnNRI(x = mtx, FUN = median, verbose = FALSE) # MBQN
+qn.mtx <- mbqnNRI(x = mtx, FUN = NULL, verbose = FALSE) # QN
+mbqnBoxplot(mbqn.mtx, irow = res$ip, vals = data.frame(QN = mtx.qn[res$ip,]), main = "Normalized")
 ```
 
 <br /><br />
@@ -104,9 +104,9 @@ mtx <- mbqnSimuData("omics.dep")
 <br />
 Perform QN, median balanced QN, and QN with median balanced NRI feature.
 ```{r, eval = TRUE}
-qn_mtx <- mbqn(mtx,FUN=NULL, verbose = FALSE)
-mbqn_mtx <- mbqn(mtx,FUN = "median", verbose = FALSE)
-qn_nri_mtx <- mbqnNRI(mtx,FUN = "median", low_thr = 0.5, verbose = FALSE)
+qn.mtx <- mbqn(mtx,FUN=NULL, verbose = FALSE)
+mbqn.mtx <- mbqn(mtx,FUN = "median", verbose = FALSE)
+qn.nri.mtx <- mbqnNRI(mtx,FUN = "median", low_thr = 0.5, verbose = FALSE)
 ```
 <br />
 Check saturation i.e. for rank invariance.
@@ -118,7 +118,7 @@ ylim <- range(mtx, na.rm =TRUE)
 ```{r figure4, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 4 "}
 # create a boxplot for qn-data with nri features median balanced
 plot.new()
-mbqnBoxplot(qn_nri_mtx, irow = res$ip,
+mbqnBoxplot(qn.nri.mtx, irow = res$ip,
             add.leg = TRUE, main ="QN data with MBQN NRI feature",
             cex.lab = 1.2,
             cex = 1.2,
@@ -136,7 +136,7 @@ mbqnBoxplot(mtx,
 ```{r figure6, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 6 "}
 # create a boxplot for qn-data
 plot.new()
-mbqnBoxplot(qn_mtx, irow = res$ip,
+mbqnBoxplot(qn.mtx, irow = res$ip,
             add.leg = FALSE, main = "QN data",
             cex.lab = 1.2,
             cex = 1.2,
@@ -145,7 +145,7 @@ mbqnBoxplot(qn_mtx, irow = res$ip,
 ```{r figure7, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 7 "}
 # create a boxplot for mbqn-data
 plot.new()
-mbqnBoxplot(mbqn_mtx,
+mbqnBoxplot(mbqn.mtx,
             add.leg = FALSE, main = "MBQN data",
             cex.lab = 1.2,
             cex = 1.2,
@@ -161,22 +161,22 @@ where each sample is distorted in mean and scale.
 ```{r example3, eval = TRUE}
 #plot.new()
 mtx <- mbqnSimuData("omics.dep", show.fig = FALSE)
-mtx.mod <- mbqnSimuDistortion(mtx, s.mean = 0.05, s.scale = 0.01)
-mtx2 <- mtx.mod
-mtx.mod <- mtx.mod$x.mod
+mod.mtx <- mbqnSimuDistortion(mtx, s.mean = 0.05, s.scale = 0.01)
+mtx2 <- mod.mtx
+mod.mtx <- mod.mtx$x.mod
 
-res <- mbqnGetNRIfeatures(mtx.mod, low_thr = 0.5)
+res <- mbqnGetNRIfeatures(mod.mtx, low_thr = 0.5)
 
 # undistorted feature
 feature1 <- mtx[1,]
 # distorted feature
-feature1mod = mtx.mod[1,]
+feature1mod = mod.mtx[1,]
 # feature after normalization
-qn.feature1 = mbqn(mtx.mod, verbose = FALSE)[1,]
-qn.mtx = mbqn(mtx.mod,verbose = FALSE)
+qn.feature1 = mbqn(mod.mtx, verbose = FALSE)[1,]
+qn.mtx = mbqn(mod.mtx,verbose = FALSE)
 
-mbqn.mtx = mbqn(mtx.mod, FUN = "mean",verbose = FALSE)
-mbqn.feature1 = mbqn(mtx.mod, FUN = "mean",verbose = FALSE)[1,]
+mbqn.mtx = mbqn(mod.mtx, FUN = "mean",verbose = FALSE)
+mbqn.feature1 = mbqn(mod.mtx, FUN = "mean",verbose = FALSE)[1,]
 ```
 <br />
 Apply t-test:
@@ -197,7 +197,7 @@ Compare QN, MBQN and original feature.
 ```
 ```{r figure8, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 8 "}
 plot.new()
-mbqnBoxplot(mtx,ylim = c(25,36),
+mbqnBoxplot(mtx, ylim = c(25,36),
             vals = data.frame(RI = mtx[1,],
                             NRI = mtx[as.numeric(names(res$nri)[2]),]),
             y.intersp= 1.5,
@@ -205,7 +205,7 @@ mbqnBoxplot(mtx,ylim = c(25,36),
 ```
 ```{r figure9, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 9 "}
 plot.new()
-mbqnBoxplot(mtx.mod,ylim = c(25,39),
+mbqnBoxplot(mod.mtx, ylim = c(25,39),
             vals = data.frame(RI = mtx.mod[1,],
                     NRI = mtx.mod[as.numeric(names(res$nri)[2]),]),
             y.intersp= 1.5,
@@ -213,7 +213,7 @@ mbqnBoxplot(mtx.mod,ylim = c(25,39),
 ```
 ```{r figure10, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 10 "}
 plot.new()
-mbqnBoxplot(qn.mtx,ylim = c(25,39),
+mbqnBoxplot(qn.mtx, ylim = c(25,39),
             vals = data.frame(RI = qn.mtx[1,],
                     NRI = qn.mtx[as.numeric(names(res$nri)[2]),]),
             y.intersp= 1.5,
@@ -230,7 +230,7 @@ mbqnBoxplot(mbqn.mtx,ylim = c(25,39),
 ```{r figure12, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 12 "}
 plot.new()
 matplot(t(rbind(feature1 = feature1,
-    feature1.mod = (feature1mod-mean(feature1mod))/25+mean(feature1),
+    mod.feature1 = (feature1mod-mean(feature1mod))/25+mean(feature1),
     qn.feature1 = (qn.feature1-mean(qn.feature1))+mean(feature1),
     mbqn.feature1 = (
         mbqn.feature1-mean(mbqn.feature1))+mean(feature1))),
