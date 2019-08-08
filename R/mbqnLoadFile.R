@@ -70,7 +70,11 @@ mbqnLoadFile <- function(
     # Select all columns with LFQ intensities
     mtx <- as.matrix(dat[, grepl("^LFQ", names(dat))])
     mtx[mtx == 0] <- NA
-
+    mtx[mtx == "NaN"] <- NA
+    # convert character matrix to numeric matrix, strings that are possibly 
+    # left in matrix by accident are converted to NAs
+    mtx<- `dimnames<-`(`dim<-`(as.numeric(mtx), dim(mtx)), dimnames(mtx))
+    
     # check for proteins with NA intensity across all samples
     allColNA <- as.vector(apply(mtx, 1, function(r) {
         return(all(is.na(r)))
@@ -128,3 +132,4 @@ mbqnLoadFile <- function(
     sexp <- sexp[!allColNA, ]
     return(sexp)
 }
+
