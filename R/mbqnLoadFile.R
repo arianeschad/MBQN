@@ -33,7 +33,7 @@
 #  2017
 #' @export mbqnLoadFile
 mbqnLoadFile <- function(
-    pxd_id, source.path = NULL, file.pattern = "proteinGroups.txt"){
+    pxd_id, source.path = NULL, file.pattern = "proteinGroups"){
 
     if (is.null(source.path)) {source.path = file.path(getwd())}
 
@@ -46,9 +46,9 @@ mbqnLoadFile <- function(
         if (!dir.exists(fdir)){
             dir.create(fdir,recursive = TRUE)
             madeDir <- TRUE
-        }
-        else
+        } else {
             madeDir <- FALSE
+        }
         # Download proteinGroups.txt file if not already present
         status <- getPXDfile(pxd_id = pxd_id, source.path = source.path,
             file.pattern = file.pattern)
@@ -65,7 +65,7 @@ mbqnLoadFile <- function(
     pxdid <- str[pmatch("PXD",str)]
 
     # Read file
-    dat <- read.csv(file, allowEscapes = TRUE, check.names = FALSE,sep = "\t")
+    dat <- read.csv(file[1], allowEscapes = TRUE, check.names = FALSE,sep = "\t")
 
     # Select all columns with LFQ intensities
     mtx <- as.matrix(dat[, grepl("^LFQ", names(dat))])
@@ -88,10 +88,11 @@ mbqnLoadFile <- function(
         "isFiltered", "isPotential.contaminant", "isIdentified.by.site")
 
     # check for potential contaminant and only identfied by side proteins
-    bool1 <- dat[,grep(annotations[6],colnames(dat),value = TRUE)]=="+"
+    bool1 <- dat[,grep(annotations[6],colnames(dat),value = TRUE)]=="+" & !is.na(
+        dat[,grep(annotations[6],colnames(dat),value = TRUE)])
     bool2 <- dat[["Only identified by site"]]=="+" & !is.na(
         dat[["Only identified by site"]])
-    bool3 <- dat[["Reverse"]]=="+"
+    bool3 <- dat[["Reverse"]]=="+" & !is.na(dat[["Reverse"]])
     # logical is better because it has same dimension as the data
     ixs <-  bool1 | bool2 | bool3
 
