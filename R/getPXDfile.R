@@ -26,7 +26,7 @@
 # 2018
 #' @export getPXDfile
 getPXDfile <- function(pxd_id, source.path = NULL,
-                       file.pattern = "proteinGroups"){
+                       file.pattern = "proteingroups"){
     px <- rpx::PXDataset(pxd_id)
     
     if (is.null(source.path)) {source.path = file.path(getwd())}
@@ -73,7 +73,7 @@ getPXDfile <- function(pxd_id, source.path = NULL,
             
         } else if (length(grep("tar.gz",repoFiles[ind])>0)){
             files = untar(destFile, list = TRUE) # which files are in archive
-            files = files[grepl(file.pattern,files)] # only pattern match
+            files = files[grepl(file.pattern, files, ignore.case = TRUE)] # only pattern match
             
             untar(destFile, files = files, exdir=)
             
@@ -97,7 +97,7 @@ getPXDfile <- function(pxd_id, source.path = NULL,
         } else { #.gz
             files = unzip(destFile, list = TRUE) # which files are in archive
             # only pattern match
-            files = files$Name[grepl(file.pattern,files$Name)]
+            files = files$Name[grepl(file.pattern,files$Name, ignore.case = TRUE)]
             
             if (length(files)>0){
                 unzip(destFile,files = files,exdir=pdxFolder)

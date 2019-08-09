@@ -33,13 +33,13 @@
 #  2017
 #' @export mbqnLoadFile
 mbqnLoadFile <- function(
-    pxd_id, source.path = NULL, file.pattern = "proteinGroups"){
+    pxd_id, source.path = NULL, file.pattern = "proteingroups"){
 
     if (is.null(source.path)) {source.path = file.path(getwd())}
 
     fdir <- file.path(source.path,pxd_id)
     file <- list.files(
-        fdir, pattern = file.pattern,full.names = TRUE, recursive= TRUE)
+        fdir, pattern = file.pattern,full.names = TRUE, recursive= TRUE, ignore.case = TRUE)
 
     if (length(file)==0){ # file does not exist in fdir
         message("File does not exist - proceed with download...")
@@ -58,7 +58,7 @@ mbqnLoadFile <- function(
             return(NULL)
         }
         file <- list.files(
-            fdir, pattern = file.pattern,full.names = TRUE, recursive = TRUE)
+            fdir, pattern = file.pattern,full.names = TRUE, recursive = TRUE, ignore.case = TRUE)
     } # fi file.exist
     ############################################################################
     str <- unlist(strsplit(file,"/"))
@@ -82,6 +82,9 @@ mbqnLoadFile <- function(
     message(paste("Number of proteins with empty entries:",
         length(which(allColNA))))
 
+    if (!("Protein IDs" %in% colnames(dat))){
+        colnames(dat)[1] <- "Protein IDs"
+    }
     # check if exist and append to featureAnnotations
     featureAnnotations <- data.frame(proteinName = dat[, "Protein IDs"])
     annotations <- c(
