@@ -4,7 +4,7 @@
 \alias{getPXDfile}
 \title{Download data from PRIDE}
 \usage{
-getPXDfile(pxd_id, source.path = NULL, file.pattern = "proteinGroups")
+getPXDfile(pxd_id, source.path = NULL, file.pattern = "proteingroups")
 }
 \arguments{
 \item{pxd_id}{the PRIDE identifier.}
