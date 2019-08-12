@@ -85,7 +85,7 @@ compare the intensity features:
 plot.new()
 mbqn.mtx <- mbqnNRI(x = mtx, FUN = median, verbose = FALSE) # MBQN
 qn.mtx <- mbqnNRI(x = mtx, FUN = NULL, verbose = FALSE) # QN
-mbqnBoxplot(mbqn.mtx, irow = res$ip, vals = data.frame(QN = mtx.qn[res$ip,]), main = "Normalized")
+mbqnBoxplot(mbqn.mtx, irow = res$ip, vals = data.frame(QN = qn.mtx[res$ip,]), main = "Normalized")
 ```
 
 <br /><br />
@@ -206,8 +206,8 @@ mbqnBoxplot(mtx, ylim = c(25,36),
 ```{r figure9, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 9 "}
 plot.new()
 mbqnBoxplot(mod.mtx, ylim = c(25,39),
-            vals = data.frame(RI = mtx.mod[1,],
-                    NRI = mtx.mod[as.numeric(names(res$nri)[2]),]),
+            vals = data.frame(RI = mod.mtx[1,],
+                    NRI = mod.mtx[as.numeric(names(res$nri)[2]),]),
             y.intersp= 1.5,
             main = "Distorted data")
 ```
