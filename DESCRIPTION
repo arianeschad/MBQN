@@ -8,7 +8,11 @@ Authors@R: c(person("Ariane", "Schad",
   person("Clemens","Kreutz",
   email = "clemens.kreutz@imbi.uni-freiburg.de",
   role = c("aut","ctb"), 
-  comment = c(ORCID = "0000-0002-8796-5766")))
+  comment = c(ORCID = "0000-0002-8796-5766")),
+  person("Eva","Brombacher",
+  email = "brombach@imbi.uni-freiburg.de",
+  role = c("aut","ctb"), 
+  comment = c(ORCID = "0000-0002-5488-0985")))
 Description: Modified quantile normalization for omics or other matrix-like 
   data distorted in location and scale.
 License: GPL-3 + file LICENSE
