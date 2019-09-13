@@ -280,7 +280,7 @@ library("SummarizedExperiment")
 pxd_id <- "PXD001584"   
 
 # Download file from PRIDE to currentdir/PXDxxx
-# getPXDfile(pxd_id)
+#getPXDfile(pxd_id)
 
 # Load file
 out <- mbqnLoadFile(pxd_id, file.pattern = "proteinGroups.txt")

@@ -61,7 +61,10 @@ mbqnLoadFile <- function(
             fdir, pattern = file.pattern,full.names = TRUE, recursive = TRUE, ignore.case = TRUE)
     } # fi file.exist
     ############################################################################
-    str <- unlist(strsplit(file,"/"))
+    str <- unlist(strsplit(file,"\""))
+    if (length(str)==1){
+        str <- unlist(strsplit(file,"/"))
+    }
     pxdid <- str[pmatch("PXD",str)]
 
     # Read file
