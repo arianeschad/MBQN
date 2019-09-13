@@ -1,6 +1,5 @@
 ---
 title: "MBQN vignette"
-#date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{MBQN Package}
