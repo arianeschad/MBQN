@@ -43,21 +43,10 @@ mbqnLoadFile <- function(
     
     if (length(file)==0){ # file does not exist in fdir
         message("File does not exist - proceed with download...")
-        # if (!dir.exists(fdir)){
-        #     dir.create(fdir,recursive = TRUE)
-        #     madeDir <- TRUE
-        # } else {
-        #     madeDir <- FALSE
-        # }
+
         # Download proteinGroups.txt file if not already present
-        print(source.path)
         status <- getPXDfile(pxd_id = pxd_id, source.path = source.path,
                              file.pattern = file.pattern)
-        # if (status!=0){
-        #     if (madeDir)
-        #         unlink(fdir,recursive = TRUE)
-        #     return(NULL)
-        # }
         file <- list.files(
             fdir, pattern = file.pattern,full.names = TRUE, recursive = TRUE, ignore.case = TRUE)
     } # fi file.exist
