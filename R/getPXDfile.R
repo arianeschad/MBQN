@@ -26,7 +26,7 @@
 # 2018
 #' @export getPXDfile
 getPXDfile <- function(pxd_id, source.path = NULL,
-                       file.pattern = "proteingroups"){
+                        file.pattern = "proteingroups"){
     px <- rpx::PXDataset(pxd_id)
     
     if (is.null(source.path)) {source.path = file.path(getwd())}
@@ -47,7 +47,8 @@ getPXDfile <- function(pxd_id, source.path = NULL,
     # list files in repository
     repoFiles <- rpx::pxfiles(px)
     #ind <- grep('MaxQuant',repoFiles)
-    ind <- grep('^(?!.*peptide).*maxquant|proteingroups.*$', tolower(repoFiles), perl=T)
+    ind <- grep('^(?!.*peptide).*maxquant|proteingroups.*$', 
+                tolower(repoFiles), perl=TRUE)
     if (length(ind)==0){
         message("Only MaxQuant data formats are supported. Download stopped.")
         status <- 1
@@ -60,9 +61,9 @@ getPXDfile <- function(pxd_id, source.path = NULL,
     destDir <- rappdirs::user_cache_dir(appname=destDirName)
     bfc <- BiocFileCache::BiocFileCache(destDir, ask=TRUE)
     destFile <- BiocFileCache::bfcadd(bfc,
-                                      pxd_id,
-                                      fpath=paste(rpx::pxurl(px),
-                                                  repoFiles[ind],sep="/"))
+                                    pxd_id,
+                                    fpath=paste(rpx::pxurl(px),
+                                                repoFiles[ind],sep="/"))
     
     if (file.exists(destFile)){ # if zip file is available, start unzipping
         if(length(grep(".txt",repoFiles[ind])>0)){
@@ -72,15 +73,18 @@ getPXDfile <- function(pxd_id, source.path = NULL,
             unlink(destFile)
             
         } else if (length(grep("tar.gz",repoFiles[ind])>0)){
-            files = untar(destFile, list = TRUE) # which files are in archive
-            files = files[grepl(file.pattern, files, ignore.case = TRUE)] # only pattern match
+            # which files are in archive
+            files = untar(destFile, list = TRUE) 
+            # only pattern match
+            files = files[grepl(file.pattern, files, ignore.case = TRUE)] 
             
             untar(destFile, files = files, exdir=)
             
             # Change directory name to pxd id
             tryCatch(
                 {
-                    file.rename(file.path(source.path, sub("/[^/]+$", "", files)),
+                    file.rename(file.path(source.path, 
+                                sub("/[^/]+$", "", files)),
                                 file.path(pdxFolder))
                 },
                 error = function(e){
@@ -88,16 +92,16 @@ getPXDfile <- function(pxd_id, source.path = NULL,
                 }
             )
             
-            
             unlink(list.dirs(pdxFolder, recursive = FALSE),
-                   recursive = TRUE) # delete extra folder
+                recursive = TRUE) # delete extra folder
             unlink(destFile) # delete large .zip file
             # delete download folder
             unlink(destDir,recursive = TRUE, force = TRUE)
         } else { #.gz
             files = unzip(destFile, list = TRUE) # which files are in archive
             # only pattern match
-            files = files$Name[grepl(file.pattern,files$Name, ignore.case = TRUE)]
+            files = files$Name[grepl(file.pattern, files$Name, 
+                                    ignore.case = TRUE)]
             
             if (length(files)>0){
                 unzip(destFile,files = files,exdir=pdxFolder)
@@ -105,7 +109,8 @@ getPXDfile <- function(pxd_id, source.path = NULL,
                 # Change directory name to pxd id
                 tryCatch(
                     {
-                        file.rename(file.path(source.path, sub("/[^/]+$", "", files)),
+                        file.rename(file.path(source.path, 
+                                    sub("/[^/]+$", "", files)),
                                     file.path(pdxFolder))
                     },
                     error = function(e){
