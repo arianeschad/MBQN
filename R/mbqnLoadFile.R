@@ -34,29 +34,30 @@
 #' @export mbqnLoadFile
 mbqnLoadFile <- function(
     pxd_id, source.path = NULL, file.pattern = "proteingroups"){
-
+    
     if (is.null(source.path)) {source.path = file.path(getwd())}
-
+    
     fdir <- file.path(source.path,pxd_id)
     file <- list.files(
         fdir, pattern = file.pattern,full.names = TRUE, recursive= TRUE, ignore.case = TRUE)
-
+    
     if (length(file)==0){ # file does not exist in fdir
         message("File does not exist - proceed with download...")
-        if (!dir.exists(fdir)){
-            dir.create(fdir,recursive = TRUE)
-            madeDir <- TRUE
-        } else {
-            madeDir <- FALSE
-        }
+        # if (!dir.exists(fdir)){
+        #     dir.create(fdir,recursive = TRUE)
+        #     madeDir <- TRUE
+        # } else {
+        #     madeDir <- FALSE
+        # }
         # Download proteinGroups.txt file if not already present
+        print(source.path)
         status <- getPXDfile(pxd_id = pxd_id, source.path = source.path,
-            file.pattern = file.pattern)
-        if (status!=0){
-            if (madeDir)
-                unlink(fdir,recursive = TRUE)
-            return(NULL)
-        }
+                             file.pattern = file.pattern)
+        # if (status!=0){
+        #     if (madeDir)
+        #         unlink(fdir,recursive = TRUE)
+        #     return(NULL)
+        # }
         file <- list.files(
             fdir, pattern = file.pattern,full.names = TRUE, recursive = TRUE, ignore.case = TRUE)
     } # fi file.exist
@@ -66,10 +67,10 @@ mbqnLoadFile <- function(
         str <- unlist(strsplit(file,"/"))
     }
     pxdid <- str[pmatch("PXD",str)]
-
+    
     # Read file
     dat <- read.csv(file[1], allowEscapes = TRUE, check.names = FALSE,sep = "\t")
-
+    
     # Select all columns with LFQ intensities
     mtx <- as.matrix(dat[, grepl("^LFQ", names(dat))])
     mtx[mtx == 0] <- NA
@@ -83,8 +84,8 @@ mbqnLoadFile <- function(
         return(all(is.na(r)))
     }))
     message(paste("Number of proteins with empty entries:",
-        length(which(allColNA))))
-
+                  length(which(allColNA))))
+    
     if (!("Protein IDs" %in% colnames(dat))){
         colnames(dat)[1] <- "Protein IDs"
     }
@@ -95,8 +96,8 @@ mbqnLoadFile <- function(
         paste(c("Potential contaminant","Contaminant"),collapse = "|"),
         "Only identified by site")
     fieldnames <- c("proteinDescription", "idScore","isDecoy", "nbPeptides",
-        "isFiltered", "isPotential.contaminant", "isIdentified.by.site")
-
+                    "isFiltered", "isPotential.contaminant", "isIdentified.by.site")
+    
     # check for potential contaminant and only identfied by side proteins
     bool1 <- dat[,grep(annotations[6],colnames(dat),value = TRUE)]=="+" & !is.na(
         dat[,grep(annotations[6],colnames(dat),value = TRUE)])
@@ -105,12 +106,12 @@ mbqnLoadFile <- function(
     bool3 <- dat[["Reverse"]]=="+" & !is.na(dat[["Reverse"]])
     # logical is better because it has same dimension as the data
     ixs <-  bool1 | bool2 | bool3
-
+    
     for (i in seq_len(length(fieldnames))){
         if(length(grep(annotations[i],colnames(dat)))>0){
             if(length(grep(fieldnames[i],c("isDecoy",
-                                        "isPotential.contaminant",
-                                        "Only identified by site"))) > 0){
+                                           "isPotential.contaminant",
+                                           "Only identified by site"))) > 0){
                 featureAnnotations[[fieldnames[i]]] <-
                     dat[,grep(annotations[i],colnames(dat),value = TRUE)]=="+"
             } else {
@@ -118,24 +119,23 @@ mbqnLoadFile <- function(
             }
         }
     }
-
+    
     # featureAnnotations <- featureAnnotations[!allColNA, ]
     row.names(mtx) <- dat[, "Protein IDs"]
-
+    
     # # remove empty rows
     # mtx <- as.matrix(mtx[!allColNA, ])
-
+    
     # log2 transform intensities
     mtx <- log2(mtx)
-
+    
     featureAnnotations <- as.list(featureAnnotations)
     featureAnnotations[["ixs"]]<-ixs
-
+    
     sexp <- SummarizedExperiment(assays=list(data=mtx),
-                                rowData=featureAnnotations,
-                                metadata=list(pxdid = pxdid))
+                                 rowData=featureAnnotations,
+                                 metadata=list(pxdid = pxdid))
     # remove empty rows
     sexp <- sexp[!allColNA, ]
     return(sexp)
 }
-
