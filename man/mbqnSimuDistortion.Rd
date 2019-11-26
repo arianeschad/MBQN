@@ -12,7 +12,7 @@ mbqnSimuDistortion(x, s.mean = 0.05, s.scale = 0.01)
 \item{s.mean}{scatter of relative change of mean.}
 
 \item{s.scale}{scatter of realtive change in scale, i.e. 0.01
-corresponds to 1\%.}
+corresponds to 1 percent.}
 }
 \value{
 List with:
