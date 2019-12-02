@@ -19,6 +19,8 @@
 #' normalization; "limma" (default) for \code{normalizeQuantiles()} from the
 #' limma package or "preprocessCore" for \code{normalize.quantiles()} from the
 #' preprocessCore package.
+#' @param offsetmatrix logical indicating if offset matrix should be used instead 
+#' of offset vector specifying offset for each row
 #' @param verbose logical indicating to print messages.
 #' @details Balance each matrix row by substracting its feature offset computed
 #' with FUN, e.g. the median; apply quantile-normalization and add the feature
@@ -57,7 +59,7 @@
 #' @export mbqn
 # Created: July 2017
 
-mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma",
+mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma", offsetmatrix = TRUE,
     verbose = FALSE){
 
     if (is.null(method)) method <- "limma"
@@ -82,11 +84,26 @@ mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma",
     # since preprocessCore will give erronous results in this case
     if (length(which(is.nan(x)))>0)
         x[is.nan(x)] <- NA
+    
+    if (offsetmatrix) 
+        x.napattern <- !is.na(x)
 
     if (!is.null(FUN)){
         if (is.character(FUN)) FUN <- match.fun(FUN)
         if (is.function(FUN)){
             mx <- apply(x,1,FUN,na.rm=na.rm) # row mean
+            
+            if (offsetmatrix){
+                offset.matrix <-matrix(rep(mx, times=ncol(x)), ncol=ncol(x))
+                offset.matrix[x.napattern==FALSE] <- NA
+                
+                if (is.null(method) || method == "limma"){
+                    mx <- normalizeQuantiles(offset.matrix)
+                    rownames(mx) <- NULL
+                } else if (method == "preprocessCore"){
+                    mx <- preprocessCore::normalize.quantiles(offset.matrix)
+                }
+            }
         }
         if (is.numeric(FUN)){
             mx <- FUN

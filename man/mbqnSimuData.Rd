@@ -4,7 +4,8 @@
 \alias{mbqnSimuData}
 \title{Generate a random/structured data matrix}
 \usage{
-mbqnSimuData(model = "rand", nrow = NULL, ncol = NULL, show.fig = FALSE)
+mbqnSimuData(model = "rand", nrow = NULL, ncol = NULL,
+  show.fig = FALSE)
 }
 \arguments{
 \item{model}{character indicating one of the three different type of models:
@@ -35,7 +36,7 @@ standard normal distribution \eqn{N(0,1)}. For model \code{"omics"}, the
 matrix elements of each row are drawn from a Gaussian distribution
 \eqn{N(\mu_i,\sigma_i^2)} where the mean and standard deviation itself are
 drawn Gaussian distributions, i.e. \eqn{\sigma_i~N(0,0.0625)} and
-\eqn{\mu_i~N(28,4)}. About 35\\% of the matrix values are set to NA according
+\eqn{\mu_i~N(28,4)}. About 35\% of the matrix values are set to NA according
 to the missing value pattern present in real protein LFQ
 intensities. For model \code{"omics.dep"}, a single differentially epxressed
 RI feature is stacked on top of the matrix from model \code{"omics"}.

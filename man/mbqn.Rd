@@ -4,7 +4,8 @@
 \alias{mbqn}
 \title{Mean/Median-balanced quantile normalization}
 \usage{
-mbqn(x, FUN = "median", na.rm = TRUE, method = "limma", verbose = FALSE)
+mbqn(x, FUN = "median", na.rm = TRUE, method = "limma",
+  offsetmatrix = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{x}{a data matrix, where rows represent features, e.g. of protein
@@ -23,6 +24,9 @@ computation of feature mean.}
 normalization; "limma" (default) for \code{normalizeQuantiles()} from the
 limma package or "preprocessCore" for \code{normalize.quantiles()} from the
 preprocessCore package.}
+
+\item{offsetmatrix}{logical indicating if offset matrix should be used instead
+of offset vector specifying offset for each row}
 
 \item{verbose}{logical indicating to print messages.}
 }

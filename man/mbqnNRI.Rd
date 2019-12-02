@@ -4,15 +4,8 @@
 \alias{mbqnNRI}
 \title{Selective mean/median-balanced quantile normalization}
 \usage{
-mbqnNRI(
-  x,
-  FUN = "median",
-  na.rm = TRUE,
-  method = NULL,
-  low_thr = 0.5,
-  index = NULL,
-  verbose = TRUE
-)
+mbqnNRI(x, FUN = "median", na.rm = TRUE, method = NULL,
+  low_thr = 0.5, index = NULL, verbose = TRUE)
 }
 \arguments{
 \item{x}{a data matrix, where rows represent features, e.g. of protein

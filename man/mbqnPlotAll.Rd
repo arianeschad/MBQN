@@ -4,14 +4,8 @@
 \alias{mbqnPlotAll}
 \title{Plot RI/NRI feature frequencies and normalized/unnormalized features}
 \usage{
-mbqnPlotAll(
-  x,
-  FUN = NULL,
-  low_thr = 0.5,
-  show_nri_only = FALSE,
-  verbose = TRUE,
-  ...
-)
+mbqnPlotAll(x, FUN = NULL, low_thr = 0.5, show_nri_only = FALSE,
+  verbose = TRUE, ...)
 }
 \arguments{
 \item{x}{a data matrix. Rows represent features, e.g. protein abundances;
