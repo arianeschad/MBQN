@@ -3,3 +3,6 @@
 
 ### Changes in version 1.1.2 (2019-11-02)
 + Added offset matrix as default for MBQN calculation
+
+### Changes in version 1.2.0 (2019-12-18)
++ mbqnThreshold file for RI threshold calculation

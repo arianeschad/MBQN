@@ -4,8 +4,7 @@
 \alias{mbqnLoadFile}
 \title{Load and preprocess LFQ intensities}
 \usage{
-mbqnLoadFile(pxd_id, source.path = NULL,
-  file.pattern = "proteingroups")
+mbqnLoadFile(pxd_id, source.path = NULL, file.pattern = "proteingroups")
 }
 \arguments{
 \item{pxd_id}{the PRIDE identifier.}

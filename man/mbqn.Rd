@@ -4,8 +4,14 @@
 \alias{mbqn}
 \title{Mean/Median-balanced quantile normalization}
 \usage{
-mbqn(x, FUN = "median", na.rm = TRUE, method = "limma",
-  offsetmatrix = TRUE, verbose = FALSE)
+mbqn(
+  x,
+  FUN = "median",
+  na.rm = TRUE,
+  method = "limma",
+  offsetmatrix = TRUE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{x}{a data matrix, where rows represent features, e.g. of protein
