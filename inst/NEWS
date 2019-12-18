@@ -5,4 +5,7 @@
 + Added offset matrix as default for MBQN calculation
 
 ### Changes in version 1.2.0 (2019-12-18)
-+ mbqnThreshold file for RI threshold calculation
++ Functions for the calculation of rank invariance threshold from which on MBQN should be used instead of 'classical' quantile normalization
+
+### Changes in version 1.2.1 (2019-12-18)
++ Minor modification to function names

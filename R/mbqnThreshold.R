@@ -62,13 +62,13 @@ mbqnGetIntersect <- function(combined_qn, combined_mbqn, threshold, plot=TRUE){
   
   z_value_qn <- summary(model_qn)$coefficients[2,3]
   sign_value_qn <- summary(model_qn)$coefficients[2,4]
-  sign_value_qn <- one_sided_test(sign_value_qn, z_value_qn)
+  sign_value_qn <- oneSidedTest(sign_value_qn, z_value_qn)
   
   print(paste("Sign right-tailed QN: ", round(sign_value_qn, 3)))
   
   z_value_mbqn <- summary(model_mbqn)$coefficients[2,3]
   sign_value_mbqn <- summary(model_mbqn)$coefficients[2,4]
-  sign_value_mbqn <- one_sided_test(sign_value_mbqn, z_value_mbqn)
+  sign_value_mbqn <- oneSidedTest(sign_value_mbqn, z_value_mbqn)
   
   print(paste("Sign right-tailed MBQN: ", round(sign_value_mbqn, 3)))
   
@@ -79,7 +79,7 @@ mbqnGetIntersect <- function(combined_qn, combined_mbqn, threshold, plot=TRUE){
   f1 <- stats::approxfun(predProbs_qn - predProbs_mbqn, combined_qn$nri_freq, rule=2)
   
   # truncate to two decimal digits
-  intersect <- truncate_decimals(f1(0)/100, digits=2)
+  intersect <- truncateDecimals(f1(0)/100, digits=2)
   print(paste('Intersect: ',intersect))
   
   if (sign_value_qn < 0.01) { #0.001
@@ -140,28 +140,28 @@ getPvalue <- function(mtx1, mtx2){
   tab
 }
 
-#' @name truncate_decimals 
+#' @name truncateDecimals 
 #' @title Truncate float to defined number of decimal values
 #' @description Truncate float to defined number of decimal values
 #' @param x float
 #' @param digits Number of decimal values
 #' @return Truncated number
 #' @export
-truncate_decimals <- function(x, digits = 2) {
+truncateDecimals <- function(x, digits = 2) {
   up <- 10 ^ digits
   x <- x * up
   y <- floor(x)
   y / up
 }
 
-#' @name one_sided_test 
+#' @name oneSidedTest 
 #' @title Recalulate p value from two-sided to one-sided 
 #' @description Recalulate p value from two-sided to one-sided 
 #' @param sign_value P value from two-sided significance test
 #' @param z_value Z value from two-sided significance test
 #' @return P value from one sided significance test
 #' @export
-one_sided_test <- function(sign_value, z_value){
+oneSidedTest <- function(sign_value, z_value){
   if (z_value < 0){
     sign_value <- 1 - (sign_value / 2)
   } else {
