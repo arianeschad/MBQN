@@ -4,8 +4,11 @@
 ### Changes in version 1.1.2 (2019-11-02)
 + Added offset matrix as default for MBQN calculation
 
-### Changes in version 1.2.0 (2019-12-18)
+### Changes in version 1.1.3 (2019-12-18)
 + Functions for the calculation of rank invariance threshold from which on MBQN should be used instead of 'classical' quantile normalization
 
-### Changes in version 1.2.1 (2019-12-18)
+### Changes in version 1.1.4 (2019-12-18)
 + Minor modification to function names
+
+### Changes in version 1.1.5 (2019-12-18)
++ Adjusted version numbering
