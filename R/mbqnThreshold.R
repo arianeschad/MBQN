@@ -13,8 +13,8 @@ mbqnGetThreshold <- function(mtx, meanMedian="mean", plot=TRUE) {
   mbqn.mtx <- mbqn(mtx,FUN = meanMedian)
   qn.mtx <- mbqn(mtx,FUN = NULL)
   
-  pvalues_mbqn <- getPvalue(mtx, mbqn.mtx)
-  pvalues_qn <- getPvalue(mtx, qn.mtx)
+  pvalues_mbqn <- getPvalue(mbqn.mtx, mtx)
+  pvalues_qn <- getPvalue(qn.mtx, mtx)
   
   low_thr <- 0.0
   res  <- mbqnGetNRIfeatures(mtx, low_thr = low_thr)
@@ -130,8 +130,9 @@ getPvalue <- function(mtx1, mtx2){
   
   for (i in seq_len(nrow(mtx1))){
     protnames <- c(protnames, row.names(mtx1)[i])
-    pvalues <- c(pvalues, PairedData::Var.test(mtx1[i,], mtx2[i,], paired=TRUE)$p.value)
-    statistics <- c(statistics, PairedData::Var.test(mtx1[i,], mtx2[i,], paired=TRUE)$statistic)
+    # Pitman-Morgan variance test for decreasing variance
+    pvalues <- c(pvalues, PairedData::Var.test(mtx1[i,], mtx2[i,], paired=TRUE, alternative="less")$p.value)
+    statistics <- c(statistics, PairedData::Var.test(mtx1[i,], mtx2[i,], paired=TRUE, alternative="less")$statistic)
   }
   
   tab <- data.frame(protein=protnames, pvalue=as.numeric(pvalues), statistic=as.numeric(statistics))
