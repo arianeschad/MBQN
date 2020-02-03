@@ -82,11 +82,15 @@ mbqnGetIntersect <- function(combined_qn, combined_mbqn, threshold, plot=TRUE){
   intersect <- truncateDecimals(f1(0)/100, digits=2)
   print(paste('Intersect: ',intersect))
   
-  if (sign_value_qn < 0.01) { #0.001
+  # get probability values at right end of curves
+  rightEndMBQN <- unname(predProbs_mbqn[which(combined_mbqn$nri_freq==max(combined_mbqn$nri_freq))[1]])
+  rightEndQN <- unname(predProbs_qn[which(combined_qn$nri_freq==max(combined_qn$nri_freq))[1]])
+  
+  if ((sign_value_qn < 0.01) && (rightEndQN-rightEndMBQN > 0)) { #0.001
     if (intersect == min(combined_qn$nri_freq)){
-      print('QN Problem: Use MBQN for whole dataset.')
+      message('QN Problem: Use MBQN for whole dataset.')
     } else {
-      print(paste('QN Problem: Use MBQN. NRI-threshold =',intersect,'suggested.'))
+      message(paste('QN Problem: Use MBQN. NRI-threshold =',intersect,'suggested.'))
     }
   }
   
