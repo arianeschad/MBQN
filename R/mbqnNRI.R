@@ -25,8 +25,8 @@
 # Created: Nov 2018
 
 mbqnNRI <- function(
-    x, FUN = "median", na.rm = TRUE, method = NULL, low_thr = 0.5 ,
-    index = NULL, verbose = TRUE){
+    x, FUN = "mean", na.rm = TRUE, method = NULL, low_thr = 0.5 ,
+    index = NULL,  offsetmatrix = FALSE, verbose = TRUE){
 
     if(is.null(index)){
         if (!is.numeric(low_thr) || low_thr >1)
@@ -39,9 +39,9 @@ mbqnNRI <- function(
         index <- as.numeric(names(res$nri))
     }
     x.mbqn <- mbqn(
-        x = x, FUN = FUN,na.rm = na.rm, method = method, verbose = verbose)
+        x = x, FUN = FUN,na.rm = na.rm, method = method, verbose = verbose, offsetmatrix = offsetmatrix)
     x.qn <- mbqn(
-        x = x, FUN = NULL ,na.rm = na.rm, method = method, verbose = verbose)
+        x = x, FUN = NULL ,na.rm = na.rm, method = method, verbose = verbose, offsetmatrix = offsetmatrix)
     if(length(index)>0) x.qn[index,] <- x.mbqn[index,]
     return(x.qn)
 }

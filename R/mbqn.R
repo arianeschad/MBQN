@@ -59,7 +59,7 @@
 #' @export mbqn
 # Created: July 2017
 
-mbqn <- function(x, FUN = "median", na.rm = TRUE, method = "limma", offsetmatrix = TRUE,
+mbqn <- function(x, FUN = "mean", na.rm = TRUE, method = "limma", offsetmatrix = FALSE,
     verbose = FALSE){
 
     if (is.null(method)) method <- "limma"
