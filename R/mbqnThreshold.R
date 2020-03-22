@@ -8,6 +8,12 @@
 #' @param meanMedian Offset function for the MBQN calculation
 #' @param plot Boolean values if logistic regression curves that are used to calculate intersection point should be plotted
 #' @return threshold value
+#' @examples 
+#' set.seed(30)
+#' n <- 20
+#' m <- 20
+#' mtx <- matrix(rnorm(m * n), m, n)
+#' mbqnGetThreshold(mtx)
 #' @export
 mbqnGetThreshold <- function(mtx, meanMedian="mean", plot=TRUE) {
   mbqn.mtx <- mbqn(mtx,FUN = meanMedian)
@@ -121,6 +127,13 @@ mbqnGetIntersect <- function(combined_qn, combined_mbqn, threshold, plot=TRUE){
 #' @param mtx1 Matrix with samples in columns and features in rows
 #' @param mtx2 Matrix with samples in columns and features in rows
 #' @return Data frame with p values and statistics
+#' @examples 
+#' set.seed(30)
+#' n <- 20
+#' m <- 20
+#' mtx1 <- matrix(rnorm(m * n), m, n)
+#' mtx2 <- mbqn(mtx, FUN = "mean")
+#' getPvalue(mtx1, mtx2)
 #' @export
 getPvalue <- function(mtx1, mtx2){
   protnames <- c()
@@ -151,6 +164,9 @@ getPvalue <- function(mtx1, mtx2){
 #' @param x float
 #' @param digits Number of decimal values
 #' @return Truncated number
+#' @examples 
+#' x <- 2.567836
+#' truncateDecimals(x, 3)
 #' @export
 truncateDecimals <- function(x, digits = 2) {
   up <- 10 ^ digits

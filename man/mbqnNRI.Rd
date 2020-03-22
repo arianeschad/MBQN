@@ -6,11 +6,12 @@
 \usage{
 mbqnNRI(
   x,
-  FUN = "median",
+  FUN = "mean",
   na.rm = TRUE,
   method = NULL,
   low_thr = 0.5,
   index = NULL,
+  offsetmatrix = FALSE,
   verbose = TRUE
 )
 }
@@ -37,6 +38,9 @@ frequency >=\code{low_thr} are considered as NRI/RI; default 0.5.}
 
 \item{index}{an integer or a vector integers specifying the indices of
 selected rows.}
+
+\item{offsetmatrix}{logical indicating if offset matrix should be used instead
+of offset vector specifying offset for each row}
 
 \item{verbose}{logical indicating to print messages.}
 }

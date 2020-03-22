@@ -1,5 +1,5 @@
 Package: MBQN
-Version: 1.1.6
+Version: 1.99.0
 Title: Mean/Median-balanced quantile normalization
 Authors@R: c(person("Ariane", "Schad",
   email = "ariane.schad@fdm.uni-freiburg.de",
@@ -25,6 +25,6 @@ LazyData: true
 URL: https://github.com/arianeschad/mbqn
 BugReports: https://github.com/arianeschad/MBQN/issues
 NeedsCompilation: no
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 VignetteBuilder: knitr

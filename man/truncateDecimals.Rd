@@ -17,3 +17,7 @@ Truncated number
 \description{
 Truncate float to defined number of decimal values
 }
+\examples{
+x <- 2.567836
+truncateDecimals(x, 3)
+}

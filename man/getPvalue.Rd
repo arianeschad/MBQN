@@ -17,3 +17,11 @@ Data frame with p values and statistics
 \description{
 Calculates Pitman-Morgan variance test on two matrices
 }
+\examples{
+set.seed(30)
+n <- 20
+m <- 20
+mtx1 <- matrix(rnorm(m * n), m, n)
+mtx2 <- mbqn(mtx, FUN = "mean")
+getPvalue(mtx1, mtx2)
+}

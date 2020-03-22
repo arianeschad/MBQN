@@ -6,10 +6,10 @@
 \usage{
 mbqn(
   x,
-  FUN = "median",
+  FUN = "mean",
   na.rm = TRUE,
   method = "limma",
-  offsetmatrix = TRUE,
+  offsetmatrix = FALSE,
   verbose = FALSE
 )
 }

@@ -19,3 +19,10 @@ threshold value
 \description{
 Calculates the rank invariance threshold from which on MBQN should be used instead of 'classical' QN
 }
+\examples{
+set.seed(30)
+n <- 20
+m <- 20
+mtx <- matrix(rnorm(m * n), m, n)
+mbqnGetThreshold(mtx)
+}
