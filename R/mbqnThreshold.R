@@ -132,7 +132,7 @@ mbqnGetIntersect <- function(combined_qn, combined_mbqn, threshold, plot=TRUE){
 #' n <- 20
 #' m <- 20
 #' mtx1 <- matrix(rnorm(m * n), m, n)
-#' mtx2 <- mbqn(mtx, FUN = "mean")
+#' mtx2 <- mbqn(mtx1, FUN = "mean")
 #' getPvalue(mtx1, mtx2)
 #' @export
 getPvalue <- function(mtx1, mtx2){
