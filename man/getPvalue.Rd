@@ -22,6 +22,6 @@ set.seed(30)
 n <- 20
 m <- 20
 mtx1 <- matrix(rnorm(m * n), m, n)
-mtx2 <- mbqn(mtx, FUN = "mean")
+mtx2 <- mbqn(mtx1, FUN = "mean")
 getPvalue(mtx1, mtx2)
 }
