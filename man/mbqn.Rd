@@ -31,8 +31,8 @@ normalization; "limma" (default) for \code{normalizeQuantiles()} from the
 limma package or "preprocessCore" for \code{normalize.quantiles()} from the
 preprocessCore package.}
 
-\item{offsetmatrix}{logical indicating if offset matrix should be used instead
-of offset vector specifying offset for each row}
+\item{offsetmatrix}{logical indicating if offset matrix should be used
+instead of offset vector specifying offset for each row}
 
 \item{verbose}{logical indicating to print messages.}
 }
@@ -75,8 +75,8 @@ RNA-sequencing and microarray studies. Nucleic Acids Research 43(7), e47.\cr
 [3] Bolstad B. M. (2016). preprocessCore: A collection of pre-processing
 functions. R package version 1.36.0.
 https://github.com/bmbolstad/preprocessCore \cr
-[4] Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced
-quantile normalization. In prep., 2019
+[4] Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust Quantile
+Normalization. BioRxiv.
 }
 \seealso{
 \code{\link[=mbqnNRI]{mbqnNRI()}}, \code{\link[=mbqnGetNRIfeatures]{mbqnGetNRIfeatures()}}.

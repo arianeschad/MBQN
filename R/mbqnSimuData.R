@@ -28,8 +28,8 @@
 #' @importFrom utils read.csv untar unzip
 #' @importFrom stats rnorm
 #' @importFrom graphics image layout points rect
-#' @references Schad, A. and Kreuz, C., MBQN: R package for
-#' mean/median-balanced quantile normalization. In prep. 2019.
+#' @references Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust
+#' Quantile Normalization. BioRxiv.
 #' @examples
 #' mbqnSimuData(model = "rand")
 #' mbqnSimuData(model = "rand", 2000,6)

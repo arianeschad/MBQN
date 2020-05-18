@@ -17,8 +17,8 @@
 #' \item{\code{mx.scale}}{numeric array of relative scales of the sample
 #' standard deviations.}
 #' @seealso [mbqnSimuData()] for data generation.
-#' @references Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced
-#' quantile normalization. In prep. 2019
+#' @references Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust 
+#' Quantile Normalization. BioRxiv.
 #' @examples
 #' set.seed(1234)
 #' x <- mbqnSimuData("omics.dep")

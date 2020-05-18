@@ -19,8 +19,8 @@
 #' normalization; "limma" (default) for \code{normalizeQuantiles()} from the
 #' limma package or "preprocessCore" for \code{normalize.quantiles()} from the
 #' preprocessCore package.
-#' @param offsetmatrix logical indicating if offset matrix should be used instead 
-#' of offset vector specifying offset for each row
+#' @param offsetmatrix logical indicating if offset matrix should be used 
+#' instead of offset vector specifying offset for each row
 #' @param verbose logical indicating to print messages.
 #' @details Balance each matrix row by substracting its feature offset computed
 #' with FUN, e.g. the median; apply quantile-normalization and add the feature
@@ -39,8 +39,8 @@
 #' \[3\] Bolstad B. M. (2016). preprocessCore: A collection of pre-processing
 #' functions. R package version 1.36.0.
 #' https://github.com/bmbolstad/preprocessCore \cr
-#' \[4\] Schad, A. and Kreutz, C., MBQN: R package for mean/median-balanced
-#' quantile normalization. In prep., 2019
+#' \[4\] Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust Quantile 
+#' Normalization. BioRxiv.
 #' @examples
 #' ## Compute mean and median balanced quantile normalization
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
@@ -59,21 +59,23 @@
 #' @export mbqn
 # Created: July 2017
 
-mbqn <- function(x, FUN = "mean", na.rm = TRUE, method = "limma", offsetmatrix = FALSE,
-    verbose = FALSE){
+mbqn <- function(x, FUN = "mean", na.rm = TRUE, method = "limma", 
+    offsetmatrix = FALSE, verbose = FALSE){
 
     if (is.null(method)) method <- "limma"
     # Check if package limma is installed to run this function
     if (!requireNamespace("limma", quietly = TRUE)) {
-        stop("Package \"pkg\" needed for this function to work. Please install it.",
-            call. = FALSE)
+        stop("Package \"pkg\" needed for this function to work. 
+        Please install it.",
+        call. = FALSE)
     }
 
     if (method == "preprocessCore"){
         # Check if package preprocessCore is installed  to run this function
         if (!requireNamespace("preprocessCore", quietly = TRUE)) {
-            stop("Package \"pkg\" is required for this function to work. Please install it.",
-                call. = FALSE)}
+            stop("Package \"pkg\" is required for this function to 
+            work. Please install it.",
+            call. = FALSE)}
     }
 
     if (!is.matrix(x)) {
@@ -108,7 +110,8 @@ mbqn <- function(x, FUN = "mean", na.rm = TRUE, method = "limma", offsetmatrix =
         if (is.numeric(FUN)){
             mx <- FUN
             if (sum(abs(FUN)==0, na.rm =TRUE)){
-                message("Array-elements are all zero. Compute QN without mean balancing.")
+                message("Array-elements are all zero. Compute QN 
+                without mean balancing.")
             }
         }
 

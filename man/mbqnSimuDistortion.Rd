@@ -38,8 +38,8 @@ x <- mbqnSimuData("omics.dep")
 df <- mbqnSimuDistortion(x)
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for mean/median-balanced
-quantile normalization. In prep. 2019
+Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust
+Quantile Normalization. BioRxiv.
 }
 \seealso{
 \code{\link[=mbqnSimuData]{mbqnSimuData()}} for data generation.

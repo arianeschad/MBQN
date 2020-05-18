@@ -13,8 +13,8 @@
 #' normalization. Remaining rows are quantile normalized without mean balancing.
 #' @return Normalized \code{matrix}.
 #' @seealso [mbqn()], [mbqnGetNRIfeatures()].
-#' @references Schad, A. and Kreuz, C., MBQN: R package for
-#' mean/median-balanced quantile normalization. In prep. 2019
+#' @references Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust 
+#' Quantile Normalization. BioRxiv.
 #' @examples ## Quantile normalize a data matrix where
 #' ## nearly rank invariant (NRI) features are balanced
 #' X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
@@ -39,9 +39,11 @@ mbqnNRI <- function(
         index <- as.numeric(names(res$nri))
     }
     x.mbqn <- mbqn(
-        x = x, FUN = FUN,na.rm = na.rm, method = method, verbose = verbose, offsetmatrix = offsetmatrix)
+        x = x, FUN = FUN,na.rm = na.rm, method = method, 
+        verbose = verbose, offsetmatrix = offsetmatrix)
     x.qn <- mbqn(
-        x = x, FUN = NULL ,na.rm = na.rm, method = method, verbose = verbose, offsetmatrix = offsetmatrix)
+        x = x, FUN = NULL ,na.rm = na.rm, method = method, 
+        verbose = verbose, offsetmatrix = offsetmatrix)
     if(length(index)>0) x.qn[index,] <- x.mbqn[index,]
     return(x.qn)
 }

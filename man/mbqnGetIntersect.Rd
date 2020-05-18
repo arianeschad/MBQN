@@ -7,13 +7,17 @@
 mbqnGetIntersect(combined_qn, combined_mbqn, threshold, plot = TRUE)
 }
 \arguments{
-\item{combined_qn}{Data frame containing RI, p value and statistic calculated for QN}
+\item{combined_qn}{Data frame containing RI, p value and statistic
+calculated for QN}
 
-\item{combined_mbqn}{Data frame containing RI, p value and statistic calculated for MBQN}
+\item{combined_mbqn}{Data frame containing RI, p value and statistic
+calculated for MBQN}
 
-\item{threshold}{Significance threshold for p value of Pitman-Morgan variance test}
+\item{threshold}{Significance threshold for p value of Pitman-Morgan
+variance test}
 
-\item{plot}{Boolean values if logistic regression curves that are used to calculate intersection point should be plotted}
+\item{plot}{Boolean values if logistic regression curves that are used
+to calculate intersection point should be plotted}
 }
 \value{
 threshold value

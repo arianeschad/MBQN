@@ -20,8 +20,8 @@
 #' after QN}
 #' \item{\code{low_thr}}{threshold used for NRI/RI detection from RI frequency.}
 #' @seealso [mbqnPlotRI()] for visualization of detected NRI/RI features.
-#' @references Schad, A. and Kreutz, C., MBQN: R package for
-#' mean/median-balanced quantile normalization. In prep. 2019.
+#' @references Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust 
+#' Quantile Normalization. BioRxiv.
 #' @examples ## Check data matrix for RI and NRI features
 #' set.seed(1234)
 #' x <- mbqnSimuData("omics.dep")

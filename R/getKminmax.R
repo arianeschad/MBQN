@@ -14,9 +14,8 @@
 #' \item{\code{ik}}{indices of ordered extreme values}
 #' \item{\code{minmax}}{ordered extreme values.}
 # #' @concept quantile, quantile normalization, rank invariance
-#' @references Schad, A. and Kreutz, C., MBQN: R package for
-#' mean/median-balanced quantile
-#' normalization. In prep. 2019
+#' @references Brombacher, E., Schad, A., Kreutz, C. (2020). 
+#' Tail-Robust Quantile Normalization. BioRxiv.
 #' @examples
 #' # Create a data matrix
 #' x <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)

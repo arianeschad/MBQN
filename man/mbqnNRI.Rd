@@ -39,8 +39,8 @@ frequency >=\code{low_thr} are considered as NRI/RI; default 0.5.}
 \item{index}{an integer or a vector integers specifying the indices of
 selected rows.}
 
-\item{offsetmatrix}{logical indicating if offset matrix should be used instead
-of offset vector specifying offset for each row}
+\item{offsetmatrix}{logical indicating if offset matrix should be used
+instead of offset vector specifying offset for each row}
 
 \item{verbose}{logical indicating to print messages.}
 }
@@ -66,8 +66,8 @@ mbqnNRI(X, median,low_thr = 0.5) # Balance NRI features selected by threshold
 mbqnNRI(X, median, index = c(1,2)) # Balance selected features
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for
-mean/median-balanced quantile normalization. In prep. 2019
+Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust
+Quantile Normalization. BioRxiv.
 }
 \seealso{
 \code{\link[=mbqn]{mbqn()}}, \code{\link[=mbqnGetNRIfeatures]{mbqnGetNRIfeatures()}}.

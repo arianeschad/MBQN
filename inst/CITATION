@@ -1,12 +1,11 @@
 citHeader("Citing MBQN in publications:")
 
 citEntry(entry="article",
-    title = "MBQN: an R/Bioconductor package for mean/ median-balanced quantile normalization",
-    author = c(person(first="Ariane", last="Schad"),person(first="Clemens", last="Kreutz")),
-	  journal="Submitted to Bioinf. App. Note",
-    year = 2019,
+    title = "Tail-Robust Quantile Normalization",
+    author = c(person(first="Eva", last="Brombacher"), person(first="Ariane", last="Schad"),person(first="Clemens", last="Kreutz")),
+	  journal="BioRxiv",
+    year = 2020,
 
     textVersion =
-    paste("Schad, A., Kreutz, C. (2019). MBQN: an R/Bioconductor package for mean/ median-balanced quantile normalization",
-         "Submitted to Bioinf. App. Note.")
+    paste("Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust Quantile Normalization. BioRxiv.")
     )

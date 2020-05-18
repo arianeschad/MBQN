@@ -2,7 +2,8 @@
 % Please edit documentation in R/mbqnThreshold.R
 \name{mbqnGetThreshold}
 \alias{mbqnGetThreshold}
-\title{Calculates the rank invariance threshold from which on MBQN should be used instead of 'classical' QN}
+\title{Calculates the rank invariance threshold from which on MBQN
+should be used instead of 'classical' QN}
 \usage{
 mbqnGetThreshold(mtx, meanMedian = "mean", plot = TRUE)
 }
@@ -11,13 +12,15 @@ mbqnGetThreshold(mtx, meanMedian = "mean", plot = TRUE)
 
 \item{meanMedian}{Offset function for the MBQN calculation}
 
-\item{plot}{Boolean values if logistic regression curves that are used to calculate intersection point should be plotted}
+\item{plot}{Boolean values if logistic regression curves that are
+used to calculate intersection point should be plotted}
 }
 \value{
 threshold value
 }
 \description{
-Calculates the rank invariance threshold from which on MBQN should be used instead of 'classical' QN
+Calculates the rank invariance threshold from which on
+MBQN should be used instead of 'classical' QN
 }
 \examples{
 set.seed(30)

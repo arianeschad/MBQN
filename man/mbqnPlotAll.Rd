@@ -63,8 +63,8 @@ X <- matrix(c(5,2,3,NA,4,1,4,2,3,4,6,NA,1,3,1),ncol=3)
 mbqnPlotAll(X, mean, low_thr = 0.5)
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for
-mean/median-balanced quantile normalization. In prep. 2019
+Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust
+Quantile Normalization. BioRxiv.
 }
 \seealso{
 \code{\link[=mbqnPlotRI]{mbqnPlotRI()}} and \code{\link[=mbqnBoxplot]{mbqnBoxplot()}} for the generation of figures,

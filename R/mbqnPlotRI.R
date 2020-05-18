@@ -12,8 +12,8 @@
 #' detection threshold and print the sample coverage.
 #' @return Figure
 #' @seealso [mbqnGetNRIfeatures()] for detection of NRI/RI features.
-#' @references Schad, A. and Kreuz, C., MBQN: R package for
-#' mean/median-balanced quantile normalization. In prep. 2019
+#' @references Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust 
+#' Quantile Normalization. BioRxiv.
 #' @examples ## Check data matrix for RI and NRI features
 #' x <- mbqnSimuData("omics.dep")
 #' RI <- mbqnGetNRIfeatures(x, low_thr = 0.5, verbose = FALSE)

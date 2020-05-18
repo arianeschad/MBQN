@@ -49,8 +49,8 @@ set.seed(1111)
 mbqnSimuData(model = "omics.dep")
 }
 \references{
-Schad, A. and Kreuz, C., MBQN: R package for
-mean/median-balanced quantile normalization. In prep. 2019.
+Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust
+Quantile Normalization. BioRxiv.
 }
 \seealso{
 \code{\link[=example_NApattern]{example_NApattern()}} for description of missing value pattern.

@@ -46,8 +46,8 @@ plot.new()
 mbqnBoxplot(qn.dat,irow = 1, vals = mbqn.dat[1,], type = "b")
 }
 \references{
-Schad, A. and Kreutz, C., MBQN: R package for mean/median-
-balanced quantile normalization. In prep. 2019
+Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust
+Quantile Normalization. BioRxiv.
 }
 \author{
 Ariane Schad

@@ -11,8 +11,10 @@
 #' @importFrom utils untar unzip
 #' @importFrom BiocFileCache bfcadd
 #' @return status (0=ok, 1=not MaxQuant data set, 2=no proteinGroup file)
-#' @details This function requires the R packages rpx \[2\] and BiocFileChace. As a temporary
-#' fix old versions of the rpx package's pxurl and pxfiles function were included
+#' @details This function requires the R packages rpx \[2\] and BiocFileChace. 
+#' As a temporary
+#' fix old versions of the rpx package's pxurl and pxfiles function were 
+#' included
 #' @references
 #' \[1\] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I,
 #' Mayer G, Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
