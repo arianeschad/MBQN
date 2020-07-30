@@ -135,5 +135,6 @@ mbqn <- function(x, FUN = "mean", na.rm = TRUE, method = "limma",
         }
     }
     colnames(qn_x) <- colnames(x)
+    row.names(qn_x) <- row.names(x)
     return(qn_x)
 }
