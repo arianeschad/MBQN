@@ -1,5 +1,5 @@
 Package: MBQN
-Version: 2.1.3
+Version: 2.4.0
 Title: Mean/Median-balanced quantile normalization
 Authors@R: c(person("Ariane", "Schad",
   email = "ariane.schad@fdm.uni-freiburg.de",
@@ -16,8 +16,7 @@ Authors@R: c(person("Ariane", "Schad",
 Description: Modified quantile normalization for omics or other matrix-like 
   data distorted in location and scale.
 License: GPL-3 + file LICENSE
-Depends: R (>= 4.0)
-Imports: stats, graphics, utils, limma (>= 3.30.13), SummarizedExperiment (>= 1.10.0), preprocessCore (>= 1.36.0), BiocFileCache, rappdirs, rpx, xml2, RCurl, ggplot2, PairedData
+Imports: stats, graphics, utils, limma (>= 3.30.13), SummarizedExperiment (>= 1.10.0), preprocessCore (>= 1.36.0), BiocFileCache, rappdirs, rpx (>= 2.0.3), xml2, RCurl, ggplot2, PairedData
 Suggests: knitr
 biocViews: Normalization, Preprocessing, Proteomics, Software
 Encoding: UTF-8
