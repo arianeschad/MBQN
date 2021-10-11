@@ -12,9 +12,6 @@
 #' @importFrom BiocFileCache bfcadd
 #' @return status (0=ok, 1=not MaxQuant data set, 2=no proteinGroup file)
 #' @details This function requires the R packages rpx \[2\] and BiocFileChace. 
-#' As a temporary
-#' fix old versions of the rpx package's pxurl and pxfiles function were 
-#' included
 #' @references
 #' \[1\] Vizcaíno JA, Csordas A, del-Toro N, Dianes JA, Griss J, Lavidas I,
 #' Mayer G, Perez-Riverol Y, Reisinger F, Ternent T, Xu QW, Wang R, Hermjakob H.
@@ -30,25 +27,25 @@
 #' @export getPXDfile
 getPXDfile <- function(pxd_id, source.path = NULL,
                         file.pattern = "proteingroups"){
-    # from rpx version 1.21.1
-    pxurl <- function (object) {
-        stopifnot(inherits(object, "PXDataset"))
-        p <- "//cvParam[@accession = 'PRIDE:0000411']"
-        url <- xml2::xml_attr(xml2::xml_find_all(object@Data, p), "value")
-        names(url) <- NULL
-        print(url)
-        url
-    }
-
-    # from rpx version 1.21.1
-    pxfiles <- function (object) {
-        stopifnot(inherits(object, "PXDataset"))
-        ftpdir <- paste0(pxurl(object), "/")
-        ans <- strsplit(RCurl::getURL(ftpdir, dirlistonly = TRUE), "\n")[[1]]
-        if (Sys.info()["sysname"] == "Windows")
-            ans <- sub("\r$", "", ans)
-        ans
-    }
+    # # from rpx version 1.21.1
+    # pxurl <- function (object) {
+    #     stopifnot(inherits(object, "PXDataset"))
+    #     p <- "//cvParam[@accession = 'PRIDE:0000411']"
+    #     url <- xml2::xml_attr(xml2::xml_find_all(object@Data, p), "value")
+    #     names(url) <- NULL
+    #     print(url)
+    #     url
+    # }
+    # 
+    # # from rpx version 1.21.1
+    # pxfiles <- function (object) {
+    #     stopifnot(inherits(object, "PXDataset"))
+    #     ftpdir <- paste0(pxurl(object), "/")
+    #     ans <- strsplit(RCurl::getURL(ftpdir, dirlistonly = TRUE), "\n")[[1]]
+    #     if (Sys.info()["sysname"] == "Windows")
+    #         ans <- sub("\r$", "", ans)
+    #     ans
+    # }
 
     px <- rpx::PXDataset(pxd_id)
 
@@ -68,7 +65,7 @@ getPXDfile <- function(pxd_id, source.path = NULL,
     status <- 0 # everything ok
 
     # list files in repository
-    repoFiles <- pxfiles(px)
+    repoFiles <- rpx::pxfiles(px)
     #ind <- grep('MaxQuant',repoFiles)
     ind <- grep('^(?!.*peptide).*maxquant|proteingroups.*$',
                 tolower(repoFiles), perl=TRUE)
@@ -86,7 +83,7 @@ getPXDfile <- function(pxd_id, source.path = NULL,
     # rpx:::apply_fix_issue_5(FALSE)
     destFile <- BiocFileCache::bfcadd(bfc,
                                     pxd_id,
-                                    fpath=paste(pxurl(px),
+                                    fpath=paste(rpx::pxurl(px),
                                                 repoFiles[ind],sep="/"))
 
     if (file.exists(destFile)){ # if zip file is available, start unzipping
