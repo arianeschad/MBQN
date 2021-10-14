@@ -34,15 +34,15 @@ BiocManager::install("MBQN")
 For installation from Github run in R:
 
 ``` r
-# install.packages("devtools")
-# devtools::install_github("arianeschad/MBQN")
+install.packages("devtools")
+devtools::install_github("arianeschad/MBQN")
 ```
 
 or
 
 ``` r
-# install.packages("githubinstall")
-# githubinstall::githubinstall("MBQN")
+install.packages("githubinstall")
+githubinstall::githubinstall("MBQN")
 ```
 
 ## Dependencies
@@ -76,7 +76,7 @@ Further information about the package is provided at the wiki <br/>
 ## References
 
 \[1\] Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust Quantile
-Normalization. BioRxiv. <br/> \[2\] Ritchie, M.E., Phipson, B., Wu, D.,
+Normalization. Proteomics. <br/> \[2\] Ritchie, M.E., Phipson, B., Wu, D.,
 Hu, Y., Law, C.W., Shi, W., and Smyth, G.K. (2015). limma powers
 differential expression analyses for RNA-sequencing and microarray
 studies. Nucleic Acids Research 43(7), e47. <br/> \[3\] Ben Bolstad
