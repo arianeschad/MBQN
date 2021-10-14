@@ -1,5 +1,5 @@
 Package: MBQN
-Version: 2.4.1
+Version: 2.5.1
 Title: Mean/Median-balanced quantile normalization
 Authors@R: c(person("Ariane", "Schad",
   email = "ariane.schad@fdm.uni-freiburg.de",
