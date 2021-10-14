@@ -26,8 +26,8 @@ To install this package, you need R version \>= 3.6.
 For installation from Bioconductor run in R:
 
 ``` r
-#if (!requireNamespace("BiocManager", quietly = TRUE))
-#    install.packages("BiocManager")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
 BiocManager::install("MBQN")
 ```
 
@@ -63,9 +63,9 @@ data. <br/>
 To install these packages in R run: <br/>
 
 ``` r
-# if (!requireNamespace("BiocManager", quietly = TRUE))
-#    install.packages("BiocManager")
-# BiocManager::install(pkgs = c("preprocessCore","limma","rpx","SummarizedExperiment"))
+if (!requireNamespace("BiocManager", quietly = TRUE))
+   install.packages("BiocManager")
+BiocManager::install(pkgs = c("preprocessCore","limma","rpx","SummarizedExperiment"))
 ```
 
 ## Usage
