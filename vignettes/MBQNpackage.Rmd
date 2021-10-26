@@ -191,107 +191,107 @@ print(paste("ttest.distorted =", ttest.res1))
 print(paste("ttest.mbqndistorted =", ttest.res))
 ```
 
-<br /><br />
-Example 4: This example downloads an LFQ intensity dataset from the PRIDE 
-repository, normalizes the data, identifies RI/NRI features, and give graphical 
-output. One can choose between four data sets. By default data files are stored 
-in the current working directory currentdir/PXDxxx.
+<!-- <br /><br /> -->
+<!-- Example 4: This example downloads an LFQ intensity dataset from the PRIDE  -->
+<!-- repository, normalizes the data, identifies RI/NRI features, and give graphical  -->
+<!-- output. One can choose between four data sets. By default data files are stored  -->
+<!-- in the current working directory currentdir/PXDxxx. -->
 
-The following example illustrates normalization of LFQ intensity data from the PRIDE repository.
-For illustration purpose, we use the data set "PXD001584" (file size 10.8 MB)
+<!-- The following example illustrates normalization of LFQ intensity data from the PRIDE repository. -->
+<!-- For illustration purpose, we use the data set "PXD001584" (file size 10.8 MB) -->
 
-Other data examples are <br />
-* "PXD005138" - contains one RI feature (file size 7440.6 MB) <br />
-* "PXD005861" - contains one RI feature (file size 334.7 MB) <br />
-* "PXD006617" - contains one RI feature (file size 290.8 MB) <br />
+<!-- Other data examples are <br /> -->
+<!-- * "PXD005138" - contains one RI feature (file size 7440.6 MB) <br /> -->
+<!-- * "PXD005861" - contains one RI feature (file size 334.7 MB) <br /> -->
+<!-- * "PXD006617" - contains one RI feature (file size 290.8 MB) <br /> -->
 
-```{r example4, eval = TRUE}
-library("SummarizedExperiment")
-pxd_id <- "PXD001584"   
+<!-- ```{r example4, eval = TRUE} -->
+<!-- library("SummarizedExperiment") -->
+<!-- pxd_id <- "PXD001584"    -->
 
-# Download file from PRIDE to currentdir/PXDxxx
-#getPXDfile(pxd_id)
+<!-- # Download file from PRIDE to currentdir/PXDxxx -->
+<!-- #getPXDfile(pxd_id) -->
 
-# Load file
-out <- mbqnLoadFile(pxd_id, file.pattern = "proteinGroups.txt")
+<!-- # Load file -->
+<!-- out <- mbqnLoadFile(pxd_id, file.pattern = "proteinGroups.txt") -->
 
-# filter for potential contaminants and identified only by site features
-out <- out[!rowData(out)[["ixs"]],] 
+<!-- # filter for potential contaminants and identified only by site features -->
+<!-- out <- out[!rowData(out)[["ixs"]],]  -->
 
-# extract data and feature annotation
-mtx <- assays(out)[["data"]]
-featureAnnotations <- rowData(out)
+<!-- # extract data and feature annotation -->
+<!-- mtx <- assays(out)[["data"]] -->
+<!-- featureAnnotations <- rowData(out) -->
 
-low_thr <- 0.5
-ylim <- NULL
-ix <- seq_len(ncol(mtx))
+<!-- low_thr <- 0.5 -->
+<!-- ylim <- NULL -->
+<!-- ix <- seq_len(ncol(mtx)) -->
 
-ix <- c(1:9,19:27)
-mtx <- mtx[,ix]
-ylim.qn <- ylim <- c(22.5,36)
+<!-- ix <- c(1:9,19:27) -->
+<!-- mtx <- mtx[,ix] -->
+<!-- ylim.qn <- ylim <- c(22.5,36) -->
 
-####################################################################################
-```
-```{r figure4, fig.height = 3, fig.width = 6, fig.align = "left", fig.cap = "Fig. 4 Correctly detected and identified RI (100 %RI) and a NRI feature (75 %RI) each with a data coverage of 100% across samples. "}
-plot.new()
-res <- mbqnPlotAll(mtx,
-                   FUN = median,
-                   low_thr = low_thr,
-                   las = 2,
-                   type = "l",
-                   feature_index = NULL,
-                   show_nri_only = TRUE,
-                   axis.cex = 0.5,
-                   y.intersp= 0.5)
-#dev.off()
+<!-- #################################################################################### -->
+<!-- ``` -->
+<!-- ```{r figure4, fig.height = 3, fig.width = 6, fig.align = "left", fig.cap = "Fig. 4 Correctly detected and identified RI (100 %RI) and a NRI feature (75 %RI) each with a data coverage of 100% across samples. "} -->
+<!-- plot.new() -->
+<!-- res <- mbqnPlotAll(mtx, -->
+<!--                    FUN = median, -->
+<!--                    low_thr = low_thr, -->
+<!--                    las = 2, -->
+<!--                    type = "l", -->
+<!--                    feature_index = NULL, -->
+<!--                    show_nri_only = TRUE, -->
+<!--                    axis.cex = 0.5, -->
+<!--                    y.intersp= 0.5) -->
+<!-- #dev.off() -->
 
-# get protein name of strongest nri/ri feature
-nri_max <- as.numeric(names(which.max(res$nri)))
-#featureAnnotations$proteinDescription[nri_max]
-#featureAnnotations$proteinName[nri_max]
-#featureAnnotations$nbPeptides[nri_max]
+<!-- # get protein name of strongest nri/ri feature -->
+<!-- nri_max <- as.numeric(names(which.max(res$nri))) -->
+<!-- #featureAnnotations$proteinDescription[nri_max] -->
+<!-- #featureAnnotations$proteinName[nri_max] -->
+<!-- #featureAnnotations$nbPeptides[nri_max] -->
 
-colnames(mtx) <- gsub("LFQ intensity","",colnames(mtx))
-mbqn.mtx <- mbqn(mtx,FUN = median)
-qn.mtx <- mbqn(mtx,FUN = NULL)
+<!-- colnames(mtx) <- gsub("LFQ intensity","",colnames(mtx)) -->
+<!-- mbqn.mtx <- mbqn(mtx,FUN = median) -->
+<!-- qn.mtx <- mbqn(mtx,FUN = NULL) -->
 
-# Boxplot of QN intensity features, highlight RI/NRI Features
-if(length(ylim)==0) {
-  ylim <- c(floor(min(range(mbqn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE))))
-  ylim.qn <- c(floor(min(range(qn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE))))
-}
+<!-- # Boxplot of QN intensity features, highlight RI/NRI Features -->
+<!-- if(length(ylim)==0) { -->
+<!--   ylim <- c(floor(min(range(mbqn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE)))) -->
+<!--   ylim.qn <- c(floor(min(range(qn.mtx, na.rm = TRUE))),ceiling(max(range(mbqn.mtx, na.rm = TRUE)))) -->
+<!-- } -->
 
-df <- data.frame(qn.mtx[as.numeric(names(res$nri)),])
-if(ncol(df)==1) df <- t(df)
-rownames(df) <- paste("QN feature",names(res$nri))
-df2 <- data.frame(mtx[as.numeric(names(res$nri)),])
-if(ncol(df2)==1) df2 <- t(df2)
-rownames(df2) <- paste("unnormal. feature",names(res$nri))
-colnames(df) <- colnames(df2)
-df <- rbind(df,df2)
-df <- as.data.frame(t(df))
-```
-```{r figure5, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 5 "}
-  mtx.nri <- mbqnNRI(mtx,FUN = median,low_thr = 0.5, verbose = FALSE)
+<!-- df <- data.frame(qn.mtx[as.numeric(names(res$nri)),]) -->
+<!-- if(ncol(df)==1) df <- t(df) -->
+<!-- rownames(df) <- paste("QN feature",names(res$nri)) -->
+<!-- df2 <- data.frame(mtx[as.numeric(names(res$nri)),]) -->
+<!-- if(ncol(df2)==1) df2 <- t(df2) -->
+<!-- rownames(df2) <- paste("unnormal. feature",names(res$nri)) -->
+<!-- colnames(df) <- colnames(df2) -->
+<!-- df <- rbind(df,df2) -->
+<!-- df <- as.data.frame(t(df)) -->
+<!-- ``` -->
+<!-- ```{r figure5, fig.height = 5, fig.width = 6, fig.align = "left", fig.cap = "Fig. 5 "} -->
+<!--   mtx.nri <- mbqnNRI(mtx,FUN = median,low_thr = 0.5, verbose = FALSE) -->
 
-plot.new()
-mbqnBoxplot(mtx = mtx.nri,
-            irow = as.numeric(names(res$nri)),
-            ylim = ylim.qn, xlab= "", las=2,
-            ylab = "LFQ intensity",
-            vals = df,lwd = 1.,
-            main = "QN with RI/NRI balanced",
-            cex.axis = 1, cex.lab = .9, cex = .9, y.intersp = 0.5)
-```
+<!-- plot.new() -->
+<!-- mbqnBoxplot(mtx = mtx.nri, -->
+<!--             irow = as.numeric(names(res$nri)), -->
+<!--             ylim = ylim.qn, xlab= "", las=2, -->
+<!--             ylab = "LFQ intensity", -->
+<!--             vals = df,lwd = 1., -->
+<!--             main = "QN with RI/NRI balanced", -->
+<!--             cex.axis = 1, cex.lab = .9, cex = .9, y.intersp = 0.5) -->
+<!-- ``` -->
 
-## Documentation
-To view the documentation for MBQN, type in R
-```
-??MBQN
-```
+<!-- ## Documentation -->
+<!-- To view the documentation for MBQN, type in R -->
+<!-- ``` -->
+<!-- ??MBQN -->
+<!-- ``` -->
 
 ## References
-[1] Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust Quantile Normalization. BioRxiv. <br/>
+[1] Brombacher, E., Schad, A., Kreutz, C. (2020). Tail-Robust Quantile Normalization. Proteomics. <br/>
 [2] Ritchie, M.E., Phipson, B., Wu, D., Hu, Y., Law, C.W., Shi, W., and Smyth, 
 G.K. (2015). limma powers differential expression analyses for RNA-sequencing 
 and microarray studies. Nucleic Acids Research 43(7), e47. <br/>
