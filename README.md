@@ -56,16 +56,12 @@ available at
 <https://bioconductor.org/packages/release/bioc/html/preprocessCore.html>,
 can be used. <br/>
 
-The function `getPXDfile()` in MBQN uses data from the PRIDE repository.
-To run this function one needs the R package `rpx` \[4\] to download the
-data. <br/>
-
 To install these packages in R run: <br/>
 
 ``` r
 if (!requireNamespace("BiocManager", quietly = TRUE))
    install.packages("BiocManager")
-BiocManager::install(pkgs = c("preprocessCore","limma","rpx","SummarizedExperiment"))
+BiocManager::install(pkgs = c("preprocessCore","limma", "SummarizedExperiment"))
 ```
 
 ## Usage
@@ -82,6 +78,3 @@ differential expression analyses for RNA-sequencing and microarray
 studies. Nucleic Acids Research 43(7), e47. <br/> \[3\] Ben Bolstad
 (2018). preprocessCore: A collection of pre-processing functions. R
 package version 1.44.0. <https://github.com/bmbolstad/preprocessCore>.
-<br/> \[4\] Laurent Gatto (2019). rpx: R Interface to the
-ProteomeXchange Repository. R package version 1.18.1.
-<https://github.com/lgatto/rpx>.

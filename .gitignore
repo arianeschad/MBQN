@@ -21,3 +21,5 @@ MBQN.Rproj
 PXD*
 .gitignore~
 *~
+/doc/
+/Meta/
